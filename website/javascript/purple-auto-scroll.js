@@ -6,43 +6,20 @@ document.addEventListener('DOMContentLoaded', function() {
         // 检查是否是紫色容器
         if (container.style.backgroundColor && container.style.backgroundColor.includes('f0e6ff')) {
             // 为紫色容器添加特殊处理
-            setupCarousel(container);
+            setupPurpleCarousel(container);
         }
     });
     
-    function setupCarousel(container) {
+    function setupPurpleCarousel(container) {
         // 获取表格和行
         const table = container.querySelector('table');
         const row = table.querySelector('tr');
-        
-        // 复制现有的单元格以创建更多内容
         const cells = row.querySelectorAll('td');
-        
-        // 复制单元格并添加到行末尾
-        cells.forEach(cell => {
-            const clone = cell.cloneNode(true);
-            
-            // 确保克隆的单元格中的ID是唯一的
-            const button = clone.querySelector('button.toggle-section');
-            if (button) {
-                const originalId = button.getAttribute('aria-controls');
-                const newId = originalId + '_clone';
-                button.setAttribute('aria-controls', newId);
-                
-                const content = clone.querySelector('.collapse-content');
-                if (content) {
-                    content.id = newId;
-                }
-            }
-            
-            row.appendChild(clone);
-        });
         
         // 设置自动滚动
         let scrollPosition = 0;
         const scrollSpeed = 1;
         const cellWidth = cells[0].offsetWidth;
-        const totalWidth = cellWidth * cells.length;
         let scrollInterval;
         
         // 创建滚动函数
@@ -62,26 +39,27 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 开始滚动
         function startScroll() {
-            scrollInterval = setInterval(scroll, 30);
+            if (!scrollInterval) {
+                scrollInterval = setInterval(scroll, 30);
+            }
         }
         
         // 停止滚动
         function stopScroll() {
-            clearInterval(scrollInterval);
+            if (scrollInterval) {
+                clearInterval(scrollInterval);
+                scrollInterval = null;
+            }
         }
         
         // 初始化滚动
         startScroll();
         
         // 鼠标悬停时暂停滚动
-        container.addEventListener('mouseenter', function() {
-            stopScroll();
-        });
+        container.addEventListener('mouseenter', stopScroll);
         
         // 鼠标离开时恢复滚动
-        container.addEventListener('mouseleave', function() {
-            startScroll();
-        });
+        container.addEventListener('mouseleave', startScroll);
         
         // 处理折叠/展开按钮
         const toggleButtons = container.querySelectorAll('.toggle-section');
