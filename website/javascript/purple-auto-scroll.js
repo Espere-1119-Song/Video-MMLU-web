@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // 检查是否是紫色容器
         if (container.style.backgroundColor && container.style.backgroundColor.includes('f0e6ff')) {
             // 为紫色容器添加特殊处理
-            setupPurpleCarousel(container);
+            setupCarousel(container);
         }
     });
     
-    function setupPurpleCarousel(container) {
+    function setupCarousel(container) {
         // 获取表格和行
         const table = container.querySelector('table');
         const row = table.querySelector('tr');
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 复制现有的单元格以创建更多内容
         const cells = row.querySelectorAll('td');
         
-        // 复制第一个和第二个单元格并添加到行末尾
+        // 复制单元格并添加到行末尾
         cells.forEach(cell => {
             const clone = cell.cloneNode(true);
             
