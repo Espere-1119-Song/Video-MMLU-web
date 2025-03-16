@@ -583,7 +583,7 @@ document.addEventListener('DOMContentLoaded', function() {
             stopScroll(); // 先停止之前的滚动
             
             scrollInterval = setInterval(() => {
-                scrollPosition += 1; // 每次滚动1像素
+                scrollPosition += 2; // 每次滚动2像素，原来是1像素
                 
                 // 当滚动到复制部分的末尾时，无缝跳回到开始位置
                 if (scrollPosition >= originalTrackWidth) {
@@ -600,7 +600,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 carouselTrack.style.transform = `translateX(-${scrollPosition}px)`;
-            }, 30); // 每30毫秒滚动一次，可以调整速度
+            }, 20); // 每20毫秒滚动一次，原来是30毫秒
         }
         
         // 停止滚动
