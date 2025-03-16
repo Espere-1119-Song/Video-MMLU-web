@@ -710,10 +710,12 @@
             <table style="width: 100%; margin: 0 auto; table-layout: fixed;">
                 <tr>
                     <td style="width: 50%; padding: 10px; vertical-align: top;">
-                        <video autoplay muted loop playsinline style="width: 100%; height: auto; object-fit: contain; display: block;">
-                            <source src="website/videos/xgfYivQt-x0.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video> 
+                        <div style="width: 70%; margin: 0 auto;">
+                            <video autoplay muted loop playsinline style="width: 100%; height: auto; object-fit: contain; display: block;">
+                                <source src="website/videos/xgfYivQt-x0.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
                         <div class="collapsible-section">
                             <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_purple_1" style="background-color: #e6d9ff; border-color: #d4c4ff; margin-top: 5px;">
                                 <span>View lecture detailed caption of case #1</span>
@@ -748,10 +750,12 @@
                     </td>
                     
                     <td style="width: 50%; padding: 10px; vertical-align: top;">
-                        <video autoplay muted loop playsinline style="width: 100%; height: auto; object-fit: contain; display: block;">
-                            <source src="website/videos/Y_w07A7chnk.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video> 
+                        <div style="width: 70%; margin: 0 auto;">
+                            <video autoplay muted loop playsinline style="width: 100%; height: auto; object-fit: contain; display: block;">
+                                <source src="website/videos/Y_w07A7chnk.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
                         <div class="collapsible-section">
                             <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_purple_2" style="background-color: #e6d9ff; border-color: #d4c4ff; margin-top: 5px;">
                                 <span>View lecture detailed caption of case #2</span>
@@ -819,7 +823,7 @@
                 // 复制单元格以创建更多内容
                 const cellsToAdd = [];
                 cells.forEach(cell => {
-                    // 复制4次，总共有8个单元格
+                    // 复制4次，总共有10个单元格
                     for (let i = 0; i < 4; i++) {
                         const clone = cell.cloneNode(true);
                         
