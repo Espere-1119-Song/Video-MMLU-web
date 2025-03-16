@@ -39,7 +39,6 @@
     <!-- below we load some js scripts -->
     <script src="website/javascript/benchmark_table.js" type="module"></script>
     <script src="website/javascript/auto-scroll.js"></script>
-    <script src="website/javascript/auto-scroll-reason.js"></script>
 
     <link rel="stylesheet" href="website/css/index.css">
 
@@ -556,8 +555,8 @@
             </div>
         </div>
 
-        <!-- 浅紫色滚动窗口 - 复用绿色部分代码，仅修改背景颜色 -->
-        <div class="video-container carousel-enabled" style="background-color: #f0e6ff; border-radius: 8px; padding: 15px;">
+        <!-- 浅紫色滚动窗口 -->
+        <div id="purple-video-container" class="video-container purple-carousel-enabled" style="background-color: #f0e6ff; border-radius: 8px; padding: 15px;">
             <table style="width: 80%; margin: 0 auto;">
                 <tr>
                     <td style="width: 50%; padding: 10px;">
@@ -621,68 +620,8 @@
         </div>
     </section>
 
-    <!-- 添加紫色轮播的JavaScript -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const purpleCarousel = document.getElementById('purple-carousel');
-        const carouselTrack = purpleCarousel.querySelector('.carousel-track');
-        const items = purpleCarousel.querySelectorAll('.carousel-item');
-        
-        // 计算轨道宽度
-        const itemWidth = items[0].offsetWidth;
-        const trackWidth = itemWidth * (items.length - 1); // 减1是因为最后一个是复制的
-        
-        let scrollPosition = 0;
-        let scrollInterval;
-        
-        // 开始滚动
-        function startScroll() {
-            scrollInterval = setInterval(() => {
-                scrollPosition += 1;
-                
-                // 当滚动到最后一个项目前时，重置位置
-                if (scrollPosition >= trackWidth) {
-                    scrollPosition = 0;
-                }
-                
-                carouselTrack.style.transform = `translateX(-${scrollPosition}px)`;
-            }, 30);
-        }
-        
-        // 停止滚动
-        function stopScroll() {
-            clearInterval(scrollInterval);
-        }
-        
-        // 鼠标悬停时停止滚动，移开时继续
-        purpleCarousel.addEventListener('mouseenter', stopScroll);
-        purpleCarousel.addEventListener('mouseleave', startScroll);
-        
-        // 初始化滚动
-        startScroll();
-        
-        // 处理展开/收起按钮
-        const toggleButtons = purpleCarousel.querySelectorAll('.toggle-section');
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const targetId = this.getAttribute('aria-controls');
-                const targetContent = document.getElementById(targetId);
-                
-                if (targetContent.style.display === 'block') {
-                    targetContent.style.display = 'none';
-                    this.querySelector('.fas').classList.remove('fa-angle-up');
-                    this.querySelector('.fas').classList.add('fa-angle-down');
-                    startScroll(); // 收起时恢复滚动
-                } else {
-                    targetContent.style.display = 'block';
-                    this.querySelector('.fas').classList.remove('fa-angle-down');
-                    this.querySelector('.fas').classList.add('fa-angle-up');
-                    stopScroll(); // 展开时停止滚动
-                }
-            });
-        });
-    });
-    </script>
+    <!-- 引入紫色轮播的JavaScript -->
+    <script src="website/javascript/purple-auto-scroll.js"></script>
 
 
 
