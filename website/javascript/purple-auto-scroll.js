@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrollSpeed = 1;
         const cellWidth = cells[0].offsetWidth;
         const totalWidth = cellWidth * cells.length;
+        let scrollInterval;
         
         // 创建滚动函数
         function scroll() {
@@ -59,17 +60,48 @@ document.addEventListener('DOMContentLoaded', function() {
             row.style.transform = `translateX(-${scrollPosition}px)`;
         }
         
-        // 设置滚动间隔
-        const scrollInterval = setInterval(scroll, 30);
+        // 开始滚动
+        function startScroll() {
+            scrollInterval = setInterval(scroll, 30);
+        }
+        
+        // 停止滚动
+        function stopScroll() {
+            clearInterval(scrollInterval);
+        }
+        
+        // 初始化滚动
+        startScroll();
         
         // 鼠标悬停时暂停滚动
         container.addEventListener('mouseenter', function() {
-            clearInterval(scrollInterval);
+            stopScroll();
         });
         
         // 鼠标离开时恢复滚动
         container.addEventListener('mouseleave', function() {
-            scrollInterval = setInterval(scroll, 30);
+            startScroll();
+        });
+        
+        // 处理折叠/展开按钮
+        const toggleButtons = container.querySelectorAll('.toggle-section');
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('aria-controls');
+                const targetContent = document.getElementById(targetId);
+                
+                if (targetContent.style.display === 'block') {
+                    targetContent.style.display = 'none';
+                    this.querySelector('.fas').classList.remove('fa-angle-up');
+                    this.querySelector('.fas').classList.add('fa-angle-down');
+                    startScroll(); // 收起时恢复滚动
+                } else {
+                    targetContent.style.display = 'block';
+                    this.querySelector('.fas').classList.remove('fa-angle-down');
+                    this.querySelector('.fas').classList.add('fa-angle-up');
+                    stopScroll(); // 展开时停止滚动
+                }
+            });
         });
     }
 }); 
