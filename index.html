@@ -707,8 +707,8 @@
 
         <!-- 浅紫色滚动窗口 -->
         <div class="video-container" style="background-color: #f0e6ff; border-radius: 8px; padding: 15px; overflow: hidden; height: 400px;">
-            <div style="width: 100%; overflow-x: auto; white-space: nowrap; position: relative;">
-                <div style="display: inline-flex;">
+            <div style="width: 100%; overflow: hidden; white-space: nowrap; position: relative;">
+                <div style="display: inline-flex; transition: transform 0.5s ease;">
                     <div style="display: inline-block; width: 350px; margin-right: 15px; vertical-align: top;">
                         <div style="width: 100%; height: 300px; overflow: hidden;">
                             <video autoplay muted loop playsinline style="width: 100%; height: 300px; object-fit: contain; display: block;">
@@ -961,103 +961,103 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
-        // 立即执行的函数，为紫色容器设置滚动
-        (function() {
-            // 等待DOM加载完成
-            document.addEventListener('DOMContentLoaded', function() {
-                // 获取紫色容器
-                const purpleContainer = document.querySelector('.video-container[style*="f0e6ff"]');
-                if (!purpleContainer) return;
+    <script>
+    // 立即执行的函数，为紫色容器设置滚动
+    (function() {
+        // 等待DOM加载完成
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取紫色容器
+            const purpleContainer = document.querySelector('.video-container[style*="f0e6ff"]');
+            if (!purpleContainer) return;
+            
+            const scrollContainer = purpleContainer.querySelector('div[style*="overflow: hidden"]');
+            if (!scrollContainer) return;
+            
+            const slidesContainer = scrollContainer.querySelector('div[style*="display: inline-flex"]');
+            if (!slidesContainer) return;
+            
+            const slides = slidesContainer.querySelectorAll('div[style*="display: inline-block"]');
+            if (slides.length === 0) return;
+            
+            // 确保所有视频高度一致
+            const videos = slidesContainer.querySelectorAll('video');
+            videos.forEach(video => {
+                video.style.height = '300px';
+                video.style.objectFit = 'contain';
+            });
+            
+            // 设置自动滚动
+            let scrollPosition = 0;
+            const scrollSpeed = 1;
+            const slideWidth = slides[0].offsetWidth + parseInt(getComputedStyle(slides[0]).marginRight);
+            let scrollInterval;
+            
+            // 创建滚动函数
+            function scroll() {
+                scrollPosition += scrollSpeed;
                 
-                const scrollContainer = purpleContainer.querySelector('div[style*="overflow-x: auto"]');
-                if (!scrollContainer) return;
+                // 当滚动到第一个视频的宽度时，重置位置
+                if (scrollPosition >= slideWidth) {
+                    scrollPosition = 0;
+                    // 将第一个视频移到末尾
+                    const firstSlide = slides[0];
+                    slidesContainer.appendChild(firstSlide.cloneNode(true));
+                    slidesContainer.removeChild(firstSlide);
+                }
                 
-                const slidesContainer = scrollContainer.querySelector('div[style*="display: inline-flex"]');
-                if (!slidesContainer) return;
-                
-                const slides = slidesContainer.querySelectorAll('div[style*="display: inline-block"]');
-                if (slides.length === 0) return;
-                
-                // 确保所有视频高度一致
-                const videos = slidesContainer.querySelectorAll('video');
-                videos.forEach(video => {
-                    video.style.height = '300px';
-                    video.style.objectFit = 'contain';
-                });
-                
-                // 设置自动滚动
-                let scrollPosition = 0;
-                const scrollSpeed = 1;
-                const slideWidth = slides[0].offsetWidth + parseInt(slides[0].style.marginRight || 15);
-                let scrollInterval;
-                
-                // 创建滚动函数
-                function scroll() {
-                    scrollPosition += scrollSpeed;
+                // 应用滚动位置
+                slidesContainer.style.transform = `translateX(-${scrollPosition}px)`;
+            }
+            
+            // 开始滚动
+            function startScroll() {
+                if (!scrollInterval) {
+                    scrollInterval = setInterval(scroll, 30);
+                }
+            }
+            
+            // 停止滚动
+            function stopScroll() {
+                if (scrollInterval) {
+                    clearInterval(scrollInterval);
+                    scrollInterval = null;
+                }
+            }
+            
+            // 初始化滚动
+            startScroll();
+            
+            // 鼠标悬停时暂停滚动
+            purpleContainer.addEventListener('mouseenter', stopScroll);
+            
+            // 鼠标离开时恢复滚动
+            purpleContainer.addEventListener('mouseleave', startScroll);
+            
+            // 处理折叠/展开按钮
+            const toggleButtons = purpleContainer.querySelectorAll('.toggle-section');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('aria-controls');
+                    const targetContent = document.getElementById(targetId);
                     
-                    // 当滚动到第一个视频的宽度时，重置位置
-                    if (scrollPosition >= slideWidth) {
-                        scrollPosition = 0;
-                        // 将第一个视频移到末尾
-                        const firstSlide = slides[0];
-                        slidesContainer.appendChild(firstSlide.cloneNode(true));
-                        slidesContainer.removeChild(firstSlide);
+                    if (targetContent.style.display === 'block') {
+                        targetContent.style.display = 'none';
+                        this.querySelector('.fas').classList.remove('fa-angle-up');
+                        this.querySelector('.fas').classList.add('fa-angle-down');
+                        startScroll(); // 收起时恢复滚动
+                    } else {
+                        targetContent.style.display = 'block';
+                        this.querySelector('.fas').classList.remove('fa-angle-down');
+                        this.querySelector('.fas').classList.add('fa-angle-up');
+                        stopScroll(); // 展开时停止滚动
                     }
-                    
-                    // 应用滚动位置
-                    scrollContainer.scrollLeft = scrollPosition;
-                }
-                
-                // 开始滚动
-                function startScroll() {
-                    if (!scrollInterval) {
-                        scrollInterval = setInterval(scroll, 30);
-                    }
-                }
-                
-                // 停止滚动
-                function stopScroll() {
-                    if (scrollInterval) {
-                        clearInterval(scrollInterval);
-                        scrollInterval = null;
-                    }
-                }
-                
-                // 初始化滚动
-                startScroll();
-                
-                // 鼠标悬停时暂停滚动
-                purpleContainer.addEventListener('mouseenter', stopScroll);
-                
-                // 鼠标离开时恢复滚动
-                purpleContainer.addEventListener('mouseleave', startScroll);
-                
-                // 处理折叠/展开按钮
-                const toggleButtons = purpleContainer.querySelectorAll('.toggle-section');
-                toggleButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const targetId = this.getAttribute('aria-controls');
-                        const targetContent = document.getElementById(targetId);
-                        
-                        if (targetContent.style.display === 'block') {
-                            targetContent.style.display = 'none';
-                            this.querySelector('.fas').classList.remove('fa-angle-up');
-                            this.querySelector('.fas').classList.add('fa-angle-down');
-                            startScroll(); // 收起时恢复滚动
-                        } else {
-                            targetContent.style.display = 'block';
-                            this.querySelector('.fas').classList.remove('fa-angle-down');
-                            this.querySelector('.fas').classList.add('fa-angle-up');
-                            stopScroll(); // 展开时停止滚动
-                        }
-                    });
                 });
             });
-        })();
-        </script>
-    </section>
+        });
+    })();
+    </script>
 
 
 
