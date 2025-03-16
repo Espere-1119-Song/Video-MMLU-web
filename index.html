@@ -705,17 +705,17 @@
             </div>
         </div>
 
-        <!-- 浅紫色滚动窗口 - 完全复制绿色部分的结构，只修改背景颜色 -->
-        <div class="video-container" style="background-color: #f0e6ff; border-radius: 8px; padding: 15px;">
-            <table style="width: 80%; margin: 0 auto;">
+        <!-- 浅紫色滚动窗口 -->
+        <div class="video-container" style="background-color: #f0e6ff; border-radius: 8px; padding: 15px; overflow: hidden;">
+            <table style="width: 100%; margin: 0 auto; table-layout: fixed;">
                 <tr>
-                    <td style="width: 50%; padding: 10px;">
-                        <video autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover;">
+                    <td style="width: 50%; padding: 10px; vertical-align: top;">
+                        <video autoplay muted loop playsinline style="width: 100%; height: auto; object-fit: contain; display: block;">
                             <source src="website/videos/xgfYivQt-x0.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video> 
                         <div class="collapsible-section">
-                            <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_purple_1" style="background-color: #e6d9ff; border-color: #d4c4ff;">
+                            <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_purple_1" style="background-color: #e6d9ff; border-color: #d4c4ff; margin-top: 5px;">
                                 <span>View lecture detailed caption of case #1</span>
                                 <span class="icon is-small">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -747,13 +747,13 @@
                         </div>
                     </td>
                     
-                    <td style="width: 50%; padding: 10px;">
-                        <video autoplay muted loop playsinline style="width: 100%; height: 200px; object-fit: cover;">
+                    <td style="width: 50%; padding: 10px; vertical-align: top;">
+                        <video autoplay muted loop playsinline style="width: 100%; height: auto; object-fit: contain; display: block;">
                             <source src="website/videos/Y_w07A7chnk.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video> 
                         <div class="collapsible-section">
-                            <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_purple_2" style="background-color: #e6d9ff; border-color: #d4c4ff;">
+                            <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_purple_2" style="background-color: #e6d9ff; border-color: #d4c4ff; margin-top: 5px;">
                                 <span>View lecture detailed caption of case #2</span>
                                 <span class="icon is-small">
                                     <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -817,22 +817,31 @@
                 const cells = row.querySelectorAll('td');
                 
                 // 复制单元格以创建更多内容
+                const cellsToAdd = [];
                 cells.forEach(cell => {
-                    const clone = cell.cloneNode(true);
-                    
-                    // 确保克隆的单元格中的ID是唯一的
-                    const button = clone.querySelector('button.toggle-section');
-                    if (button) {
-                        const originalId = button.getAttribute('aria-controls');
-                        const newId = originalId + '_clone';
-                        button.setAttribute('aria-controls', newId);
+                    // 复制4次，总共有8个单元格
+                    for (let i = 0; i < 4; i++) {
+                        const clone = cell.cloneNode(true);
                         
-                        const content = clone.querySelector('.collapse-content');
-                        if (content) {
-                            content.id = newId;
+                        // 确保克隆的单元格中的ID是唯一的
+                        const button = clone.querySelector('button.toggle-section');
+                        if (button) {
+                            const originalId = button.getAttribute('aria-controls');
+                            const newId = originalId + '_clone_' + i;
+                            button.setAttribute('aria-controls', newId);
+                            
+                            const content = clone.querySelector('.collapse-content');
+                            if (content) {
+                                content.id = newId;
+                            }
                         }
+                        
+                        cellsToAdd.push(clone);
                     }
-                    
+                });
+                
+                // 添加所有克隆的单元格
+                cellsToAdd.forEach(clone => {
                     row.appendChild(clone);
                 });
                 
