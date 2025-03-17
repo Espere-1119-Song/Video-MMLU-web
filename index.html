@@ -250,6 +250,17 @@
     });
     </script>
 
+    <style>
+    /* 隐藏滚动条但保留功能 */
+    #purple-scroll-container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .collapse-content {
+        display: none;
+    }
+    </style>
+
 </head>
 
 <body>
@@ -707,7 +718,7 @@
 
         <!-- 浅紫色滚动窗口 -->
         <div class="video-container" style="background-color: #f0e6ff; border-radius: 8px; padding: 15px; overflow: hidden; height: 400px;">
-            <div style="width: 100%; overflow-x: auto; white-space: nowrap; position: relative; scrollbar-width: none; -ms-overflow-style: none;" class="purple-scroll-container">
+            <div id="purple-scroll-container" style="width: 100%; overflow-x: auto; white-space: nowrap; position: relative; scrollbar-width: none; -ms-overflow-style: none;">
                 <div style="display: inline-flex;">
                     <!-- 视频1 -->
                     <div style="display: inline-block; width: 350px; margin-right: 15px; vertical-align: top;">
@@ -1232,7 +1243,7 @@
         // 等待DOM加载完成
         document.addEventListener('DOMContentLoaded', function() {
             // 获取紫色容器
-            const purpleContainer = document.querySelector('.video-container[style*="f0e6ff"]');
+            const purpleContainer = document.querySelector('.video-container');
             if (!purpleContainer) return;
             
             const scrollContainer = purpleContainer.querySelector('div[style*="overflow: hidden"]');
@@ -1252,35 +1263,28 @@
             });
             
             // 设置自动滚动
-            let scrollPosition = 0;
             const scrollSpeed = 3; // 增加滚动速度
-            const slideWidth = slides[0].offsetWidth + parseInt(getComputedStyle(slides[0]).marginRight);
             let scrollInterval;
+            let isManualScrolling = false;
+            let lastScrollLeft = 0;
+            let manualScrollTimeout;
             
             // 创建滚动函数
-            function scroll() {
-                scrollPosition += scrollSpeed;
+            function autoScroll() {
+                if (isManualScrolling) return;
                 
-                // 当滚动到第六个视频结束时，重置位置
-                if (scrollPosition >= slideWidth * 6) {
-                    scrollPosition = 0;
-                    // 重新设置transform，避免视觉跳跃
-                    slidesContainer.style.transition = 'none';
-                    slidesContainer.style.transform = 'translateX(0)';
-                    // 强制重排
-                    slidesContainer.offsetHeight;
-                    // 恢复过渡效果
-                    slidesContainer.style.transition = 'transform 0.3s ease';
+                scrollContainer.scrollLeft += scrollSpeed;
+                
+                // 当滚动到末尾时，重置到开始位置
+                if (scrollContainer.scrollLeft >= (scrollContainer.scrollWidth - scrollContainer.clientWidth - 10)) {
+                    scrollContainer.scrollLeft = 0;
                 }
-                
-                // 应用滚动位置
-                slidesContainer.style.transform = `translateX(-${scrollPosition}px)`;
             }
             
             // 开始滚动
             function startScroll() {
                 if (!scrollInterval) {
-                    scrollInterval = setInterval(scroll, 30);
+                    scrollInterval = setInterval(autoScroll, 30);
                 }
             }
             
@@ -1296,10 +1300,58 @@
             startScroll();
             
             // 鼠标悬停时暂停滚动
-            purpleContainer.addEventListener('mouseenter', stopScroll);
+            purpleContainer.addEventListener('mouseenter', function() {
+                stopScroll();
+            });
             
             // 鼠标离开时恢复滚动
-            purpleContainer.addEventListener('mouseleave', startScroll);
+            purpleContainer.addEventListener('mouseleave', function() {
+                if (!document.querySelector('.collapse-content[style="display: block;"]')) {
+                    isManualScrolling = false;
+                    clearTimeout(manualScrollTimeout);
+                    startScroll();
+                }
+            });
+            
+            // 检测手动滚动
+            let lastScrollTime = Date.now();
+            scrollContainer.addEventListener('scroll', function() {
+                const now = Date.now();
+                if (now - lastScrollTime < 50) { // 50ms内的滚动视为连续滚动
+                    isManualScrolling = true;
+                    stopScroll();
+                    
+                    // 清除之前的定时器
+                    clearTimeout(manualScrollTimeout);
+                    
+                    // 3秒后恢复自动滚动
+                    manualScrollTimeout = setTimeout(function() {
+                        if (!document.querySelector('.collapse-content[style="display: block;"]')) {
+                            isManualScrolling = false;
+                            startScroll();
+                        }
+                    }, 3000);
+                }
+                lastScrollTime = now;
+                lastScrollLeft = scrollContainer.scrollLeft;
+            });
+            
+            // 添加触摸事件支持
+            scrollContainer.addEventListener('touchstart', function() {
+                isManualScrolling = true;
+                stopScroll();
+            });
+            
+            scrollContainer.addEventListener('touchend', function() {
+                // 3秒后恢复自动滚动
+                clearTimeout(manualScrollTimeout);
+                manualScrollTimeout = setTimeout(function() {
+                    if (!document.querySelector('.collapse-content[style="display: block;"]')) {
+                        isManualScrolling = false;
+                        startScroll();
+                    }
+                }, 3000);
+            });
             
             // 处理折叠/展开按钮
             const toggleButtons = purpleContainer.querySelectorAll('.toggle-section');
@@ -1312,7 +1364,12 @@
                         targetContent.style.display = 'none';
                         this.querySelector('.fas').classList.remove('fa-angle-up');
                         this.querySelector('.fas').classList.add('fa-angle-down');
-                        startScroll(); // 收起时恢复滚动
+                        
+                        // 如果没有其他展开的内容，恢复滚动
+                        if (!document.querySelector('.collapse-content[style="display: block;"]')) {
+                            isManualScrolling = false;
+                            startScroll();
+                        }
                     } else {
                         targetContent.style.display = 'block';
                         this.querySelector('.fas').classList.remove('fa-angle-down');
