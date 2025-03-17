@@ -916,7 +916,7 @@
                     <div class="video-item" style="display: inline-block; margin-right: 15px; vertical-align: top; position: relative;">
                         <div style="height: 350px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                             <video autoplay muted loop playsinline style="height: 350px; width: auto; max-width: none; object-fit: contain; display: block;">
-                                <source src="website/videos/4.904g.mp4" type="video/mp4">
+                                <source src="website/videos/YQRTwlRMsXY.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         </div>
@@ -1029,127 +1029,147 @@
 
     <script>
     (function() {
-        document.addEventListener('DOMContentLoaded', function() {
-            const purpleContainer = document.querySelector('.video-container');
-            const scrollContainer = document.getElementById('purple-scroll-container');
+        // 获取滚动容器
+        const scrollContainer = document.getElementById('purple-scroll-container');
+        const videoContainer = scrollContainer.querySelector('div');
+        const videoItems = scrollContainer.querySelectorAll('.video-item');
+        
+        // 克隆视频项目以实现无限滚动
+        videoItems.forEach(item => {
+            const clone = item.cloneNode(true);
+            videoContainer.appendChild(clone);
+        });
+        
+        // 滚动变量
+        let scrolling = true;
+        let scrollAmount = 0;
+        let scrollSpeed = 1; // 每帧滚动的像素数
+        let lastScrollPosition = 0;
+        let scrollTimeout;
+        let isDragging = false;
+        let startX, scrollLeft;
+        
+        // 滚动函数
+        function autoScroll() {
+            if (!scrolling) return;
             
-            // 自动滚动相关变量
-            let scrollInterval;
-            let isManualScrolling = false;
-            let manualScrollTimeout;
+            scrollAmount += scrollSpeed;
+            scrollContainer.scrollLeft = scrollAmount;
             
-            // 拖拽相关变量
-            let isDragging = false;
-            let startX;
-            let startScrollLeft;
+            // 检查是否需要重置滚动位置
+            const firstItemWidth = videoItems[0].offsetWidth + parseInt(getComputedStyle(videoItems[0]).marginRight);
             
-            // 开始自动滚动
-            function startScroll() {
-                stopScroll(); // 先停止之前的滚动
-                scrollInterval = setInterval(function() {
-                    if (!isManualScrolling) {
-                        scrollContainer.scrollLeft += 1; // 每次滚动1像素
-                        
-                        // 如果滚动到最右边，重置到开始位置
-                        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth) {
-                            scrollContainer.scrollLeft = 0;
-                        }
-                    }
-                }, 30); // 30毫秒滚动一次，可以调整速度
+            // 当第一个元素完全滚出视图时
+            if (scrollAmount >= firstItemWidth * videoItems.length) {
+                // 重置滚动位置，但保持无缝
+                scrollAmount = 0;
+                scrollContainer.scrollLeft = 0;
             }
             
-            // 停止自动滚动
-            function stopScroll() {
-                clearInterval(scrollInterval);
+            requestAnimationFrame(autoScroll);
+        }
+        
+        // 开始自动滚动
+        autoScroll();
+        
+        // 鼠标进入停止滚动
+        scrollContainer.addEventListener('mouseenter', () => {
+            scrolling = false;
+        });
+        
+        // 鼠标离开恢复滚动
+        scrollContainer.addEventListener('mouseleave', () => {
+            if (!isDragging) {
+                scrolling = true;
+                autoScroll();
             }
+        });
+        
+        // 处理拖拽滚动
+        scrollContainer.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.pageX - scrollContainer.offsetLeft;
+            scrollLeft = scrollContainer.scrollLeft;
+            scrollContainer.style.cursor = 'grabbing';
+        });
+        
+        scrollContainer.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - scrollContainer.offsetLeft;
+            const walk = (x - startX) * 2; // 滚动速度
+            scrollContainer.scrollLeft = scrollLeft - walk;
+            scrollAmount = scrollContainer.scrollLeft;
+        });
+        
+        scrollContainer.addEventListener('mouseup', () => {
+            isDragging = false;
+            scrollContainer.style.cursor = 'grab';
             
-            // 初始化自动滚动
-            startScroll();
-            
-            // 鼠标按下事件
-            scrollContainer.addEventListener('mousedown', function(e) {
-                isDragging = true;
-                startX = e.pageX - scrollContainer.offsetLeft;
-                startScrollLeft = scrollContainer.scrollLeft;
-                scrollContainer.style.cursor = 'grabbing';
-                isManualScrolling = true;
-                stopScroll();
-            });
-            
-            // 鼠标移动事件
-            scrollContainer.addEventListener('mousemove', function(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                const x = e.pageX - scrollContainer.offsetLeft;
-                const walk = (x - startX) * 2; // 滚动速度
-                scrollContainer.scrollLeft = startScrollLeft - walk;
-                isManualScrolling = true;
-            });
-            
-            // 鼠标松开事件
-            scrollContainer.addEventListener('mouseup', function() {
-                if (isDragging) {
-                    isDragging = false;
-                    scrollContainer.style.cursor = 'grab';
-                    
-                    // 3秒后恢复自动滚动
-                    clearTimeout(manualScrollTimeout);
-                    manualScrollTimeout = setTimeout(function() {
-                        if (!document.querySelector('.collapse-content[style="display: block;"]')) {
-                            isManualScrolling = false;
-                            startScroll();
-                        }
-                    }, 3000);
-                }
-            });
-            
-            // 鼠标离开事件
-            document.addEventListener('mouseleave', function() {
-                if (isDragging) {
-                    isDragging = false;
-                    scrollContainer.style.cursor = 'grab';
-                }
-            });
-            
-            // 处理折叠/展开按钮
-            const toggleButtons = purpleContainer.querySelectorAll('.toggle-section');
-            toggleButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const targetId = this.getAttribute('aria-controls');
-                    const targetContent = document.getElementById(targetId);
-                    
-                    // 关闭所有其他展开的内容
-                    document.querySelectorAll('.collapse-content').forEach(content => {
-                        if (content.id !== targetId && content.style.display === 'block') {
-                            content.style.display = 'none';
-                            const otherButton = document.querySelector(`[aria-controls="${content.id}"]`);
-                            otherButton.querySelector('.fas').classList.remove('fa-angle-up');
-                            otherButton.querySelector('.fas').classList.add('fa-angle-down');
-                        }
-                    });
-                    
-                    if (targetContent.style.display === 'block') {
-                        targetContent.style.display = 'none';
-                        this.querySelector('.fas').classList.remove('fa-angle-up');
-                        this.querySelector('.fas').classList.add('fa-angle-down');
-                        
-                        // 如果没有其他展开的内容，恢复滚动
-                        if (!document.querySelector('.collapse-content[style="display: block;"]')) {
-                            isManualScrolling = false;
-                            startScroll();
-                        }
-                    } else {
-                        targetContent.style.display = 'block';
-                        this.querySelector('.fas').classList.remove('fa-angle-down');
-                        this.querySelector('.fas').classList.add('fa-angle-up');
-                        stopScroll(); // 展开时停止滚动
+            // 3秒后恢复自动滚动
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                scrolling = true;
+                autoScroll();
+            }, 3000);
+        });
+        
+        scrollContainer.addEventListener('mouseleave', () => {
+            if (isDragging) {
+                isDragging = false;
+                scrollContainer.style.cursor = 'grab';
+                
+                // 3秒后恢复自动滚动
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    scrolling = true;
+                    autoScroll();
+                }, 3000);
+            }
+        });
+        
+        // 处理折叠/展开内容
+        const toggleButtons = document.querySelectorAll('.toggle-section');
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.getAttribute('aria-controls');
+                const targetContent = document.getElementById(targetId);
+                
+                // 关闭所有其他展开的内容
+                document.querySelectorAll('.collapse-content').forEach(content => {
+                    if (content.id !== targetId && content.style.display === 'block') {
+                        content.style.display = 'none';
+                        const relatedButton = document.querySelector(`[aria-controls="${content.id}"]`);
+                        relatedButton.querySelector('.fas').classList.remove('fa-angle-up');
+                        relatedButton.querySelector('.fas').classList.add('fa-angle-down');
                     }
                 });
+                
+                // 切换当前内容
+                if (targetContent.style.display === 'block') {
+                    targetContent.style.display = 'none';
+                    button.querySelector('.fas').classList.remove('fa-angle-up');
+                    button.querySelector('.fas').classList.add('fa-angle-down');
+                    
+                    // 恢复自动滚动
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        scrolling = true;
+                        autoScroll();
+                    }, 3000);
+                } else {
+                    targetContent.style.display = 'block';
+                    button.querySelector('.fas').classList.remove('fa-angle-down');
+                    button.querySelector('.fas').classList.add('fa-angle-up');
+                    
+                    // 停止自动滚动
+                    scrolling = false;
+                }
             });
-            
-            // 初始化时设置鼠标样式
-            scrollContainer.style.cursor = 'grab';
         });
+        
+        // 初始化时设置鼠标样式
+        scrollContainer.style.cursor = 'grab';
     })();
     </script>
 
