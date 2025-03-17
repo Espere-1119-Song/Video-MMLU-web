@@ -709,19 +709,13 @@
         <!-- 添加10px的间距 -->
         <div style="height: 10px;"></div>
         
-        <!-- 添加标题说明两个区域的区别 -->
-        <div class="container is-max-desktop" style="margin-bottom: 10px;">
-            <div class="content has-text-centered">
-                <p><strong>上方</strong>: 原始视频示例 | <strong>下方</strong>: 更多视频示例</p>
-            </div>
-        </div>
 
         <!-- 浅紫色滚动窗口 - 增加50%透明度 -->
         <div class="video-container" style="background-color: rgba(240, 230, 255, 0.5); border-radius: 8px; padding: 15px; overflow: visible; height: 500px; position: relative;">
             <div id="purple-scroll-container" style="width: 100%; overflow-x: auto; white-space: nowrap; position: relative; scrollbar-width: none; -ms-overflow-style: none; height: 450px;">
                 <div style="display: inline-flex;">
-                    <!-- 视频1 -->
-                    <div class="video-item" style="display: inline-block; width: 500px; margin-right: 15px; vertical-align: top; position: relative;">
+                    <!-- 视频1
+                    <div class="video-item" style="display: inline-block; height: 700px; margin-right: 15px; vertical-align: top; position: relative;">
                         <div style="width: 100%; height: 400px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                             <video autoplay muted loop playsinline style="width: auto; height: 100%; object-fit: cover; display: block;">
                                 <source src="website/videos/xgfYivQt-x0.mp4" type="video/mp4">
@@ -741,29 +735,31 @@
                                 <p>A significant portion of the video focuses on a probability distribution displayed on a number line ranging from 0 to 1. The line features crucial expressions involving the variable p and its complement (1 - p), with specific attention paid to terms like (1 - p), p(1 - p), p²(1 - p), p³(1 - p), and p⁴. Arrows strategically point to these expressions, emphasizing their relationships and significance within the probability framework. This visual representation helps illustrate how the series components distribute across the unit interval.</p>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- 视频2 -->
-                    <div class="video-item" style="display: inline-block; width: 500px; margin-right: 15px; vertical-align: top; position: relative;">
-                        <div style="width: 100%; height: 400px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
-                            <video autoplay muted loop playsinline style="width: auto; height: 100%; object-fit: cover; display: block;">
-                                <source src="website/videos/Y_w07A7chnk.mp4" type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
+                    </div> -->
+                    <video autoplay muted loop playsinline style="width: 100%; height: auto;">
+                        <source src="website/videos/xgfYivQt-x0.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video> 
+                    <div class="collapsible-section">
+                        <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_1">
+                            <span>View lecture detailed caption of case #1</span>
+                            <span class="icon is-small">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        <div id="transition_table_vh_1" class="collapse-content">
+                            <table class="table is-striped is-hoverable" id="vh_logical_matching_score" style="width: 100%; table-layout: fixed; font-size: 0.9em;">
+                                <thead>
+                                    <tr> 
+                                        <p>"MVPs: Wordless Animations of Five Classic Proofs without Words" presents an intricate journey through mathematical concepts using purely visual demonstrations. The video opens with a stark black background featuring the title and subtitle, accompanied by a subscribe button and thumbs-up icon, setting the stage for an engaging educational experience.</p>
+                                        
+                                        <p>Each proof is meticulously constructed using a consistent color palette of purples, blues, and teals against a black background, ensuring maximum visibility and clarity. The visual elements are carefully labeled with appropriate mathematical notation, creating a seamless blend of geometric and algebraic representations that effectively communicate complex mathematical concepts without the need for words.</p>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
-                        <div class="collapsible-section">
-                            <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_purple_2" style="background-color: rgba(230, 217, 255, 0.5); border-color: rgba(212, 196, 255, 0.5); margin-top: 5px; position: relative; z-index: 10;">
-                                <span>View lecture detailed caption of case #2</span>
-                                <span class="icon is-small">
-                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                </span>
-                            </button>
-                            <div id="transition_table_vh_purple_2" class="collapse-content" style="display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); z-index: 20; margin-top: 5px;">
-                                <p>The presentation then delves into alternating series, examining the behavior of (-1)⁰ + (-1)¹ + (-1)² + (-1)³ + ..., which equals 1/(1 + 1). This leads to the fascinating result that the alternating series 1 - 1 + 1 - 1 + ... equals 1/2, a result that, while seemingly counterintuitive, emerges naturally from the established framework. Further mathematical exploration introduces the geometric series 2⁰ + 2¹ + 2² + 2³ + ..., which equals 1/(1-2), demonstrating how 1 + 2 + 4 + 8 + ... surprisingly equals -1. These results showcase how mathematical formalism can lead to unexpected yet consistent conclusions when extended beyond their original context.</p>
-                                <p>The video maintains its mathematical rigor while illustrating these concepts through various representations. Each frame builds upon the previous, creating a cohesive narrative that connects probability theory, infinite series, and geometric progressions. The representation of these concepts includes both algebraic expressions and visual elements on the number line, making complex mathematical ideas more accessible.</p>
-                            </div>
-                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
