@@ -715,7 +715,7 @@
             <div id="purple-scroll-container" style="width: 100%; overflow-x: auto; white-space: nowrap; position: relative; scrollbar-width: none; -ms-overflow-style: none; height: 450px;">
                 <div style="display: inline-flex;">
                     <!-- 视频1 -->
-                    <div class="video-item" style="display: inline-block; height: 700px; margin-right: 15px; vertical-align: top; position: relative;">
+                    <div class="video-item" style="display: inline-block; height: 450px; margin-right: 15px; vertical-align: top; position: relative; width: 400px;">
                         <div style="width: 100%; height: 400px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                             <video autoplay muted loop playsinline style="width: auto; height: 100%; object-fit: cover; display: block;">
                                 <source src="website/videos/xgfYivQt-x0.mp4" type="video/mp4">
@@ -765,7 +765,7 @@
                     </div>
                     
                     <!-- 视频2 -->
-                    <div class="video-item" style="display: inline-block; height: 700px; margin-right: 15px; vertical-align: top; position: relative;">
+                    <div class="video-item" style="display: inline-block; height: 450px; margin-right: 15px; vertical-align: top; position: relative; width: 400px;">
                         <div style="width: 100%; height: 400px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                             <video autoplay muted loop playsinline style="width: auto; height: 100%; object-fit: cover; display: block;">
                                 <source src="website/videos/6KPSmajeseI.mp4" type="video/mp4">
@@ -815,7 +815,7 @@
                     </div>
                     
                     <!-- 视频3 -->
-                    <div class="video-item" style="display: inline-block; height: 700px; margin-right: 15px; vertical-align: top; position: relative;">
+                    <div class="video-item" style="display: inline-block; height: 450px; margin-right: 15px; vertical-align: top; position: relative; width: 400px;">
                         <div style="width: 100%; height: 400px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                             <video autoplay muted loop playsinline style="width: auto; height: 100%; object-fit: cover; display: block;">
                                 <source src="website/videos/K7SWwsvE5YE.mp4" type="video/mp4">
@@ -863,7 +863,7 @@
                     </div>
                     
                     <!-- 视频4 -->
-                    <div class="video-item" style="display: inline-block; height: 700px; margin-right: 15px; vertical-align: top; position: relative;">
+                    <div class="video-item" style="display: inline-block; height: 450px; margin-right: 15px; vertical-align: top; position: relative; width: 400px;">
                         <div style="width: 100%; height: 400px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                             <video autoplay muted loop playsinline style="width: auto; height: 100%; object-fit: cover; display: block;">
                                 <source src="website/videos/Pjqb2s5_YWA.mp4" type="video/mp4">
@@ -913,7 +913,7 @@
                     </div>
                     
                     <!-- 视频5 -->
-                    <div class="video-item" style="display: inline-block; height: 700px; margin-right: 15px; vertical-align: top; position: relative;">
+                    <div class="video-item" style="display: inline-block; height: 450px; margin-right: 15px; vertical-align: top; position: relative; width: 400px;">
                         <div style="width: 100%; height: 400px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                             <video autoplay muted loop playsinline style="width: auto; height: 100%; object-fit: cover; display: block;">
                                 <source src="website/videos/YQRTwlRMsXY.mp4" type="video/mp4">
@@ -963,7 +963,7 @@
                     </div>
                     
                     <!-- 视频6 -->
-                    <div class="video-item" style="display: inline-block; height: 700px; margin-right: 15px; vertical-align: top; position: relative;">
+                    <div class="video-item" style="display: inline-block; height: 450px; margin-right: 15px; vertical-align: top; position: relative; width: 400px;">
                         <div style="width: 100%; height: 400px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
                             <video autoplay muted loop playsinline style="width: auto; height: 100%; object-fit: cover; display: block;">
                                 <source src="website/videos/nQBC00jIiHE.mp4" type="video/mp4">
@@ -1011,6 +1011,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1032,75 +1033,61 @@
             const purpleContainer = document.querySelector('.video-container');
             const scrollContainer = document.getElementById('purple-scroll-container');
             
-            // 设置自动滚动
+            // 自动滚动相关变量
             let scrollInterval;
             let isManualScrolling = false;
             let manualScrollTimeout;
-            let isDragging = false;
-            let startX, startScrollLeft;
-            const scrollSpeed = 1; // 每次滚动的像素数
             
+            // 拖拽相关变量
+            let isDragging = false;
+            let startX;
+            let startScrollLeft;
+            
+            // 开始自动滚动
             function startScroll() {
                 stopScroll(); // 先停止之前的滚动
                 scrollInterval = setInterval(function() {
-                    if (isManualScrolling) return;
-                    
-                    const videoItem = document.querySelector('.video-item');
-                    if (!videoItem) return;
-                    
-                    const videoItemWidth = videoItem.offsetWidth + parseInt(getComputedStyle(videoItem).marginRight);
-                    const totalItems = document.querySelectorAll('.video-item').length / 2; // 假设后半部分是克隆的
-                    
-                    scrollContainer.scrollLeft += scrollSpeed;
-                    
-                    // 当滚动到一半时，重置到开始位置
-                    if (scrollContainer.scrollLeft >= videoItemWidth * totalItems) {
-                        scrollContainer.scrollLeft = 0;
+                    if (!isManualScrolling) {
+                        scrollContainer.scrollLeft += 1; // 每次滚动1像素
+                        
+                        // 如果滚动到最右边，重置到开始位置
+                        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth - scrollContainer.clientWidth) {
+                            scrollContainer.scrollLeft = 0;
+                        }
                     }
-                }, 20);
+                }, 30); // 30毫秒滚动一次，可以调整速度
             }
             
+            // 停止自动滚动
             function stopScroll() {
                 clearInterval(scrollInterval);
             }
             
             // 初始化自动滚动
-            setTimeout(function() {
-                startScroll();
-            }, 1000);
+            startScroll();
             
-            // 鼠标悬停时暂停滚动
-            purpleContainer.addEventListener('mouseenter', function() {
-                stopScroll();
-            });
-            
-            purpleContainer.addEventListener('mouseleave', function() {
-                if (!document.querySelector('.collapse-content[style="display: block;"]')) {
-                    startScroll();
-                }
-            });
-            
-            // 鼠标拖拽
+            // 鼠标按下事件
             scrollContainer.addEventListener('mousedown', function(e) {
                 isDragging = true;
                 startX = e.pageX - scrollContainer.offsetLeft;
                 startScrollLeft = scrollContainer.scrollLeft;
                 scrollContainer.style.cursor = 'grabbing';
+                isManualScrolling = true;
                 stopScroll();
-                
-                // 阻止默认行为，防止选中文本
-                e.preventDefault();
             });
             
-            document.addEventListener('mousemove', function(e) {
+            // 鼠标移动事件
+            scrollContainer.addEventListener('mousemove', function(e) {
                 if (!isDragging) return;
+                e.preventDefault();
                 const x = e.pageX - scrollContainer.offsetLeft;
                 const walk = (x - startX) * 2; // 滚动速度
                 scrollContainer.scrollLeft = startScrollLeft - walk;
                 isManualScrolling = true;
             });
             
-            document.addEventListener('mouseup', function() {
+            // 鼠标松开事件
+            scrollContainer.addEventListener('mouseup', function() {
                 if (isDragging) {
                     isDragging = false;
                     scrollContainer.style.cursor = 'grab';
@@ -1116,6 +1103,7 @@
                 }
             });
             
+            // 鼠标离开事件
             document.addEventListener('mouseleave', function() {
                 if (isDragging) {
                     isDragging = false;
@@ -1158,6 +1146,9 @@
                     }
                 });
             });
+            
+            // 初始化时设置鼠标样式
+            scrollContainer.style.cursor = 'grab';
         });
     })();
     </script>
