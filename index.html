@@ -1244,54 +1244,46 @@
 
     <script>
     (function() {
-        // 等待DOM加载完成
         document.addEventListener('DOMContentLoaded', function() {
-            // 获取滚动容器
             const purpleContainer = document.querySelector('.video-container');
             const scrollContainer = document.getElementById('purple-scroll-container');
-            
-            // 设置滚动参数
-            let scrollInterval = null;
-            const scrollSpeed = 3; // 滚动速度
-            let isManualScrolling = false;
-            let manualScrollTimeout = null;
-            
-            // 获取视频项目宽度（包括margin）
             const videoItem = document.querySelector('.video-item');
             const videoItemWidth = videoItem.offsetWidth + parseInt(getComputedStyle(videoItem).marginRight);
             const totalItems = document.querySelectorAll('.video-item:not(.clone)').length;
             
+            let scrollInterval;
+            let isManualScrolling = false;
+            let manualScrollTimeout;
+            const scrollSpeed = 3;
+            
             // 自动滚动函数
-            function autoScroll() {
-                if (isManualScrolling) return;
-                
-                // 增加滚动位置
+            function scroll() {
                 scrollContainer.scrollLeft += scrollSpeed;
                 
-                // 当滚动到第一组视频的末尾时，重置到第一个视频的位置
+                // 当滚动到第一组视频的末尾时，重置到开始位置
                 if (scrollContainer.scrollLeft >= videoItemWidth * totalItems) {
                     scrollContainer.scrollLeft = 0;
                 }
             }
             
-            // 开始滚动
+            // 开始自动滚动
             function startScroll() {
                 if (!scrollInterval) {
-                    scrollInterval = setInterval(autoScroll, 30);
-                    console.log('自动滚动已启动');
+                    scrollInterval = setInterval(scroll, 30);
+                    console.log('开始自动滚动');
                 }
             }
             
-            // 停止滚动
+            // 停止自动滚动
             function stopScroll() {
                 if (scrollInterval) {
                     clearInterval(scrollInterval);
                     scrollInterval = null;
-                    console.log('自动滚动已停止');
+                    console.log('停止自动滚动');
                 }
             }
             
-            // 初始化滚动
+            // 延迟1秒初始化自动滚动，确保页面完全加载
             setTimeout(function() {
                 startScroll();
                 console.log('初始化自动滚动');
@@ -1316,14 +1308,67 @@
             // 检测手动滚动
             let lastScrollLeft = scrollContainer.scrollLeft;
             let lastScrollTime = Date.now();
+            let isDragging = false;
+            let startX, startScrollLeft;
             
+            // 鼠标按下事件
+            scrollContainer.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                startX = e.pageX - scrollContainer.offsetLeft;
+                startScrollLeft = scrollContainer.scrollLeft;
+                scrollContainer.style.cursor = 'grabbing';
+                stopScroll();
+                console.log('开始拖拽');
+                
+                // 阻止默认行为，防止文本选择
+                e.preventDefault();
+            });
+            
+            // 鼠标移动事件
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                const x = e.pageX - scrollContainer.offsetLeft;
+                const walk = (x - startX) * 2; // 滚动速度
+                scrollContainer.scrollLeft = startScrollLeft - walk;
+                console.log('拖拽中');
+            });
+            
+            // 鼠标释放事件
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    scrollContainer.style.cursor = 'grab';
+                    console.log('结束拖拽');
+                    
+                    // 3秒后恢复自动滚动
+                    clearTimeout(manualScrollTimeout);
+                    manualScrollTimeout = setTimeout(function() {
+                        if (!document.querySelector('.collapse-content[style="display: block;"]')) {
+                            console.log('拖拽超时，恢复自动滚动');
+                            isManualScrolling = false;
+                            startScroll();
+                        }
+                    }, 3000);
+                }
+            });
+            
+            // 鼠标离开窗口
+            document.addEventListener('mouseleave', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    scrollContainer.style.cursor = 'grab';
+                    console.log('鼠标离开窗口，结束拖拽');
+                }
+            });
+            
+            // 常规滚动事件（滚轮滚动）
             scrollContainer.addEventListener('scroll', function() {
                 const now = Date.now();
                 const currentScrollLeft = scrollContainer.scrollLeft;
                 
-                // 如果滚动变化大于自动滚动速度，视为手动滚动
-                if (Math.abs(currentScrollLeft - lastScrollLeft) > scrollSpeed && now - lastScrollTime < 100) {
-                    console.log('检测到手动滚动');
+                // 如果不是拖拽导致的滚动，且滚动变化大于自动滚动速度，视为手动滚动
+                if (!isDragging && Math.abs(currentScrollLeft - lastScrollLeft) > scrollSpeed && now - lastScrollTime < 100) {
+                    console.log('检测到滚轮滚动');
                     isManualScrolling = true;
                     stopScroll();
                     
@@ -1333,7 +1378,7 @@
                     // 3秒后恢复自动滚动
                     manualScrollTimeout = setTimeout(function() {
                         if (!document.querySelector('.collapse-content[style="display: block;"]')) {
-                            console.log('手动滚动超时，恢复自动滚动');
+                            console.log('滚轮滚动超时，恢复自动滚动');
                             isManualScrolling = false;
                             startScroll();
                         }
@@ -1345,14 +1390,29 @@
             });
             
             // 添加触摸事件支持
-            scrollContainer.addEventListener('touchstart', function() {
+            scrollContainer.addEventListener('touchstart', function(e) {
                 console.log('触摸开始，停止滚动');
-                isManualScrolling = true;
+                isDragging = true;
+                startX = e.touches[0].pageX - scrollContainer.offsetLeft;
+                startScrollLeft = scrollContainer.scrollLeft;
                 stopScroll();
+            });
+            
+            scrollContainer.addEventListener('touchmove', function(e) {
+                if (!isDragging) return;
+                const x = e.touches[0].pageX - scrollContainer.offsetLeft;
+                const walk = (x - startX) * 2; // 滚动速度
+                scrollContainer.scrollLeft = startScrollLeft - walk;
+                console.log('触摸拖拽中');
+                
+                // 阻止页面滚动
+                e.preventDefault();
             });
             
             scrollContainer.addEventListener('touchend', function() {
                 console.log('触摸结束，3秒后恢复滚动');
+                isDragging = false;
+                
                 // 3秒后恢复自动滚动
                 clearTimeout(manualScrollTimeout);
                 manualScrollTimeout = setTimeout(function() {
@@ -1391,6 +1451,9 @@
                     }
                 });
             });
+            
+            // 初始化时设置鼠标样式
+            scrollContainer.style.cursor = 'grab';
         });
     })();
     </script>
