@@ -1158,15 +1158,26 @@
         // 处理折叠/展开内容
         const toggleButtons = document.querySelectorAll('.toggle-section');
         toggleButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const targetId = button.getAttribute('data-target');
+            button.addEventListener('click', function() {
+                console.log('Button clicked');
+                
+                // 获取目标ID - 修复属性名称
+                const targetId = this.getAttribute('aria-controls');
+                console.log('Target ID:', targetId);
+                
                 const targetContent = document.getElementById(targetId);
+                console.log('Target content:', targetContent);
+                
+                if (!targetContent) {
+                    console.error('Target content not found:', targetId);
+                    return;
+                }
                 
                 // 关闭所有其他展开的内容
                 document.querySelectorAll('.collapse-content').forEach(content => {
                     if (content.id !== targetId && content.style.display === 'block') {
                         content.style.display = 'none';
-                        const relatedButton = document.querySelector(`[data-target="${content.id}"]`);
+                        const relatedButton = document.querySelector(`[aria-controls="${content.id}"]`);
                         if (relatedButton) {
                             const icon = relatedButton.querySelector('.fas');
                             if (icon) {
@@ -1180,7 +1191,7 @@
                 // 切换当前内容
                 if (targetContent.style.display === 'block') {
                     targetContent.style.display = 'none';
-                    const icon = button.querySelector('.fas');
+                    const icon = this.querySelector('.fas');
                     if (icon) {
                         icon.classList.remove('fa-angle-up');
                         icon.classList.add('fa-angle-down');
@@ -1194,7 +1205,7 @@
                     }, 3000);
                 } else {
                     targetContent.style.display = 'block';
-                    const icon = button.querySelector('.fas');
+                    const icon = this.querySelector('.fas');
                     if (icon) {
                         icon.classList.remove('fa-angle-down');
                         icon.classList.add('fa-angle-up');
