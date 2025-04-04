@@ -6213,6 +6213,27 @@ input[type='button'].btn-block
     text-decoration: none;
 }
 
+/* TODO: ADD CARD LINK */
+.card-link
+{
+    display: block;
+    height: 100%;
+    color: inherit;
+    transition: transform 0.3s ease;
+}
+
+.card-link:hover .card-info
+{
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-info
+{
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
 .card-link + .card-link
 {
     margin-left: 1.25rem;
