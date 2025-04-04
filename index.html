@@ -93,27 +93,54 @@
                 <div class="container">
                     <div style="display: flex; align-items: center; justify-content: center; gap: 2rem;">
                         <div>
-                            <p style="font-size: 24px; margin: 0;"><strong>Wenhao Chai</strong></p>
+                            <p style="font-size: 24px; margin: 0;"><strong>Author 1</strong></p>
                             <p style="margin: 0;">Princeton University</p>
                         </div>
                         <div>
-                            <p style="font-size: 24px; margin: 0;"><strong>Zhuang Liu</strong></p>
+                            <p style="font-size: 24px; margin: 0;"><strong>Author 2</strong></p>
+                            <p style="margin: 0;">Princeton University</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 24px; margin: 0;"><strong>Author 3</strong></p>
+                            <p style="margin: 0;">Princeton University</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 24px; margin: 0;"><strong>Author 4</strong></p>
                             <p style="margin: 0;">Princeton University</p>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- Abstract -->
+            <section id="abstract" class="py-5">
+                <div class="container">
+                    <h2 class="text-center py-2">TL;DR</h2>
+                    <h4 class="blockquote text-center text-primary">
+                        Video-MMLU pushes LMMs to the limits—can the model really understand real-world lectures?
+                    </h4>
+                </div>
+            </section>
+
 
             <!-- Demo Video -->
-            <section id="section-2" class="py-0">
-                <div class="container">
+            <section id="video" class="py-5">
                     <video id="teaser" autoplay muted loop playsinline controls width="100%">
-                        <!-- <source src="./website/videos/eai-video-v2.mov" type="video/quicktime"> -->
+                        <source src="./website/videos/eai-video-v2.mov" type="video/quicktime">
                         <source src="assets/vid/teaser.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
-                </div>
+            </section>
+
+            <!-- huggingface dataset -->
+            <section id="huggingface" class="py-5">
+                <h2 class="text-center py-2">Dataset Viewer</h2>
+                <iframe
+                src="https://huggingface.co/datasets/wchai/Video-Detailed-Caption/embed/viewer/default/VDC_captions"
+                frameborder="0"
+                width="100%"
+                height="560px"
+                ></iframe>
             </section>
 
             

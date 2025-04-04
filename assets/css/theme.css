@@ -640,7 +640,8 @@ mark,
 
 .blockquote
 {
-    font-size: 1.125rem; 
+    /* TODO */
+    /* font-size: 1.125rem;  */
 
     margin-bottom: 1rem;
 }
@@ -18072,6 +18073,7 @@ a.text-blue-light:focus
 {
     font-family: 'Oswald', 'Helvetica Neue', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
+    /* TODO */
     /* text-transform: uppercase; */ 
 }
 
