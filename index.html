@@ -171,11 +171,26 @@
                 </div>
             </section>
 
-            <section id="one" class="py-5">
+            <!-- TODO: use bg-light every two section-->
+            <section id="one" class="py-5 bg-light">
                 <div class="container">
-                    <h2 class="text-center py-2">Section One</h2>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <h2 class="text-center py-5">Section One</h2>
+                    <div class="card-group">
+                        <div class="card">
+                            <img src="assets/img/figures/20250329.JPG" class="card-img-top" alt="Example 1">
+                            <div class="card-body">
+                                <h5 class="card-title">Example One (Image Top)</h5>
+                                <p class="card-text">This is an example of content that can be displayed in a card group layout. Card groups have equal height columns with no gutters.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Example Two (Image Bottom)</h5>
+                                <p class="card-text">This is an example of content that can be displayed in a card group layout. Card groups have equal height columns with no gutters.</p>
+                            </div>
+                            <img src="assets/img/figures/20250329.JPG" class="card-img-bottom" alt="Example 1">
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -226,7 +241,7 @@
             </section>
 
             <!-- huggingface dataset -->
-            <!-- <section id="huggingface" class="py-5">
+            <section id="huggingface" class="py-5">
                 <h2 class="text-center py-5">Dataset Viewer</h2>
                 <iframe
                 src="https://huggingface.co/datasets/wchai/Video-Detailed-Caption/embed/viewer/default/VDC_captions"
@@ -234,7 +249,7 @@
                 width="100%"
                 height="560px"
                 ></iframe>
-            </section> -->
+            </section>
 
             
         </main>
