@@ -38,6 +38,10 @@
 
             gtag('config', 'UA-22940424-1');
         </script>
+
+        <!-- Benchmark Table -->
+        <script src="assets/js/benchmark_table.js" type="module"></script>
+
     </head>
 
     <body>
@@ -128,7 +132,7 @@
                             <img src="assets/img/logo/zju_logo.png" alt="Zhejiang University Logo" style="max-height: 50px;">
                         </div>
                         <div class="col-auto mx-3">
-                            <img src="assets/img/logo/princeton_logo.jpg" alt="Princeton University Logo" style="max-height: 35;">
+                            <img src="assets/img/logo/princeton_logo.jpg" alt="Princeton University Logo" style="max-height: 35px;">
                         </div>
                         <div class="col-auto mx-3">
                             <img src="assets/img/logo/uiuc_logo.png" alt="UIUC Logo" style="max-height: 35px;">
@@ -202,6 +206,67 @@
                                     </div>
                                 </div>
                             </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TODO: use bg-light every two section-->
+            <section id="one" class="py-5 bg-light">
+                <div class="container">
+                    <h2 class="text-center py-5">Leaderboard</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">🤩 Welcome to the Video-MMLU lecture hall! Is your model ready to be tested?</h5>
+                            <br>
+                            <h5 class="card-title">Class is in session! Submit your scores to see if your models make the honor roll. Professor is waiting...</h5>
+                            <br>
+                            <p class="card-text">
+                                Please remember to report your frame rate and tokens per frame with each submission.
+                            </p>
+                            <p class="card-text">
+                                Email us at <a href="mailto:enxin.23@intl.zju.edu.cn"><i class="fas fa-envelope"></i></a> or <a href="mailto:wenhao.chai@princeton.edu"><i class="fas fa-envelope"></i></a>.
+                            </p>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="main-results-tab" data-bs-toggle="tab"
+                                        data-bs-target="#benchmark-table-content" type="button" role="tab"
+                                        aria-controls="main-results-tab" aria-selected="true">Video-MMLU</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="benchmark-table-content" role="tabpanel"
+                                    aria-labelledby="benchmark-table-content">
+                                    <div id="behavior-benchmark-main-table"></div>
+                                </div>
+                            </div>
+                            <p class="card-text">
+                                # F stands for the frame sampling number of the input video, and TPF represents the visual tokens per frame. 
+                                The average key frame number in Video-MMLU is 26.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TODO: use bg-light every two section-->
+            <section id="one" class="py-5 bg-light">
+                <div class="container">
+                    <h2 class="text-center py-5">Section One</h2>
+                    <div class="card-group">
+                        <div class="card">
+                            <img src="assets/img/figures/20250329.JPG" class="card-img-top" alt="Example 1">
+                            <div class="card-body">
+                                <h5 class="card-title">Example One (Image Top)</h5>
+                                <p class="card-text">This is an example of content that can be displayed in a card group layout. Card groups have equal height columns with no gutters.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Example Two (Image Bottom)</h5>
+                                <p class="card-text">This is an example of content that can be displayed in a card group layout. Card groups have equal height columns with no gutters.</p>
+                            </div>
+                            <img src="assets/img/figures/20250329.JPG" class="card-img-bottom" alt="Example 1">
                         </div>
                     </div>
                 </div>
