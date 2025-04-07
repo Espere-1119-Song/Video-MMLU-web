@@ -203,13 +203,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     title: "#F",
                     field: "frames",
                     widthGrow: 0.9,
-                    minWidth: 50
+                    minWidth: 40
                 },
                 {
                     title: "#T",
                     field: "tpf",
                     widthGrow: 0.9,
-                    minWidth: 50
+                    minWidth: 40
                 },
                 {
                     title: "Overall",
