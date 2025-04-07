@@ -39,6 +39,10 @@
             gtag('config', 'UA-22940424-1');
         </script>
 
+        <!-- Tabulator library -->
+        <link href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator_bootstrap4.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
+
         <!-- Benchmark Table -->
         <script src="assets/js/benchmark_table.js" type="module"></script>
 
@@ -223,8 +227,6 @@
                             <br>
                             <p class="card-text">
                                 Please remember to report your frame rate and tokens per frame with each submission.
-                            </p>
-                            <p class="card-text">
                                 Email us at <a href="mailto:enxin.23@intl.zju.edu.cn"><i class="fas fa-envelope"></i></a> or <a href="mailto:wenhao.chai@princeton.edu"><i class="fas fa-envelope"></i></a>.
                             </p>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -249,24 +251,47 @@
                 </div>
             </section>
 
-            <!-- TODO: use bg-light every two section-->
-            <section id="one" class="py-5 bg-light">
+            <section id="faq" class="py-5">
                 <div class="container">
-                    <h2 class="text-center py-5">Section One</h2>
-                    <div class="card-group">
+                    <h2 class="text-center py-5">FAQs</h2>
+                    <div class="faq">
                         <div class="card">
-                            <img src="assets/img/figures/20250329.JPG" class="card-img-top" alt="Example 1">
-                            <div class="card-body">
-                                <h5 class="card-title">Example One (Image Top)</h5>
-                                <p class="card-text">This is an example of content that can be displayed in a card group layout. Card groups have equal height columns with no gutters.</p>
+                            <div class="card-header">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq1">
+                                    What is Video-MMLU?
+                                </button>
+                            </div>
+                            <div id="faq1" class="collapse">
+                                <div class="card-body">
+                                    Video-MMLU is a benchmark designed to evaluate large multimodal models on their ability to understand and reason about real-world lecture videos across multiple domains and disciplines.
+                                </div>
                             </div>
                         </div>
+                        <br>
                         <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Example Two (Image Bottom)</h5>
-                                <p class="card-text">This is an example of content that can be displayed in a card group layout. Card groups have equal height columns with no gutters.</p>
+                            <div class="card-header">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq2">
+                                    How does Video-MMLU differ from other benchmarks?
+                                </button>
                             </div>
-                            <img src="assets/img/figures/20250329.JPG" class="card-img-bottom" alt="Example 1">
+                            <div id="faq2" class="collapse">
+                                <div class="card-body">
+                                    Unlike text-only or image-only benchmarks, Video-MMLU specifically tests comprehension of educational video content, requiring models to integrate visual, auditory, and temporal information to answer challenging questions.
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="card-header">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq3">
+                                    How can I use the benchmark?
+                                </button>
+                            </div>
+                            <div id="faq3" class="collapse">
+                                <div class="card-body">
+                                    The benchmark dataset and evaluation code are available through our GitHub repository. Researchers can use it to test their models and compare results with existing baselines.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -294,6 +319,8 @@
                     </div>
                 </div>
             </section>
+
+
 
             <section id="faq" class="py-5">
                 <div class="container">
