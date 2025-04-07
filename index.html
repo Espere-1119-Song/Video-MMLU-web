@@ -179,6 +179,16 @@
                 <div class="container">
                     <h2 class="text-center py-5">Key Features</h2>
                     <div class="row">
+                        <div class="col-md-4 mb-4"></div>
+                            <a class="card-link" href="#one">
+                                <div class="card card-info h-100">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Benchmark Construction</h4>
+                                        <p class="card-text">Video-MMLU spans 3 disciplines (Mathematics, Physics, Chemistry), including detailed captions, and a diverse set of questions.</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                         <div class="col-md-4 mb-4">
                             <a class="card-link" href="#one">
                                 <div class="card card-info h-100">
@@ -201,22 +211,34 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-md-4 mb-4">
-                            <a class="card-link" href="#one">
-                                <div class="card card-info h-100">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Benchmark Construction</h4>
-                                        <p class="card-text">Video-MMLU spans 3 disciplines (Mathematics, Physics, Chemistry), including detailed captions, and a diverse set of questions.</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- TODO: use bg-light every two section-->
             <section id="one" class="py-5 bg-light">
+                <div class="container">
+                    <h2 class="text-center py-5">Section One</h2>
+                    <div class="card-group">
+                        <div class="card">
+                            <img src="assets/img/figures/20250329.JPG" class="card-img-top" alt="Example 1">
+                            <div class="card-body">
+                                <h5 class="card-title">Example One (Image Top)</h5>
+                                <p class="card-text">This is an example of content that can be displayed in a card group layout. Card groups have equal height columns with no gutters.</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Example Two (Image Bottom)</h5>
+                                <p class="card-text">This is an example of content that can be displayed in a card group layout. Card groups have equal height columns with no gutters.</p>
+                            </div>
+                            <img src="assets/img/figures/20250329.JPG" class="card-img-bottom" alt="Example 1">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="faq" class="py-5">
                 <div class="container">
                     <h2 class="text-center py-5">Leaderboard</h2>
                     <div class="card">
@@ -244,60 +266,13 @@
                             </div>
                             <p class="card-text">
                                 # F stands for the frame sampling number of the input video, and TPF represents the visual tokens per frame. 
-                                The average key frame number in Video-MMLU is 26.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="faq" class="py-5">
-                <div class="container">
-                    <h2 class="text-center py-5">FAQs</h2>
-                    <div class="faq">
-                        <div class="card">
-                            <div class="card-header">
-                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq1">
-                                    What is Video-MMLU?
-                                </button>
-                            </div>
-                            <div id="faq1" class="collapse">
-                                <div class="card-body">
-                                    Video-MMLU is a benchmark designed to evaluate large multimodal models on their ability to understand and reason about real-world lecture videos across multiple domains and disciplines.
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="card">
-                            <div class="card-header">
-                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq2">
-                                    How does Video-MMLU differ from other benchmarks?
-                                </button>
-                            </div>
-                            <div id="faq2" class="collapse">
-                                <div class="card-body">
-                                    Unlike text-only or image-only benchmarks, Video-MMLU specifically tests comprehension of educational video content, requiring models to integrate visual, auditory, and temporal information to answer challenging questions.
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="card">
-                            <div class="card-header">
-                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#faq3">
-                                    How can I use the benchmark?
-                                </button>
-                            </div>
-                            <div id="faq3" class="collapse">
-                                <div class="card-body">
-                                    The benchmark dataset and evaluation code are available through our GitHub repository. Researchers can use it to test their models and compare results with existing baselines.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <!-- TODO: use bg-light every two section-->
             <section id="one" class="py-5 bg-light">
                 <div class="container">
                     <h2 class="text-center py-5">Section One</h2>
