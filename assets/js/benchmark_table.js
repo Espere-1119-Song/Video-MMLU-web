@@ -227,17 +227,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     title: "<div style='text-align: center;'>Notebook</div>",
                     columns: [
-                        { title: "Avg.", field: "notebook_avg", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
-                        { title: "Math", field: "notebook_math", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
-                        { title: "Physics", field: "notebook_physics", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
-                        { title: "Chemistry", field: "notebook_chemistry", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
+                        { title: "<span style='font-size: 0.85em;'>Avg.</span>", field: "notebook_avg", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
+                        { title: "<span style='font-size: 0.85em;'>Math</span>", field: "notebook_math", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
+                        { title: "<span style='font-size: 0.85em;'>Physics</span>", field: "notebook_physics", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
+                        { title: "<span style='font-size: 0.85em;'>Chemistry</span>", field: "notebook_chemistry", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
                     ]
                 },
                 {
                     title: "<div style='text-align: center;'>Quiz</div>",
                     columns: [
                         { 
-                            title: "Avg.", 
+                            title: "<span style='font-size: 0.85em;'>Avg.</span>", 
                             field: "quiz_avg", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, // 使用新的紫色格式化器
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                         },
                         { 
-                            title: "Math", 
+                            title: "<span style='font-size: 0.85em;'>Math</span>", 
                             field: "quiz_math", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                         },
                         { 
-                            title: "Physics", 
+                            title: "<span style='font-size: 0.85em;'>Physics</span>", 
                             field: "quiz_physics", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             }
                         },
                         { 
-                            title: "Chemistry", 
+                            title: "<span style='font-size: 0.85em;'>Chemistry</span>", 
                             field: "quiz_chemistry", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
