@@ -111,14 +111,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const carouselTrack = document.createElement("div");
         carouselTrack.className = "video-carousel-track";
         carouselTrack.style.display = "flex";
+        carouselTrack.style.alignItems = "center";
         carouselTrack.style.position = "absolute";
         carouselTrack.style.left = "0";
         carouselTrack.style.top = "0";
-        carouselTrack.style.height = "100%"; // 设置高度为100%
-        carouselTrack.style.padding = "20px";
+        carouselTrack.style.height = "100%";
+        carouselTrack.style.padding = "10px";
         carouselTrack.style.boxSizing = "border-box";
-        carouselTrack.style.transition = "transform 0.3s ease"; // 添加平滑过渡效果
-        carouselTrack.style.overflow = "hidden"; // 确保内容不溢出
+        carouselTrack.style.transition = "transform 0.3s ease";
+        carouselTrack.style.overflow = "hidden";
         
         // 创建视频项数组
         const videoItems = [];
@@ -131,22 +132,22 @@ document.addEventListener('DOMContentLoaded', function() {
             videoItem.style.display = "flex";
             videoItem.style.flexDirection = "column";
             videoItem.style.alignItems = "center";
-            videoItem.style.justifyContent = "flex-start"; // 从顶部开始对齐内容
-            videoItem.style.minWidth = "500px"; // 减小最小宽度 (从600px)
-            videoItem.style.maxWidth = "500px"; // 减小最大宽度 (从600px)
-            videoItem.style.height = "100%"; // 设置高度为100%
-            videoItem.style.margin = "0 5px"; // 从0 10px减小到0 5px
+            videoItem.style.justifyContent = "center";
+            videoItem.style.minWidth = "500px";
+            videoItem.style.maxWidth = "500px";
+            videoItem.style.height = "100%";
+            videoItem.style.margin = "0 5px";
             videoItem.style.boxSizing = "border-box";
             videoItem.style.position = "relative";
-            videoItem.style.overflow = "visible"; // 允许内容溢出
+            videoItem.style.overflow = "visible";
             
-            // 创建视频包装器，控制视频宽度和高度
+            // 创建视频包装器，控制视频宽度和高度，并确保上下居中
             const videoWrapper = document.createElement("div");
             videoWrapper.className = "video-wrapper";
             videoWrapper.style.width = "100%";
-            videoWrapper.style.maxWidth = "500px"; // 减小最大宽度 (从600px)
-            videoWrapper.style.height = "300px"; // 减小视频容器高度 (从350px)
-            videoWrapper.style.margin = "0 auto";
+            videoWrapper.style.maxWidth = "500px"; // 减小最大宽度
+            videoWrapper.style.height = "300px"; // 视频容器高度
+            videoWrapper.style.margin = "0 auto"; // 水平居中
             videoWrapper.style.position = "relative";
             videoWrapper.style.overflow = "hidden"; // 隐藏溢出内容
             videoWrapper.style.zIndex = "1"; // 确保视频在上层
@@ -171,9 +172,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 创建一个包含按钮和内容的容器
                     const collapsibleContainer = document.createElement("div");
                     collapsibleContainer.className = "collapsible-container";
-                    collapsibleContainer.style.width = "500px"; // 减小宽度 (从600px)
+                    collapsibleContainer.style.width = "500px";
                     collapsibleContainer.style.position = "relative";
-                    collapsibleContainer.style.marginTop = "10px";
+                    collapsibleContainer.style.marginTop = "5px"; // 减少顶部间距
                     collapsibleContainer.style.zIndex = "2";
                     collapsibleContainer.style.display = "flex";
                     collapsibleContainer.style.flexDirection = "column";
@@ -389,7 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (clonedCollapsibleContainer) {
                     clonedCollapsibleContainer.style.width = "500px"; // 减小宽度 (从600px)
                     clonedCollapsibleContainer.style.position = "relative";
-                    clonedCollapsibleContainer.style.marginTop = "10px";
+                    clonedCollapsibleContainer.style.marginTop = "5px"; // 减少顶部间距
                     clonedCollapsibleContainer.style.zIndex = "2";
                     clonedCollapsibleContainer.style.display = "flex";
                     clonedCollapsibleContainer.style.flexDirection = "column";
