@@ -202,14 +202,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     title: "#F",
                     field: "frames",
-                    widthGrow: 0.5,
-                    minWidth: 25
+                    widthGrow: 0.6,
+                    minWidth: 30
                 },
                 {
                     title: "#T",
                     field: "tpf",
-                    widthGrow: 0.5,
-                    minWidth: 25
+                    widthGrow: 0.6,
+                    minWidth: 30
                 },
                 {
                     title: "Avg.",
@@ -232,16 +232,16 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_avg", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 45,
-                            widthGrow: 0.6
+                            minWidth: 50,
+                            widthGrow: 0.7
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Math</span>", 
                             field: "notebook_math", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 45,
-                            widthGrow: 0.6
+                            minWidth: 50,
+                            widthGrow: 0.7
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Physics</span>", 
@@ -269,16 +269,16 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_avg", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 45,
-                            widthGrow: 0.6
+                            minWidth: 50,
+                            widthGrow: 0.7
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Math</span>", 
                             field: "quiz_math", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 45,
-                            widthGrow: 0.6
+                            minWidth: 50,
+                            widthGrow: 0.7
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Physics</span>", 
