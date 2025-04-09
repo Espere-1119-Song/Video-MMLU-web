@@ -202,14 +202,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     title: "#F",
                     field: "frames",
-                    widthGrow: 0.9,
-                    minWidth: 25
+                    widthGrow: 0.4,
+                    minWidth: 15
                 },
                 {
                     title: "#T",
                     field: "tpf",
-                    widthGrow: 0.9,
-                    minWidth: 25
+                    widthGrow: 0.4,
+                    minWidth: 15
                 },
                 {
                     title: "Overall",
