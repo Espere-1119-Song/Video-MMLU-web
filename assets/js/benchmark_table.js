@@ -197,25 +197,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     title: "Model",
                     field: "model",
                     widthGrow: 2,
-                    minWidth: 55
+                    minWidth: 70
                 },
                 {
                     title: "#F",
                     field: "frames",
                     widthGrow: 0.6,
-                    minWidth: 30
+                    minWidth: 35
                 },
                 {
                     title: "#T",
                     field: "tpf",
                     widthGrow: 0.6,
-                    minWidth: 30
+                    minWidth: 35
                 },
                 {
                     title: "Avg.",
                     field: "avg_acc",
                     widthGrow: 0.7,
-                    minWidth: 45,
+                    minWidth: 50,
                     formatter: colorFormatterAvg,
                     sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
                         // Convert to numbers for proper sorting
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_avg", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 50,
+                            minWidth: 55,
                             widthGrow: 0.7
                         },
                         { 
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_math", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 50,
+                            minWidth: 55,
                             widthGrow: 0.7
                         },
                         { 
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_physics", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 55,
+                            minWidth: 60,
                             widthGrow: 0.8
                         },
                         { 
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_chemistry", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 65,
+                            minWidth: 70,
                             widthGrow: 1.2
                         }
                     ]
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_avg", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 50,
+                            minWidth: 55,
                             widthGrow: 0.7
                         },
                         { 
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_math", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 50,
+                            minWidth: 55,
                             widthGrow: 0.7
                         },
                         { 
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_physics", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 55,
+                            minWidth: 60,
                             widthGrow: 0.8
                         },
                         { 
@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_chemistry", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 65,
+                            minWidth: 70,
                             widthGrow: 1.2
                         }
                     ]
