@@ -239,29 +239,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             carouselContainer.style.cursor = "grab";
                             startContinuousScroll();
                             
-                            // 恢复下一个元素的位置
-                            const allElements = document.querySelectorAll('body > *');
-                            let nextElement = null;
-                            
-                            // 找到视频容器后的第一个元素
-                            const videoContainerRect = videoContainer.getBoundingClientRect();
-                            for (let i = 0; i < allElements.length; i++) {
-                                const element = allElements[i];
-                                const elementRect = element.getBoundingClientRect();
-                                
-                                // 如果元素在视频容器下方且不是视频容器的子元素
-                                if (elementRect.top >= videoContainerRect.bottom && 
-                                    !videoContainer.contains(element) && 
-                                    element !== videoContainer) {
-                                    nextElement = element;
-                                    break;
-                                }
-                            }
-                            
-                            // 如果找到了下一个元素
-                            if (nextElement && nextElement.dataset.originalMarginTop) {
-                                nextElement.style.marginTop = nextElement.dataset.originalMarginTop;
-                            }
+                            // 恢复容器高度
+                            carouselContainer.style.height = "450px";
+                            videoContainer.style.overflow = "hidden";
                         } else {
                             // 获取所有内容容器
                             const allContentContainers = document.querySelectorAll('.collapse-content');
@@ -297,7 +277,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             expandedContentArea.innerHTML = contentContainer.innerHTML;
                             expandedContentArea.style.display = "block";
                             
-                            // 不再调整下方内容的位置，因为我们现在将展开内容保持在容器内
+                            // 允许内容溢出显示
+                            videoContainer.style.overflow = "visible";
+                            
+                            // 调整容器高度以适应展开内容
+                            const expandedContentHeight = expandedContentArea.scrollHeight;
+                            carouselContainer.style.height = `calc(450px + ${expandedContentHeight}px)`;
                         }
                     });
                     
@@ -364,29 +349,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             carouselContainer.style.cursor = "grab";
                             startContinuousScroll();
                             
-                            // 恢复下一个元素的位置
-                            const allElements = document.querySelectorAll('body > *');
-                            let nextElement = null;
-                            
-                            // 找到视频容器后的第一个元素
-                            const videoContainerRect = videoContainer.getBoundingClientRect();
-                            for (let i = 0; i < allElements.length; i++) {
-                                const element = allElements[i];
-                                const elementRect = element.getBoundingClientRect();
-                                
-                                // 如果元素在视频容器下方且不是视频容器的子元素
-                                if (elementRect.top >= videoContainerRect.bottom && 
-                                    !videoContainer.contains(element) && 
-                                    element !== videoContainer) {
-                                    nextElement = element;
-                                    break;
-                                }
-                            }
-                            
-                            // 如果找到了下一个元素
-                            if (nextElement && nextElement.dataset.originalMarginTop) {
-                                nextElement.style.marginTop = nextElement.dataset.originalMarginTop;
-                            }
+                            // 恢复容器高度
+                            carouselContainer.style.height = "450px";
+                            videoContainer.style.overflow = "hidden";
                         } else {
                             // 获取所有内容容器
                             const allContentContainers = document.querySelectorAll('.collapse-content');
@@ -422,7 +387,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             expandedContentArea.innerHTML = clonedContent.innerHTML;
                             expandedContentArea.style.display = "block";
                             
-                            // 不再调整下方内容的位置，因为我们现在将展开内容保持在容器内
+                            // 允许内容溢出显示
+                            videoContainer.style.overflow = "visible";
+                            
+                            // 调整容器高度以适应展开内容
+                            const expandedContentHeight = expandedContentArea.scrollHeight;
+                            carouselContainer.style.height = `calc(450px + ${expandedContentHeight}px)`;
                         }
                     });
                     
