@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         carouselContainer.style.width = "100%";
         carouselContainer.style.height = "450px"; // 调整容器高度
         carouselContainer.style.backgroundColor = "rgba(232, 245, 233, 0.6)"; // 浅绿色背景带透明度
-        carouselContainer.style.overflow = "hidden"; // 修改为hidden，确保内容不溢出
+        carouselContainer.style.overflow = "hidden"; // 确保内容不溢出
         carouselContainer.style.position = "relative";
         carouselContainer.style.margin = "0 auto";
         carouselContainer.style.borderRadius = "8px"; // 圆角
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
         carouselTrack.style.padding = "20px";
         carouselTrack.style.boxSizing = "border-box";
         carouselTrack.style.transition = "transform 0.3s ease"; // 添加平滑过渡效果
-        carouselTrack.style.overflow = "hidden"; // 修改为hidden，确保内容不溢出
+        carouselTrack.style.overflow = "hidden"; // 确保内容不溢出
         
         // 创建视频项数组
         const videoItems = [];
@@ -504,6 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 将包装容器添加到页面
         videoContainer.innerHTML = ''; // 清空原有内容
         videoContainer.appendChild(carouselAndContentContainer);
+        videoContainer.style.overflow = "hidden"; // 确保视频容器不会溢出
         
         // 设置自动滚动
         let scrollPosition = 0;
@@ -517,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function() {
             stopScroll(); // 先停止之前的滚动
             
             scrollInterval = setInterval(() => {
-                scrollPosition += 2; // 每次滚动2像素，原来是1像素
+                scrollPosition += 2; // 每次滚动2像素
                 
                 // 当滚动到复制部分的末尾时，无缝跳回到开始位置
                 if (scrollPosition >= originalTrackWidth) {
@@ -534,7 +535,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 carouselTrack.style.transform = `translateX(-${scrollPosition}px)`;
-            }, 20); // 每20毫秒滚动一次，原来是30毫秒
+            }, 20); // 每20毫秒滚动一次
         }
         
         // 停止滚动
@@ -564,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const walk = (x - startX) * 2; // 乘以2使拖动更敏感
             scrollPosition = scrollLeft - walk;
             
-            // 边界检查
+            // 边界检查 - 确保不会拖动超出容器
             if (scrollPosition < 0) {
                 scrollPosition = 0;
             } else if (scrollPosition > originalTrackWidth) {
