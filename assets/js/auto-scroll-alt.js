@@ -510,67 +510,33 @@ document.addEventListener('DOMContentLoaded', function() {
                     buttonContainer.style.marginTop = "5px";
                     buttonContainer.style.zIndex = "2";
                     
-                    // 克隆按钮
-                    const button = collapsibleSection.querySelector("button").cloneNode(true);
+                    // 创建全新的按钮，而不是克隆现有按钮
+                    const button = document.createElement("button");
+                    button.className = "custom-toggle-button";
                     button.style.width = "500px";
                     button.style.maxWidth = "500px";
-                    button.style.boxSizing = "border-box";
-                    button.style.zIndex = "2";
+                    button.style.padding = "8px 15px";
                     button.style.backgroundColor = "transparent";
                     button.style.border = "1px solid #ccc";
-                    button.style.padding = "8px 15px";
-                    button.style.textAlign = "center";
                     button.style.cursor = "pointer";
                     button.style.display = "flex";
-                    button.style.justifyContent = "space-between";
+                    button.style.justifyContent = "center"; // 居中对齐
                     button.style.alignItems = "center";
+                    button.style.zIndex = "2";
+                    button.style.textAlign = "center";
                     
-                    // 查找并移除按钮内部的圆形元素
-                    const circleElements = button.querySelectorAll('.icon, .is-small, [class*="circle"]');
-                    circleElements.forEach(element => {
-                        // 完全移除圆形元素
-                        element.parentNode.removeChild(element);
-                    });
+                    // 添加文本
+                    const buttonText = document.createElement("span");
+                    buttonText.textContent = "View lecture question-answering of case #" + (index + 1);
+                    buttonText.style.textAlign = "center";
                     
-                    // 或者，如果圆形是通过背景图片或特定样式实现的，可以修改图标样式
-                    const iconElement = button.querySelector('.fas, .fa-angle-down, .fa-angle-up');
-                    if (iconElement) {
-                        // 移除可能导致圆形外观的样式
-                        iconElement.style.backgroundColor = "transparent";
-                        iconElement.style.border = "none";
-                        iconElement.style.borderRadius = "0";
-                        iconElement.style.boxShadow = "none";
-                        iconElement.style.padding = "0";
-                        iconElement.style.margin = "0";
-                        // 保留图标本身，但移除其圆形容器
-                        if (iconElement.parentElement && iconElement.parentElement !== button) {
-                            const parent = iconElement.parentElement;
-                            button.removeChild(parent);
-                            button.appendChild(iconElement);
-                        }
-                    }
-                    
-                    // 如果按钮使用了span来包装文本和图标，可以修改span样式
-                    const spans = button.querySelectorAll('span');
-                    spans.forEach(span => {
-                        span.style.backgroundColor = "transparent";
-                        span.style.border = "none";
-                        span.style.borderRadius = "0";
-                        span.style.boxShadow = "none";
-                        
-                        // 如果这个span是圆形容器，可以考虑完全移除它，但保留其内容
-                        if (span.classList.contains('icon') || span.classList.contains('is-small')) {
-                            const parent = span.parentNode;
-                            const children = Array.from(span.childNodes);
-                            parent.removeChild(span);
-                            children.forEach(child => parent.appendChild(child));
-                        }
-                    });
+                    // 组装按钮 - 只添加文本，不添加箭头图标
+                    button.appendChild(buttonText);
                     
                     // 获取原始折叠内容
                     const content = collapsibleSection.querySelector(".collapse-content");
                     
-                    // 存储内容HTML，以便点击时显示
+                    // 设置数据属性
                     if (content) {
                         button.setAttribute("data-content", content.innerHTML);
                         button.setAttribute("data-index", index);
@@ -580,27 +546,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     button.addEventListener("click", function(e) {
                         e.stopPropagation(); // 阻止事件冒泡
                         
-                        // 获取内容HTML
-                        const contentHTML = this.getAttribute("data-content");
-                        const buttonIndex = this.getAttribute("data-index");
+                        // 获取当前按钮的索引
+                        const index = parseInt(this.getAttribute("data-index"));
+                        const content = this.getAttribute("data-content");
                         
                         // 检查内容区域是否已显示此内容
                         const isCurrentlyDisplayed = 
                             contentDisplayArea.style.display === "block" && 
-                            contentDisplayArea.getAttribute("data-current-index") === buttonIndex;
+                            contentDisplayArea.getAttribute("data-current-index") === index.toString();
                         
-                        // 重置所有按钮图标
-                        const allButtons = carouselContainer.querySelectorAll('button');
-                        allButtons.forEach(btn => {
-                            const btnIcon = btn.querySelector('.fas');
-                            if (btnIcon) {
-                                btnIcon.classList.remove('fa-angle-up');
-                                btnIcon.classList.add('fa-angle-down');
-                            }
-                        });
-                        
-                        // 如果当前内容已显示，则隐藏内容区域并恢复轮播
                         if (isCurrentlyDisplayed) {
+                            // 如果当前内容已显示，则隐藏它
                             contentDisplayArea.style.display = "none";
                             contentDisplayArea.innerHTML = "";
                             contentDisplayArea.removeAttribute("data-current-index");
@@ -610,23 +566,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             carouselContainer.style.cursor = "grab";
                             startContinuousScroll();
                         } else {
-                            // 更新当前按钮图标
-                            const icon = this.querySelector('.fas');
-                            if (icon) {
-                                icon.classList.remove('fa-angle-down');
-                                icon.classList.add('fa-angle-up');
-                            }
-                            
-                            // 确保图标没有圆形样式
-                            icon.style.backgroundColor = "transparent";
-                            icon.style.border = "none";
-                            icon.style.borderRadius = "0";
-                            icon.style.boxShadow = "none";
-                            
-                            // 显示内容
-                            contentDisplayArea.innerHTML = contentHTML;
+                            // 显示新内容
+                            contentDisplayArea.innerHTML = content;
                             contentDisplayArea.style.display = "block";
-                            contentDisplayArea.setAttribute("data-current-index", buttonIndex);
+                            contentDisplayArea.setAttribute("data-current-index", index.toString());
                             
                             // 暂停轮播
                             isPaused = true;
