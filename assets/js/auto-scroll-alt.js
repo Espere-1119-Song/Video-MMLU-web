@@ -128,7 +128,7 @@ function createVideoCarousel(videoContainer, index) {
         if (collapsibleSection) {
             const collapsibleContainer = document.createElement("div");
             collapsibleContainer.className = `collapsible-container-alt container-${index}-${cellIndex}`;
-            collapsibleContainer.style.width = "500px";
+            collapsibleContainer.style.width = "100%";
             collapsibleContainer.style.position = "relative";
             collapsibleContainer.style.marginTop = "5px";
             collapsibleContainer.style.zIndex = "2";
@@ -142,16 +142,20 @@ function createVideoCarousel(videoContainer, index) {
             // 保存原始按钮的控制ID
             const targetId = originalButton.getAttribute('aria-controls');
             
-            // 设置按钮样式
-            button.style.width = "100%";
-            button.style.padding = "8px 12px";
-            button.style.backgroundColor = "#f5f5f5";
-            button.style.border = "1px solid #ddd";
-            button.style.borderRadius = "4px";
-            button.style.cursor = "pointer";
-            button.style.display = "flex";
-            button.style.justifyContent = "space-between";
-            button.style.alignItems = "center";
+            // 完全移除按钮的内联样式，让CSS类控制样式
+            button.removeAttribute('style');
+            
+            // 确保图标没有内联样式
+            const iconSpan = button.querySelector('.icon');
+            if (iconSpan) {
+                iconSpan.removeAttribute('style');
+            }
+            
+            // 确保图标内的i元素没有内联样式
+            const iconI = button.querySelector('.icon i');
+            if (iconI) {
+                iconI.removeAttribute('style');
+            }
             
             // 为按钮添加点击事件
             button.addEventListener("click", function() {
