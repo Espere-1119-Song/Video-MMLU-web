@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_chemistry", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 65,
+                            minWidth: 60,
                             widthGrow: 1.2
                         }
                     ]
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_chemistry", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 65,
+                            minWidth: 60,
                             widthGrow: 1.2
                         }
                     ]
