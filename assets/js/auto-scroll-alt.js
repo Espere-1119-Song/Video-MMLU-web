@@ -68,22 +68,29 @@ function createVideoCarousel(videoContainer, index) {
     carouselTrack.style.transition = "transform 0.3s ease";
     carouselTrack.style.overflow = "hidden";
     
-    // 创建展开内容区域
+    // 创建一个固定位置的内容显示区域，确保它总是可见
     const expandedContentArea = document.createElement("div");
     expandedContentArea.className = `expanded-content-area-alt expanded-area-${index}`;
     expandedContentArea.style.width = "100%";
     expandedContentArea.style.display = "none";
-    expandedContentArea.style.marginTop = "5px";
+    expandedContentArea.style.marginTop = "20px"; // 增加上边距
     expandedContentArea.style.position = "relative";
-    expandedContentArea.style.zIndex = "5";
-    expandedContentArea.style.backgroundColor = "white";
+    expandedContentArea.style.zIndex = "1000"; // 非常高的z-index
+    expandedContentArea.style.backgroundColor = "#ffffff";
     expandedContentArea.style.borderRadius = "8px";
-    expandedContentArea.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.1)";
-    expandedContentArea.style.padding = "15px";
+    expandedContentArea.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
+    expandedContentArea.style.padding = "20px";
     expandedContentArea.style.boxSizing = "border-box";
-    expandedContentArea.style.transition = "height 0.3s ease";
+    expandedContentArea.style.border = "1px solid #dee2e6";
     expandedContentArea.style.maxHeight = "none";
-    expandedContentArea.style.overflowY = "visible";
+    expandedContentArea.style.overflowY = "auto";
+    expandedContentArea.style.opacity = "1"; // 确保完全不透明
+    
+    // 添加一个测试文本，用于验证内容区域是否正常显示
+    expandedContentArea.innerHTML = "<p style='color: #333; font-size: 16px;'>测试内容 - 如果您看到这个文本，说明内容区域正常显示。</p>";
+    
+    // 将展开内容区域直接添加到视频容器之后
+    videoContainer.parentNode.insertBefore(expandedContentArea, videoContainer.nextSibling);
     
     // 为每个视频单元格创建一个视频项
     videoCells.forEach((cell, cellIndex) => {
@@ -158,45 +165,35 @@ function createVideoCarousel(videoContainer, index) {
             
             // 为按钮添加点击事件
             button.addEventListener("click", function() {
-                console.log("Button clicked"); // 调试日志
+                console.log("Button clicked - index:", index, "cellIndex:", cellIndex);
                 
-                // 获取原始内容
-                const originalContent = document.getElementById(targetId);
-                console.log("Target ID:", targetId);
-                console.log("Original content found:", !!originalContent);
-                
+                // 直接切换内容区域的显示状态
                 if (expandedContentArea.style.display === "none") {
-                    // 显示内容
+                    // 显示测试内容
                     expandedContentArea.style.display = "block";
-                    expandedContentArea.innerHTML = "";
+                    expandedContentArea.innerHTML = "<p style='color: #333; font-size: 16px;'>按钮已点击 - 这是测试内容</p>";
                     
-                    // 获取折叠内容
+                    // 尝试获取原始内容
+                    const targetId = this.getAttribute("aria-controls");
+                    console.log("Target ID:", targetId);
+                    
+                    const originalContent = document.getElementById(targetId);
+                    console.log("Original content found:", !!originalContent);
+                    
                     if (originalContent) {
-                        // 克隆原始内容并添加到展开区域
-                        const contentClone = originalContent.cloneNode(true);
-                        expandedContentArea.appendChild(contentClone);
-                        
-                        // 确保克隆的内容是可见的
-                        contentClone.style.display = "block";
-                        
-                        // 同步显示原始内容
-                        originalContent.style.display = "block";
-                        
-                        console.log("Content added to expanded area");
+                        // 添加原始内容的文本
+                        expandedContentArea.innerHTML += "<p style='color: #333; font-size: 16px;'>原始内容:</p>";
+                        expandedContentArea.innerHTML += originalContent.innerHTML;
                     } else {
-                        // 如果找不到原始内容，尝试从折叠部分获取
+                        // 尝试从折叠部分获取内容
                         const content = collapsibleSection.querySelector(".collapse-content");
                         console.log("Fallback content found:", !!content);
                         
                         if (content) {
-                            const contentClone = content.cloneNode(true);
-                            expandedContentArea.appendChild(contentClone);
-                            contentClone.style.display = "block";
-                            console.log("Fallback content added");
+                            expandedContentArea.innerHTML += "<p style='color: #333; font-size: 16px;'>备用内容:</p>";
+                            expandedContentArea.innerHTML += content.innerHTML;
                         } else {
-                            // 如果仍然找不到内容，显示错误消息
-                            expandedContentArea.textContent = "Content not found";
-                            console.log("No content found");
+                            expandedContentArea.innerHTML += "<p style='color: #333; font-size: 16px;'>未找到内容</p>";
                         }
                     }
                     
@@ -207,11 +204,6 @@ function createVideoCarousel(videoContainer, index) {
                 } else {
                     // 隐藏内容
                     expandedContentArea.style.display = "none";
-                    
-                    // 同步隐藏原始内容
-                    if (originalContent) {
-                        originalContent.style.display = "none";
-                    }
                     
                     // 恢复轮播
                     isPaused = false;
@@ -239,10 +231,6 @@ function createVideoCarousel(videoContainer, index) {
     });
     
     carouselContainer.appendChild(carouselTrack);
-    
-    // 将展开内容区域添加到包装容器，但放在轮播容器之后
-    carouselAndContentContainer.appendChild(carouselContainer);
-    carouselAndContentContainer.appendChild(expandedContentArea);
     
     // 将包装容器添加到页面
     videoContainer.innerHTML = '';
