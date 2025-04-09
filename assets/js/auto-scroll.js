@@ -238,10 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             isPaused = false;
                             carouselContainer.style.cursor = "grab";
                             startContinuousScroll();
-                            
-                            // 恢复容器高度
-                            carouselContainer.style.height = "450px";
-                            videoContainer.style.overflow = "hidden";
                         } else {
                             // 获取所有内容容器
                             const allContentContainers = document.querySelectorAll('.collapse-content');
@@ -276,13 +272,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             // 将内容克隆到展开区域
                             expandedContentArea.innerHTML = contentContainer.innerHTML;
                             expandedContentArea.style.display = "block";
-                            
-                            // 允许内容溢出显示
-                            videoContainer.style.overflow = "visible";
-                            
-                            // 调整容器高度以适应展开内容
-                            const expandedContentHeight = expandedContentArea.scrollHeight;
-                            carouselContainer.style.height = `calc(450px + ${expandedContentHeight}px)`;
                         }
                     });
                     
@@ -348,10 +337,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             isPaused = false;
                             carouselContainer.style.cursor = "grab";
                             startContinuousScroll();
-                            
-                            // 恢复容器高度
-                            carouselContainer.style.height = "450px";
-                            videoContainer.style.overflow = "hidden";
                         } else {
                             // 获取所有内容容器
                             const allContentContainers = document.querySelectorAll('.collapse-content');
@@ -386,13 +371,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             // 将内容克隆到展开区域
                             expandedContentArea.innerHTML = clonedContent.innerHTML;
                             expandedContentArea.style.display = "block";
-                            
-                            // 允许内容溢出显示
-                            videoContainer.style.overflow = "visible";
-                            
-                            // 调整容器高度以适应展开内容
-                            const expandedContentHeight = expandedContentArea.scrollHeight;
-                            carouselContainer.style.height = `calc(450px + ${expandedContentHeight}px)`;
                         }
                     });
                     
@@ -449,15 +427,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // 将轮播容器添加到包装容器
         carouselAndContentContainer.appendChild(carouselContainer);
         
-        // 创建一个区域用于显示展开的内容
+        // 创建展开内容区域，放在绿色框外部
         const expandedContentArea = document.createElement("div");
         expandedContentArea.className = "expanded-content-area";
         expandedContentArea.style.width = "100%";
         expandedContentArea.style.display = "none"; // 初始隐藏
-        expandedContentArea.style.marginTop = "10px";
-        expandedContentArea.style.position = "absolute"; // 使用绝对定位
-        expandedContentArea.style.left = "0";
-        expandedContentArea.style.bottom = "20px"; // 从底部定位
+        expandedContentArea.style.marginTop = "20px"; // 与绿色框保持一定距离
+        expandedContentArea.style.position = "relative"; // 改为相对定位，不再是绝对定位
         expandedContentArea.style.zIndex = "5";
         expandedContentArea.style.backgroundColor = "white";
         expandedContentArea.style.borderRadius = "8px";
@@ -465,11 +441,12 @@ document.addEventListener('DOMContentLoaded', function() {
         expandedContentArea.style.padding = "15px";
         expandedContentArea.style.boxSizing = "border-box";
         expandedContentArea.style.transition = "height 0.3s ease";
-        expandedContentArea.style.maxHeight = "200px"; // 限制最大高度
-        expandedContentArea.style.overflowY = "auto"; // 添加垂直滚动条
+        expandedContentArea.style.maxHeight = "none"; // 移除最大高度限制
+        expandedContentArea.style.overflowY = "visible"; // 允许内容完整显示，不需要滚动
         
-        // 将展开内容区域添加到包装容器
-        carouselAndContentContainer.appendChild(expandedContentArea);
+        // 将展开内容区域添加到包装容器，但放在轮播容器之后
+        carouselAndContentContainer.appendChild(carouselContainer);
+        carouselAndContentContainer.appendChild(expandedContentArea); // 放在轮播容器之后
         
         // 将包装容器添加到页面
         videoContainer.innerHTML = ''; // 清空原有内容
