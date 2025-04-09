@@ -135,27 +135,35 @@ function createVideoCarousel(videoContainer, index) {
             collapsibleContainer.style.display = "flex";
             collapsibleContainer.style.flexDirection = "column";
             
-            // 克隆原始按钮
+            // 获取原始按钮和内容
             const originalButton = collapsibleSection.querySelector("button");
+            const targetId = originalButton.getAttribute("aria-controls");
             
-            // 创建新按钮，而不是克隆原始按钮
+            // 创建新按钮
             const button = document.createElement("button");
-            button.className = "button is-fullwidth toggle-section";
-            button.setAttribute("aria-controls", originalButton.getAttribute("aria-controls"));
+            button.className = "button is-fullwidth";
+            button.setAttribute("aria-controls", targetId);
+            button.style.textAlign = "center";
+            button.style.padding = "8px 12px";
+            button.style.backgroundColor = "#f5f5f5";
+            button.style.border = "1px solid #dbdbdb";
+            button.style.borderRadius = "4px";
+            button.style.cursor = "pointer";
+            button.style.fontWeight = "normal";
+            button.style.fontSize = "1em";
+            button.style.color = "#363636";
             
-            // 创建文本span
-            const textSpan = document.createElement("span");
-            textSpan.textContent = originalButton.querySelector("span").textContent;
-            
-            // 将文本span添加到按钮
-            button.appendChild(textSpan);
-            
-            // 不添加图标span和下拉箭头
+            // 设置按钮文本
+            button.textContent = originalButton.querySelector("span").textContent;
             
             // 为按钮添加点击事件
             button.addEventListener("click", function() {
-                const targetId = this.getAttribute("aria-controls");
+                console.log("Button clicked"); // 调试日志
+                
+                // 获取原始内容
                 const originalContent = document.getElementById(targetId);
+                console.log("Target ID:", targetId);
+                console.log("Original content found:", !!originalContent);
                 
                 if (expandedContentArea.style.display === "none") {
                     // 显示内容
@@ -173,16 +181,22 @@ function createVideoCarousel(videoContainer, index) {
                         
                         // 同步显示原始内容
                         originalContent.style.display = "block";
+                        
+                        console.log("Content added to expanded area");
                     } else {
                         // 如果找不到原始内容，尝试从折叠部分获取
                         const content = collapsibleSection.querySelector(".collapse-content");
+                        console.log("Fallback content found:", !!content);
+                        
                         if (content) {
                             const contentClone = content.cloneNode(true);
                             expandedContentArea.appendChild(contentClone);
                             contentClone.style.display = "block";
+                            console.log("Fallback content added");
                         } else {
                             // 如果仍然找不到内容，显示错误消息
                             expandedContentArea.textContent = "Content not found";
+                            console.log("No content found");
                         }
                     }
                     
