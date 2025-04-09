@@ -203,19 +203,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     title: "#F",
                     field: "frames",
                     widthGrow: 0.5,
-                    minWidth: 25
+                    minWidth: 30
                 },
                 {
                     title: "#T",
                     field: "tpf",
                     widthGrow: 0.5,
-                    minWidth: 25
+                    minWidth: 30
                 },
                 {
-                    title: "Overall",
+                    title: "Avg.",
                     field: "avg_acc",
                     widthGrow: 0.9,
-                    minWidth: 60,
+                    minWidth: 35,
                     formatter: colorFormatterAvg,
                     sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
                         // Convert to numbers for proper sorting
