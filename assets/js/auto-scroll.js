@@ -352,6 +352,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (buttonIcon) {
                         buttonIcon.style.fontSize = "0.8em";
                         buttonIcon.parentElement.style.fontSize = "0.8em";
+                        // Remove the circular background
+                        buttonIcon.parentElement.style.background = "none";
+                        buttonIcon.parentElement.style.width = "auto";
+                        buttonIcon.parentElement.style.height = "auto";
                     }
                     
                     // 将折叠容器添加到视频项
@@ -521,6 +525,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (clonedButtonIcon) {
                         clonedButtonIcon.style.fontSize = "0.8em";
                         clonedButtonIcon.parentElement.style.fontSize = "0.8em";
+                        // Remove the circular background
+                        clonedButtonIcon.parentElement.style.background = "none";
+                        clonedButtonIcon.parentElement.style.width = "auto";
+                        clonedButtonIcon.parentElement.style.height = "auto";
                     }
                 }
                 
