@@ -154,7 +154,8 @@ function createVideoCarousel(videoContainer, index) {
             
             // 为按钮添加点击事件
             button.addEventListener("click", function() {
-                const originalContent = document.getElementById(this.getAttribute("aria-controls"));
+                const targetId = this.getAttribute("aria-controls");
+                const originalContent = document.getElementById(targetId);
                 
                 if (expandedContentArea.style.display === "none") {
                     // 显示内容
@@ -162,12 +163,27 @@ function createVideoCarousel(videoContainer, index) {
                     expandedContentArea.innerHTML = "";
                     
                     // 获取折叠内容
-                    const content = collapsibleSection.querySelector(".collapse-content").cloneNode(true);
-                    expandedContentArea.appendChild(content);
-                    
-                    // 同步显示原始内容
                     if (originalContent) {
+                        // 克隆原始内容并添加到展开区域
+                        const contentClone = originalContent.cloneNode(true);
+                        expandedContentArea.appendChild(contentClone);
+                        
+                        // 确保克隆的内容是可见的
+                        contentClone.style.display = "block";
+                        
+                        // 同步显示原始内容
                         originalContent.style.display = "block";
+                    } else {
+                        // 如果找不到原始内容，尝试从折叠部分获取
+                        const content = collapsibleSection.querySelector(".collapse-content");
+                        if (content) {
+                            const contentClone = content.cloneNode(true);
+                            expandedContentArea.appendChild(contentClone);
+                            contentClone.style.display = "block";
+                        } else {
+                            // 如果仍然找不到内容，显示错误消息
+                            expandedContentArea.textContent = "Content not found";
+                        }
                     }
                     
                     // 暂停轮播
