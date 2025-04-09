@@ -516,6 +516,56 @@ document.addEventListener('DOMContentLoaded', function() {
                     button.style.maxWidth = "500px";
                     button.style.boxSizing = "border-box";
                     button.style.zIndex = "2";
+                    button.style.backgroundColor = "transparent";
+                    button.style.border = "1px solid #ccc";
+                    button.style.padding = "8px 15px";
+                    button.style.textAlign = "center";
+                    button.style.cursor = "pointer";
+                    button.style.display = "flex";
+                    button.style.justifyContent = "space-between";
+                    button.style.alignItems = "center";
+                    
+                    // 查找并移除按钮内部的圆形元素
+                    const circleElements = button.querySelectorAll('.icon, .is-small, [class*="circle"]');
+                    circleElements.forEach(element => {
+                        // 完全移除圆形元素
+                        element.parentNode.removeChild(element);
+                    });
+                    
+                    // 或者，如果圆形是通过背景图片或特定样式实现的，可以修改图标样式
+                    const iconElement = button.querySelector('.fas, .fa-angle-down, .fa-angle-up');
+                    if (iconElement) {
+                        // 移除可能导致圆形外观的样式
+                        iconElement.style.backgroundColor = "transparent";
+                        iconElement.style.border = "none";
+                        iconElement.style.borderRadius = "0";
+                        iconElement.style.boxShadow = "none";
+                        iconElement.style.padding = "0";
+                        iconElement.style.margin = "0";
+                        // 保留图标本身，但移除其圆形容器
+                        if (iconElement.parentElement && iconElement.parentElement !== button) {
+                            const parent = iconElement.parentElement;
+                            button.removeChild(parent);
+                            button.appendChild(iconElement);
+                        }
+                    }
+                    
+                    // 如果按钮使用了span来包装文本和图标，可以修改span样式
+                    const spans = button.querySelectorAll('span');
+                    spans.forEach(span => {
+                        span.style.backgroundColor = "transparent";
+                        span.style.border = "none";
+                        span.style.borderRadius = "0";
+                        span.style.boxShadow = "none";
+                        
+                        // 如果这个span是圆形容器，可以考虑完全移除它，但保留其内容
+                        if (span.classList.contains('icon') || span.classList.contains('is-small')) {
+                            const parent = span.parentNode;
+                            const children = Array.from(span.childNodes);
+                            parent.removeChild(span);
+                            children.forEach(child => parent.appendChild(child));
+                        }
+                    });
                     
                     // 获取原始折叠内容
                     const content = collapsibleSection.querySelector(".collapse-content");
@@ -566,6 +616,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 icon.classList.remove('fa-angle-down');
                                 icon.classList.add('fa-angle-up');
                             }
+                            
+                            // 确保图标没有圆形样式
+                            icon.style.backgroundColor = "transparent";
+                            icon.style.border = "none";
+                            icon.style.borderRadius = "0";
+                            icon.style.boxShadow = "none";
                             
                             // 显示内容
                             contentDisplayArea.innerHTML = contentHTML;
