@@ -137,30 +137,24 @@ function createVideoCarousel(videoContainer, index) {
             
             // 克隆原始按钮
             const originalButton = collapsibleSection.querySelector("button");
-            const button = originalButton.cloneNode(true);
             
-            // 保存原始按钮的控制ID
-            const targetId = originalButton.getAttribute('aria-controls');
+            // 创建新按钮，而不是克隆原始按钮
+            const button = document.createElement("button");
+            button.className = "button is-fullwidth toggle-section";
+            button.setAttribute("aria-controls", originalButton.getAttribute("aria-controls"));
             
-            // 完全移除按钮的内联样式，让CSS类控制样式
-            button.removeAttribute('style');
+            // 创建文本span
+            const textSpan = document.createElement("span");
+            textSpan.textContent = originalButton.querySelector("span").textContent;
             
-            // 确保图标没有内联样式
-            const iconSpan = button.querySelector('.icon');
-            if (iconSpan) {
-                iconSpan.removeAttribute('style');
-            }
+            // 将文本span添加到按钮
+            button.appendChild(textSpan);
             
-            // 确保图标内的i元素没有内联样式
-            const iconI = button.querySelector('.icon i');
-            if (iconI) {
-                iconI.removeAttribute('style');
-            }
+            // 不添加图标span和下拉箭头
             
             // 为按钮添加点击事件
             button.addEventListener("click", function() {
-                const icon = this.querySelector(".icon i");
-                const originalContent = document.getElementById(targetId);
+                const originalContent = document.getElementById(this.getAttribute("aria-controls"));
                 
                 if (expandedContentArea.style.display === "none") {
                     // 显示内容
@@ -176,16 +170,6 @@ function createVideoCarousel(videoContainer, index) {
                         originalContent.style.display = "block";
                     }
                     
-                    // 更改图标 - 同时更新原始按钮和克隆按钮的图标
-                    if (icon) {
-                        icon.className = "fas fa-angle-up";
-                    }
-                    
-                    const originalIcon = originalButton.querySelector(".icon i");
-                    if (originalIcon) {
-                        originalIcon.className = "fas fa-angle-up";
-                    }
-                    
                     // 暂停轮播
                     isPaused = true;
                     carouselContainer.style.cursor = "default";
@@ -197,16 +181,6 @@ function createVideoCarousel(videoContainer, index) {
                     // 同步隐藏原始内容
                     if (originalContent) {
                         originalContent.style.display = "none";
-                    }
-                    
-                    // 更改图标 - 同时更新原始按钮和克隆按钮的图标
-                    if (icon) {
-                        icon.className = "fas fa-angle-down";
-                    }
-                    
-                    const originalIcon = originalButton.querySelector(".icon i");
-                    if (originalIcon) {
-                        originalIcon.className = "fas fa-angle-down";
                     }
                     
                     // 恢复轮播
@@ -221,7 +195,7 @@ function createVideoCarousel(videoContainer, index) {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // 触发克隆按钮的点击事件
+                // 触发新按钮的点击事件
                 button.click();
                 
                 return false;
