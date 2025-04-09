@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     title: "Model",
                     field: "model",
                     widthGrow: 2,
-                    minWidth: 70
+                    minWidth: 55
                 },
                 {
                     title: "#F",
