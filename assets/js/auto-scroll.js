@@ -345,6 +345,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     });
                     
+                    // Add this code to style the button and icon properly
+                    button.style.borderRadius = "4px";
+                    button.style.padding = "8px 12px";
+                    const buttonIcon = button.querySelector('.fas');
+                    if (buttonIcon) {
+                        buttonIcon.style.fontSize = "0.8em";
+                        buttonIcon.parentElement.style.fontSize = "0.8em";
+                    }
+                    
                     // 将折叠容器添加到视频项
                     videoItem.appendChild(videoWrapper);
                     videoItem.appendChild(collapsibleContainer);
@@ -504,6 +513,15 @@ document.addEventListener('DOMContentLoaded', function() {
                             }, 100);
                         }
                     });
+                    
+                    // Add styling to cloned button and icon
+                    clonedButton.style.borderRadius = "4px";
+                    clonedButton.style.padding = "8px 12px";
+                    const clonedButtonIcon = clonedButton.querySelector('.fas');
+                    if (clonedButtonIcon) {
+                        clonedButtonIcon.style.fontSize = "0.8em";
+                        clonedButtonIcon.parentElement.style.fontSize = "0.8em";
+                    }
                 }
                 
                 // 同样修改克隆项中的折叠内容容器样式
