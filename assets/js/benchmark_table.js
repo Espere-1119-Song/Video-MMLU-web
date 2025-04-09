@@ -203,19 +203,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     title: "#F",
                     field: "frames",
                     widthGrow: 0.5,
-                    minWidth: 30
+                    minWidth: 25
                 },
                 {
                     title: "#T",
                     field: "tpf",
                     widthGrow: 0.5,
-                    minWidth: 30
+                    minWidth: 25
                 },
                 {
                     title: "Avg.",
                     field: "avg_acc",
-                    widthGrow: 0.9,
-                    minWidth: 35,
+                    widthGrow: 0.7,
+                    minWidth: 45,
                     formatter: colorFormatterAvg,
                     sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
                         // Convert to numbers for proper sorting
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_avg", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 35,
+                            minWidth: 45,
                             widthGrow: 0.6
                         },
                         { 
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_math", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 35,
+                            minWidth: 45,
                             widthGrow: 0.6
                         },
                         { 
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_physics", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 45,
+                            minWidth: 55,
                             widthGrow: 0.8
                         },
                         { 
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_chemistry", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 60,
+                            minWidth: 65,
                             widthGrow: 1.2
                         }
                     ]
@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_avg", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 35,
+                            minWidth: 45,
                             widthGrow: 0.6
                         },
                         { 
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_math", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 35,
+                            minWidth: 45,
                             widthGrow: 0.6
                         },
                         { 
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_physics", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 45,
+                            minWidth: 55,
                             widthGrow: 0.8
                         },
                         { 
@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_chemistry", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 60,
+                            minWidth: 65,
                             widthGrow: 1.2
                         }
                     ]
