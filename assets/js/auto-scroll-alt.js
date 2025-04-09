@@ -135,7 +135,14 @@ function createVideoCarousel(videoContainer, index) {
             collapsibleContainer.style.display = "flex";
             collapsibleContainer.style.flexDirection = "column";
             
-            const button = collapsibleSection.querySelector("button").cloneNode(true);
+            // 克隆原始按钮
+            const originalButton = collapsibleSection.querySelector("button");
+            const button = originalButton.cloneNode(true);
+            
+            // 保存原始按钮的控制ID
+            const targetId = originalButton.getAttribute('aria-controls');
+            
+            // 设置按钮样式
             button.style.width = "100%";
             button.style.padding = "8px 12px";
             button.style.backgroundColor = "#f5f5f5";
@@ -149,6 +156,7 @@ function createVideoCarousel(videoContainer, index) {
             // 为按钮添加点击事件
             button.addEventListener("click", function() {
                 const icon = this.querySelector(".icon i");
+                const originalContent = document.getElementById(targetId);
                 
                 if (expandedContentArea.style.display === "none") {
                     // 显示内容
@@ -159,9 +167,19 @@ function createVideoCarousel(videoContainer, index) {
                     const content = collapsibleSection.querySelector(".collapse-content").cloneNode(true);
                     expandedContentArea.appendChild(content);
                     
-                    // 更改图标
+                    // 同步显示原始内容
+                    if (originalContent) {
+                        originalContent.style.display = "block";
+                    }
+                    
+                    // 更改图标 - 同时更新原始按钮和克隆按钮的图标
                     if (icon) {
                         icon.className = "fas fa-angle-up";
+                    }
+                    
+                    const originalIcon = originalButton.querySelector(".icon i");
+                    if (originalIcon) {
+                        originalIcon.className = "fas fa-angle-up";
                     }
                     
                     // 暂停轮播
@@ -172,9 +190,19 @@ function createVideoCarousel(videoContainer, index) {
                     // 隐藏内容
                     expandedContentArea.style.display = "none";
                     
-                    // 更改图标
+                    // 同步隐藏原始内容
+                    if (originalContent) {
+                        originalContent.style.display = "none";
+                    }
+                    
+                    // 更改图标 - 同时更新原始按钮和克隆按钮的图标
                     if (icon) {
                         icon.className = "fas fa-angle-down";
+                    }
+                    
+                    const originalIcon = originalButton.querySelector(".icon i");
+                    if (originalIcon) {
+                        originalIcon.className = "fas fa-angle-down";
                     }
                     
                     // 恢复轮播
@@ -182,6 +210,17 @@ function createVideoCarousel(videoContainer, index) {
                     carouselContainer.style.cursor = "grab";
                     startContinuousScroll();
                 }
+            });
+            
+            // 禁用原始按钮的点击事件，防止冲突
+            originalButton.addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // 触发克隆按钮的点击事件
+                button.click();
+                
+                return false;
             });
             
             collapsibleContainer.appendChild(button);
@@ -365,5 +404,43 @@ function createVideoCarousel(videoContainer, index) {
 }
 
 function initTableAutoScroll() {
-    // 初始化表格自动滚动的代码（如果需要）
+    // 获取所有折叠按钮
+    const toggleButtons = document.querySelectorAll('.toggle-section');
+    
+    // 为每个按钮添加点击事件（如果尚未添加）
+    toggleButtons.forEach(button => {
+        // 检查按钮是否已经有点击事件
+        const hasClickEvent = button.getAttribute('data-has-click-event');
+        
+        if (!hasClickEvent) {
+            button.setAttribute('data-has-click-event', 'true');
+            
+            button.addEventListener('click', function(e) {
+                // 获取目标内容的ID
+                const targetId = this.getAttribute('aria-controls');
+                const targetContent = document.getElementById(targetId);
+                
+                if (targetContent) {
+                    // 切换内容的显示状态
+                    const isVisible = window.getComputedStyle(targetContent).display !== 'none';
+                    
+                    if (isVisible) {
+                        targetContent.style.display = 'none';
+                        // 更改图标
+                        const icon = this.querySelector('.icon i');
+                        if (icon) {
+                            icon.className = 'fas fa-angle-down';
+                        }
+                    } else {
+                        targetContent.style.display = 'block';
+                        // 更改图标
+                        const icon = this.querySelector('.icon i');
+                        if (icon) {
+                            icon.className = 'fas fa-angle-up';
+                        }
+                    }
+                }
+            });
+        }
+    });
 }
