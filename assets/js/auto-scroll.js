@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         carouselContainer.style.width = "100%";
         carouselContainer.style.height = "450px"; // 调整容器高度
         carouselContainer.style.backgroundColor = "rgba(232, 245, 233, 0.6)"; // 浅绿色背景带透明度
-        carouselContainer.style.overflow = "visible"; // 允许内容溢出容器
+        carouselContainer.style.overflow = "hidden"; // 修改为hidden，确保内容不溢出
         carouselContainer.style.position = "relative";
         carouselContainer.style.margin = "0 auto";
         carouselContainer.style.borderRadius = "8px"; // 圆角
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
         carouselTrack.style.padding = "20px";
         carouselTrack.style.boxSizing = "border-box";
         carouselTrack.style.transition = "transform 0.3s ease"; // 添加平滑过渡效果
-        carouselTrack.style.overflow = "visible"; // 允许内容溢出轨道
+        carouselTrack.style.overflow = "hidden"; // 修改为hidden，确保内容不溢出
         
         // 创建视频项数组
         const videoItems = [];
@@ -132,8 +132,8 @@ document.addEventListener('DOMContentLoaded', function() {
             videoItem.style.flexDirection = "column";
             videoItem.style.alignItems = "center";
             videoItem.style.justifyContent = "flex-start"; // 从顶部开始对齐内容
-            videoItem.style.minWidth = "600px"; // 设置最小宽度
-            videoItem.style.maxWidth = "600px"; // 设置最大宽度
+            videoItem.style.minWidth = "500px"; // 减小最小宽度 (从600px)
+            videoItem.style.maxWidth = "500px"; // 减小最大宽度 (从600px)
             videoItem.style.height = "100%"; // 设置高度为100%
             videoItem.style.margin = "0 10px"; // 减小左右间距为10px
             videoItem.style.boxSizing = "border-box";
@@ -144,8 +144,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const videoWrapper = document.createElement("div");
             videoWrapper.className = "video-wrapper";
             videoWrapper.style.width = "100%";
-            videoWrapper.style.maxWidth = "600px";
-            videoWrapper.style.height = "350px"; // 视频容器高度
+            videoWrapper.style.maxWidth = "500px"; // 减小最大宽度 (从600px)
+            videoWrapper.style.height = "300px"; // 减小视频容器高度 (从350px)
             videoWrapper.style.margin = "0 auto";
             videoWrapper.style.position = "relative";
             videoWrapper.style.overflow = "hidden"; // 隐藏溢出内容
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 创建一个包含按钮和内容的容器
                     const collapsibleContainer = document.createElement("div");
                     collapsibleContainer.className = "collapsible-container";
-                    collapsibleContainer.style.width = "600px";
+                    collapsibleContainer.style.width = "500px"; // 减小宽度 (从600px)
                     collapsibleContainer.style.position = "relative";
                     collapsibleContainer.style.marginTop = "10px";
                     collapsibleContainer.style.zIndex = "2";
@@ -180,8 +180,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // 克隆按钮
                     const button = collapsibleSection.querySelector("button").cloneNode(true);
-                    button.style.width = "600px";
-                    button.style.maxWidth = "600px";
+                    button.style.width = "500px"; // 减小宽度 (从600px)
+                    button.style.maxWidth = "500px"; // 减小最大宽度 (从600px)
                     button.style.boxSizing = "border-box";
                     button.style.zIndex = "2";
                     
@@ -193,8 +193,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     contentContainer.className = "collapse-content";
                     contentContainer.innerHTML = content.innerHTML;
                     contentContainer.style.display = "none"; // 初始隐藏
-                    contentContainer.style.width = "600px";
-                    contentContainer.style.maxWidth = "600px";
+                    contentContainer.style.width = "500px"; // 减小宽度 (从600px)
+                    contentContainer.style.maxWidth = "500px"; // 减小最大宽度 (从600px)
                     contentContainer.style.boxSizing = "border-box";
                     contentContainer.style.position = "relative"; // 使用相对定位而非绝对定位
                     contentContainer.style.zIndex = "2"; // 确保不会超过其他元素
@@ -297,51 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             expandedContentArea.innerHTML = contentContainer.innerHTML;
                             expandedContentArea.style.display = "block";
                             
-                            // 调整展开内容下方的任何内容的位置
-                            setTimeout(() => {
-                                // 获取展开内容区域的位置
-                                const expandedRect = expandedContentArea.getBoundingClientRect();
-                                const expandedBottom = expandedRect.bottom;
-                                
-                                // 获取视频容器的位置
-                                const videoContainerRect = videoContainer.getBoundingClientRect();
-                                
-                                // 查找视频容器后面的所有元素
-                                const allElements = document.querySelectorAll('body > *');
-                                let nextElement = null;
-                                
-                                // 找到视频容器后的第一个元素
-                                for (let i = 0; i < allElements.length; i++) {
-                                    const element = allElements[i];
-                                    const elementRect = element.getBoundingClientRect();
-                                    
-                                    // 如果元素在视频容器下方且不是视频容器的子元素
-                                    if (elementRect.top >= videoContainerRect.bottom && 
-                                        !videoContainer.contains(element) && 
-                                        element !== videoContainer) {
-                                        nextElement = element;
-                                        break;
-                                    }
-                                }
-                                
-                                // 如果找到了下一个元素
-                                if (nextElement) {
-                                    // 获取下一个元素的位置
-                                    const nextElementRect = nextElement.getBoundingClientRect();
-                                    const nextElementTop = nextElementRect.top;
-                                    
-                                    // 计算需要的额外空间 - 只添加必要的空间
-                                    if (nextElementTop < expandedBottom) {
-                                        const neededSpace = expandedBottom - nextElementTop + 5; // 只添加5px额外空间
-                                        nextElement.style.marginTop = neededSpace + 'px';
-                                        
-                                        // 存储原始的margin-top，以便之后恢复
-                                        if (!nextElement.dataset.originalMarginTop) {
-                                            nextElement.dataset.originalMarginTop = window.getComputedStyle(nextElement).marginTop;
-                                        }
-                                    }
-                                }
-                            }, 100);
+                            // 不再调整下方内容的位置，因为我们现在将展开内容保持在容器内
                         }
                     });
                     
@@ -365,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // 计算轨道宽度
-        const itemWidth = 620; // 每个项的宽度（包括间距）
+        const itemWidth = 520; // 每个项的宽度（包括间距）(从620px减小)
         const originalTrackWidth = itemWidth * videoItems.length;
         
         // 将视频项添加到轨道
@@ -466,51 +422,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             expandedContentArea.innerHTML = clonedContent.innerHTML;
                             expandedContentArea.style.display = "block";
                             
-                            // 调整展开内容下方的任何内容的位置
-                            setTimeout(() => {
-                                // 获取展开内容区域的位置
-                                const expandedRect = expandedContentArea.getBoundingClientRect();
-                                const expandedBottom = expandedRect.bottom;
-                                
-                                // 获取视频容器的位置
-                                const videoContainerRect = videoContainer.getBoundingClientRect();
-                                
-                                // 查找视频容器后面的所有元素
-                                const allElements = document.querySelectorAll('body > *');
-                                let nextElement = null;
-                                
-                                // 找到视频容器后的第一个元素
-                                for (let i = 0; i < allElements.length; i++) {
-                                    const element = allElements[i];
-                                    const elementRect = element.getBoundingClientRect();
-                                    
-                                    // 如果元素在视频容器下方且不是视频容器的子元素
-                                    if (elementRect.top >= videoContainerRect.bottom && 
-                                        !videoContainer.contains(element) && 
-                                        element !== videoContainer) {
-                                        nextElement = element;
-                                        break;
-                                    }
-                                }
-                                
-                                // 如果找到了下一个元素
-                                if (nextElement) {
-                                    // 获取下一个元素的位置
-                                    const nextElementRect = nextElement.getBoundingClientRect();
-                                    const nextElementTop = nextElementRect.top;
-                                    
-                                    // 计算需要的额外空间 - 只添加必要的空间
-                                    if (nextElementTop < expandedBottom) {
-                                        const neededSpace = expandedBottom - nextElementTop + 5; // 只添加5px额外空间
-                                        nextElement.style.marginTop = neededSpace + 'px';
-                                        
-                                        // 存储原始的margin-top，以便之后恢复
-                                        if (!nextElement.dataset.originalMarginTop) {
-                                            nextElement.dataset.originalMarginTop = window.getComputedStyle(nextElement).marginTop;
-                                        }
-                                    }
-                                }
-                            }, 100);
+                            // 不再调整下方内容的位置，因为我们现在将展开内容保持在容器内
                         }
                     });
                     
@@ -527,7 +439,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 同样修改克隆项中的折叠内容容器样式
                 const clonedCollapsibleContainer = clonedItem.querySelector('.collapsible-container');
                 if (clonedCollapsibleContainer) {
-                    clonedCollapsibleContainer.style.width = "600px";
+                    clonedCollapsibleContainer.style.width = "500px"; // 减小宽度 (从600px)
                     clonedCollapsibleContainer.style.position = "relative";
                     clonedCollapsibleContainer.style.marginTop = "10px";
                     clonedCollapsibleContainer.style.zIndex = "2";
@@ -538,8 +450,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 同样修改克隆项中的折叠内容样式
                 if (clonedContent) {
                     clonedContent.style.display = "none";
-                    clonedContent.style.width = "600px";
-                    clonedContent.style.maxWidth = "600px";
+                    clonedContent.style.width = "500px"; // 减小宽度 (从600px)
+                    clonedContent.style.maxWidth = "500px"; // 减小最大宽度 (从600px)
                     clonedContent.style.boxSizing = "border-box";
                     clonedContent.style.position = "relative";
                     clonedContent.style.zIndex = "2";
@@ -573,7 +485,9 @@ document.addEventListener('DOMContentLoaded', function() {
         expandedContentArea.style.width = "100%";
         expandedContentArea.style.display = "none"; // 初始隐藏
         expandedContentArea.style.marginTop = "10px";
-        expandedContentArea.style.position = "relative";
+        expandedContentArea.style.position = "absolute"; // 使用绝对定位
+        expandedContentArea.style.left = "0";
+        expandedContentArea.style.bottom = "20px"; // 从底部定位
         expandedContentArea.style.zIndex = "5";
         expandedContentArea.style.backgroundColor = "white";
         expandedContentArea.style.borderRadius = "8px";
@@ -581,6 +495,8 @@ document.addEventListener('DOMContentLoaded', function() {
         expandedContentArea.style.padding = "15px";
         expandedContentArea.style.boxSizing = "border-box";
         expandedContentArea.style.transition = "height 0.3s ease";
+        expandedContentArea.style.maxHeight = "200px"; // 限制最大高度
+        expandedContentArea.style.overflowY = "auto"; // 添加垂直滚动条
         
         // 将展开内容区域添加到包装容器
         carouselAndContentContainer.appendChild(expandedContentArea);
