@@ -203,13 +203,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     title: "#F",
                     field: "frames",
                     widthGrow: 0.4,
-                    minWidth: 15
+                    minWidth: 20
                 },
                 {
                     title: "#T",
                     field: "tpf",
                     widthGrow: 0.4,
-                    minWidth: 15
+                    minWidth: 20
                 },
                 {
                     title: "Overall",
@@ -227,10 +227,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     title: "<div style='text-align: center;'>Notebook</div>",
                     columns: [
-                        { title: "<span style='font-size: 0.85em;'>Avg.</span>", field: "notebook_avg", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
-                        { title: "<span style='font-size: 0.85em;'>Math</span>", field: "notebook_math", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
-                        { title: "<span style='font-size: 0.85em;'>Physics</span>", field: "notebook_physics", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
-                        { title: "<span style='font-size: 0.85em;'>Chemistry</span>", field: "notebook_chemistry", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
+                        { 
+                            title: "<span style='font-size: 0.85em;'>Avg.</span>", 
+                            field: "notebook_avg", 
+                            hozAlign: "center", 
+                            formatter: colorFormatterActionSeq, 
+                            minWidth: 40,
+                            widthGrow: 0.8
+                        },
+                        { 
+                            title: "<span style='font-size: 0.85em;'>Math</span>", 
+                            field: "notebook_math", 
+                            hozAlign: "center", 
+                            formatter: colorFormatterActionSeq, 
+                            minWidth: 40,
+                            widthGrow: 0.8
+                        },
+                        { 
+                            title: "<span style='font-size: 0.85em;'>Physics</span>", 
+                            field: "notebook_physics", 
+                            hozAlign: "center", 
+                            formatter: colorFormatterActionSeq, 
+                            minWidth: 50
+                        },
+                        { 
+                            title: "<span style='font-size: 0.85em;'>Chemistry</span>", 
+                            field: "notebook_chemistry", 
+                            hozAlign: "center", 
+                            formatter: colorFormatterActionSeq, 
+                            minWidth: 65,
+                            widthGrow: 1.2
+                        }
                     ]
                 },
                 {
@@ -240,50 +267,33 @@ document.addEventListener('DOMContentLoaded', function () {
                             title: "<span style='font-size: 0.85em;'>Avg.</span>", 
                             field: "quiz_avg", 
                             hozAlign: "center", 
-                            formatter: simpleColorFormatter, // 使用新的紫色格式化器
-                            minWidth: 50,
-                            sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
-                                var a_val = parseFloat(a) || 0;
-                                var b_val = parseFloat(b) || 0;
-                                return a_val - b_val;
-                            }
+                            formatter: simpleColorFormatter, 
+                            minWidth: 40,
+                            widthGrow: 0.8
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Math</span>", 
                             field: "quiz_math", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 50,
-                            sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
-                                var a_val = parseFloat(a) || 0;
-                                var b_val = parseFloat(b) || 0;
-                                return a_val - b_val;
-                            }
+                            minWidth: 40,
+                            widthGrow: 0.8
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Physics</span>", 
                             field: "quiz_physics", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 50,
-                            sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
-                                var a_val = parseFloat(a) || 0;
-                                var b_val = parseFloat(b) || 0;
-                                return a_val - b_val;
-                            }
+                            minWidth: 50
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Chemistry</span>", 
                             field: "quiz_chemistry", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 50,
-                            sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
-                                var a_val = parseFloat(a) || 0;
-                                var b_val = parseFloat(b) || 0;
-                                return a_val - b_val;
-                            }
-                        },
+                            minWidth: 65,
+                            widthGrow: 1.2
+                        }
                     ]
                 }
             ];
