@@ -349,13 +349,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     button.style.borderRadius = "4px";
                     button.style.padding = "8px 12px";
                     const buttonIcon = button.querySelector('.fas');
-                    if (buttonIcon) {
-                        buttonIcon.style.fontSize = "0.8em";
-                        buttonIcon.parentElement.style.fontSize = "0.8em";
-                        // Remove the circular background
-                        buttonIcon.parentElement.style.background = "none";
-                        buttonIcon.parentElement.style.width = "auto";
-                        buttonIcon.parentElement.style.height = "auto";
+                    if (buttonIcon && buttonIcon.parentElement) {
+                        // Remove the icon container completely
+                        buttonIcon.parentElement.style.display = "none";
                     }
                     
                     // 将折叠容器添加到视频项
@@ -522,13 +518,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     clonedButton.style.borderRadius = "4px";
                     clonedButton.style.padding = "8px 12px";
                     const clonedButtonIcon = clonedButton.querySelector('.fas');
-                    if (clonedButtonIcon) {
-                        clonedButtonIcon.style.fontSize = "0.8em";
-                        clonedButtonIcon.parentElement.style.fontSize = "0.8em";
-                        // Remove the circular background
-                        clonedButtonIcon.parentElement.style.background = "none";
-                        clonedButtonIcon.parentElement.style.width = "auto";
-                        clonedButtonIcon.parentElement.style.height = "auto";
+                    if (clonedButtonIcon && clonedButtonIcon.parentElement) {
+                        // Remove the icon container completely
+                        clonedButtonIcon.parentElement.style.display = "none";
                     }
                 }
                 
