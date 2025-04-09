@@ -315,17 +315,44 @@ function createVideoCarousel(videoContainer, index) {
                 const containerWidth = carouselContainer.offsetWidth;
                 const minTranslate = containerWidth - trackWidth;
                 
-                currentTranslate -= 1; // 每次移动1像素
+                currentTranslate -= 2; // 保持2像素的滚动速度
                 
-                // 如果到达最左边，重置到最右边
+                // 如果到达最左边，实现平滑循环
                 if (currentTranslate < minTranslate) {
+                    // 不要直接跳回到0，而是添加一个平滑过渡
+                    // 克隆第一个视频项并添加到轨道末尾
+                    const firstItems = carouselTrack.querySelectorAll(`.video-carousel-item-alt[class*="item-${index}-0"]`);
+                    
+                    if (firstItems.length > 0) {
+                        // 如果已经有克隆的项，不再重复克隆
+                        if (!carouselTrack.querySelector(`.cloned-item-${index}`)) {
+                            videoCells.forEach((cell, cellIndex) => {
+                                const originalItem = carouselTrack.querySelector(`.item-${index}-${cellIndex}`);
+                                if (originalItem) {
+                                    const clonedItem = originalItem.cloneNode(true);
+                                    clonedItem.classList.add(`cloned-item-${index}`);
+                                    carouselTrack.appendChild(clonedItem);
+                                }
+                            });
+                        }
+                    } else {
+                        // 如果找不到第一个项，直接重置位置
+                        currentTranslate = 0;
+                    }
+                }
+                
+                // 如果已经滚动到克隆项的位置，重置到原始位置
+                if (currentTranslate < minTranslate - 500) { // 假设每个项宽度约500px
                     currentTranslate = 0;
+                    // 移除所有克隆项
+                    const clonedItems = carouselTrack.querySelectorAll(`.cloned-item-${index}`);
+                    clonedItems.forEach(item => item.remove());
                 }
                 
                 prevTranslate = currentTranslate;
                 setSliderPosition();
             }
-        }, 30); // 每30毫秒移动一次
+        }, 20); // 保持20毫秒的更新频率
     }
     
     // 停止滚动
