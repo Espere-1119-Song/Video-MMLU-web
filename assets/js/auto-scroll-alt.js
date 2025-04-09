@@ -601,52 +601,45 @@ document.addEventListener('DOMContentLoaded', function() {
                         contentContainer.innerHTML = content.innerHTML;
                     }
                     
-                    // 添加按钮点击事件
-                    button.addEventListener("click", function() {
+                    // 修改按钮点击事件处理部分
+                    button.addEventListener("click", function(e) {
+                        e.stopPropagation(); // 阻止事件冒泡
+                        
                         // 获取展开内容区域
                         const expandedArea = document.querySelector('.expanded-content-area');
                         
-                        // 检查展开内容区域是否已显示
-                        const isExpanded = expandedArea && expandedArea.style.display === "block";
+                        // 获取当前按钮对应的内容容器
+                        const currentContent = this.parentElement.querySelector('.collapse-content');
+                        const isCurrentlyExpanded = currentContent && 
+                                                   (currentContent.style.display === "block" || 
+                                                    (expandedArea && expandedArea.style.display === "block"));
                         
-                        // 如果已经展开，则收起
-                        if (isExpanded) {
-                            // 隐藏展开内容
+                        // 先关闭所有内容
+                        const allContents = document.querySelectorAll('.collapse-content');
+                        allContents.forEach(content => {
+                            content.style.display = 'none';
+                        });
+                        
+                        // 重置所有按钮图标
+                        const allButtons = carouselContainer.querySelectorAll('button');
+                        allButtons.forEach(btn => {
+                            const btnIcon = btn.querySelector('.fas');
+                            if (btnIcon) {
+                                btnIcon.classList.remove('fa-angle-up');
+                                btnIcon.classList.add('fa-angle-down');
+                            }
+                        });
+                        
+                        // 隐藏展开区域
+                        if (expandedArea) {
                             expandedArea.style.display = "none";
                             expandedArea.innerHTML = "";
-                            
-                            // 更新图标
-                            const icon = button.querySelector('.fas');
-                            if (icon) {
-                                icon.classList.remove('fa-angle-up');
-                                icon.classList.add('fa-angle-down');
-                            }
-                            
-                            // 恢复轮播
-                            isPaused = false;
-                            carouselContainer.style.cursor = "grab";
-                            startContinuousScroll();
-                        } else {
-                            // 获取所有内容容器
-                            const allContentContainers = document.querySelectorAll('.collapse-content');
-                            
-                            // 先隐藏所有内容
-                            allContentContainers.forEach(container => {
-                                container.style.display = "none";
-                            });
-                            
-                            // 更新所有按钮图标
-                            const allButtons = document.querySelectorAll('.collapsible-container button');
-                            allButtons.forEach(btn => {
-                                const btnIcon = btn.querySelector('.fas');
-                                if (btnIcon) {
-                                    btnIcon.classList.remove('fa-angle-up');
-                                    btnIcon.classList.add('fa-angle-down');
-                                }
-                            });
-                            
-                            // 更新图标
-                            const icon = button.querySelector('.fas');
+                        }
+                        
+                        // 如果当前不是展开状态，则展开
+                        if (!isCurrentlyExpanded) {
+                            // 更新当前按钮图标
+                            const icon = this.querySelector('.fas');
                             if (icon) {
                                 icon.classList.remove('fa-angle-down');
                                 icon.classList.add('fa-angle-up');
@@ -658,8 +651,15 @@ document.addEventListener('DOMContentLoaded', function() {
                             stopScroll();
                             
                             // 将内容克隆到展开区域
-                            expandedContentArea.innerHTML = contentContainer.innerHTML;
-                            expandedContentArea.style.display = "block";
+                            if (expandedArea && contentContainer) {
+                                expandedArea.innerHTML = contentContainer.innerHTML;
+                                expandedArea.style.display = "block";
+                            }
+                        } else {
+                            // 恢复轮播
+                            isPaused = false;
+                            carouselContainer.style.cursor = "grab";
+                            startContinuousScroll();
                         }
                     });
                     
