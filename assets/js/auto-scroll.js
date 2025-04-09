@@ -89,13 +89,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const carouselContainer = document.createElement("div");
         carouselContainer.className = "video-carousel-container";
         carouselContainer.style.width = "100%";
-        carouselContainer.style.height = "450px"; // 调整容器高度
+        carouselContainer.style.height = "420px"; // 从450px减小到420px
         carouselContainer.style.backgroundColor = "rgba(232, 245, 233, 0.6)"; // 浅绿色背景带透明度
         carouselContainer.style.overflow = "hidden"; // 确保内容不溢出
         carouselContainer.style.position = "relative";
         carouselContainer.style.margin = "0 auto";
         carouselContainer.style.borderRadius = "8px"; // 圆角
-        carouselContainer.style.padding = "20px";
+        carouselContainer.style.padding = "10px"; // 从20px减小到10px
         carouselContainer.style.boxSizing = "border-box";
         carouselContainer.style.border = "none"; // 确保没有边框
         carouselContainer.style.cursor = "grab"; // 显示抓取光标
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         carouselAndContentContainer.className = "carousel-and-content-container";
         carouselAndContentContainer.style.position = "relative";
         carouselAndContentContainer.style.width = "100%";
-        carouselAndContentContainer.style.marginBottom = "20px"; // 底部间距
+        carouselAndContentContainer.style.marginBottom = "10px"; // 从20px减小到10px
         
         // 创建轮播轨道 - 为了实现连续滚动，我们需要复制视频
         const carouselTrack = document.createElement("div");
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
             videoItem.style.minWidth = "500px"; // 减小最小宽度 (从600px)
             videoItem.style.maxWidth = "500px"; // 减小最大宽度 (从600px)
             videoItem.style.height = "100%"; // 设置高度为100%
-            videoItem.style.margin = "0 10px"; // 减小左右间距为10px
+            videoItem.style.margin = "0 5px"; // 从0 10px减小到0 5px
             videoItem.style.boxSizing = "border-box";
             videoItem.style.position = "relative";
             videoItem.style.overflow = "visible"; // 允许内容溢出
@@ -427,13 +427,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // 将轮播容器添加到包装容器
         carouselAndContentContainer.appendChild(carouselContainer);
         
-        // 创建展开内容区域，放在绿色框外部
+        // 创建展开内容区域，放在绿色框外部，减少上方间距
         const expandedContentArea = document.createElement("div");
         expandedContentArea.className = "expanded-content-area";
         expandedContentArea.style.width = "100%";
         expandedContentArea.style.display = "none"; // 初始隐藏
-        expandedContentArea.style.marginTop = "20px"; // 与绿色框保持一定距离
-        expandedContentArea.style.position = "relative"; // 改为相对定位，不再是绝对定位
+        expandedContentArea.style.marginTop = "5px"; // 减少与绿色框的距离，从20px改为5px
+        expandedContentArea.style.position = "relative";
         expandedContentArea.style.zIndex = "5";
         expandedContentArea.style.backgroundColor = "white";
         expandedContentArea.style.borderRadius = "8px";
@@ -441,8 +441,8 @@ document.addEventListener('DOMContentLoaded', function() {
         expandedContentArea.style.padding = "15px";
         expandedContentArea.style.boxSizing = "border-box";
         expandedContentArea.style.transition = "height 0.3s ease";
-        expandedContentArea.style.maxHeight = "none"; // 移除最大高度限制
-        expandedContentArea.style.overflowY = "visible"; // 允许内容完整显示，不需要滚动
+        expandedContentArea.style.maxHeight = "none";
+        expandedContentArea.style.overflowY = "visible";
         
         // 将展开内容区域添加到包装容器，但放在轮播容器之后
         carouselAndContentContainer.appendChild(carouselContainer);
