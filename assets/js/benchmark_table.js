@@ -202,20 +202,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     title: "#F",
                     field: "frames",
-                    widthGrow: 0.4,
+                    widthGrow: 0.5,
                     minWidth: 25
                 },
                 {
                     title: "#T",
                     field: "tpf",
-                    widthGrow: 0.4,
+                    widthGrow: 0.5,
                     minWidth: 25
                 },
                 {
                     title: "Overall",
                     field: "avg_acc",
                     widthGrow: 0.9,
-                    minWidth: 70,
+                    minWidth: 60,
                     formatter: colorFormatterAvg,
                     sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
                         // Convert to numbers for proper sorting
@@ -232,23 +232,24 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_avg", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 40,
-                            widthGrow: 0.8
+                            minWidth: 35,
+                            widthGrow: 0.6
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Math</span>", 
                             field: "notebook_math", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 40,
-                            widthGrow: 0.8
+                            minWidth: 35,
+                            widthGrow: 0.6
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Physics</span>", 
                             field: "notebook_physics", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 50
+                            minWidth: 45,
+                            widthGrow: 0.8
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Chemistry</span>", 
@@ -268,23 +269,24 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "quiz_avg", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 40,
-                            widthGrow: 0.8
+                            minWidth: 35,
+                            widthGrow: 0.6
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Math</span>", 
                             field: "quiz_math", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 40,
-                            widthGrow: 0.8
+                            minWidth: 35,
+                            widthGrow: 0.6
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Physics</span>", 
                             field: "quiz_physics", 
                             hozAlign: "center", 
                             formatter: simpleColorFormatter, 
-                            minWidth: 50
+                            minWidth: 45,
+                            widthGrow: 0.8
                         },
                         { 
                             title: "<span style='font-size: 0.85em;'>Chemistry</span>", 
