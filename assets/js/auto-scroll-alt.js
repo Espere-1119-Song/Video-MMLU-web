@@ -630,16 +630,27 @@ document.addEventListener('DOMContentLoaded', function() {
             stopScroll(); // 先停止现有的滚动
             
             scrollInterval = setInterval(() => {
+                if (isPaused || isDragging) return;
+                
                 // 更新滚动位置
                 scrollPosition += scrollSpeed;
                 
-                // 检查是否滚动到末尾，如果是则无缝循环
+                // 检查是否滚动到末尾，如果是则立即重置到开始位置
                 const containerWidth = carouselContainer.offsetWidth;
                 
-                // 修改循环逻辑，当最后一个视频完全滚出视图时重置位置
-                if (scrollPosition >= originalTrackWidth - containerWidth) {
-                    // 无缝循环：重置到开始位置
+                // 更改循环逻辑 - 当滚动到最后一个视频时立即跳回第一个
+                if (scrollPosition >= originalTrackWidth - containerWidth + 100) { // 添加一些余量
+                    // 立即重置到开始位置
                     scrollPosition = 0;
+                    carouselTrack.style.transition = 'none'; // 移除过渡效果以实现即时跳转
+                    carouselTrack.style.transform = `translateX(0px)`;
+                    
+                    // 在下一帧恢复过渡效果
+                    setTimeout(() => {
+                        carouselTrack.style.transition = 'transform 0.3s ease';
+                    }, 50);
+                    
+                    return; // 跳过本次更新
                 }
                 
                 // 应用滚动
@@ -797,8 +808,8 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Number of items:", videoItems.length);
     }
     
-    // 初始化紫色背景轮播
+    // 初始化紫色背景轮播 - 增加延迟确保DOM完全加载
     setTimeout(function() {
         createAltVideoCarousel();
-    }, 1500);
+    }, 2000); // 增加延迟到2000毫秒
 }); 
