@@ -617,8 +617,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 变量用于自动滚动
         let scrollPosition = 0;
         let scrollInterval;
-        let scrollDirection = 1; // 1 表示向右，-1 表示向左
-        let scrollSpeed = 1; // 每次滚动的像素数
+        let scrollSpeed = 3; // 增加滚动速度从1到3
         let isPaused = false;
         
         // 变量用于拖动
@@ -632,18 +631,17 @@ document.addEventListener('DOMContentLoaded', function() {
             
             scrollInterval = setInterval(() => {
                 // 更新滚动位置
-                scrollPosition += scrollSpeed * scrollDirection;
+                scrollPosition += scrollSpeed;
                 
-                // 检查边界并改变方向
-                if (scrollPosition >= originalTrackWidth - carouselContainer.clientWidth) {
-                    scrollDirection = -1;
-                } else if (scrollPosition <= 0) {
-                    scrollDirection = 1;
+                // 检查是否滚动到末尾，如果是则无缝循环
+                if (scrollPosition >= originalTrackWidth) {
+                    // 无缝循环：当第一个元素完全滚出视图时重置位置
+                    scrollPosition = 0;
                 }
                 
                 // 应用滚动
                 carouselTrack.style.transform = `translateX(-${scrollPosition}px)`;
-            }, 30);
+            }, 20); // 保持20毫秒的更新频率
         }
         
         // 停止滚动
