@@ -634,8 +634,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 scrollPosition += scrollSpeed;
                 
                 // 检查是否滚动到末尾，如果是则无缝循环
-                if (scrollPosition >= originalTrackWidth) {
-                    // 无缝循环：当第一个元素完全滚出视图时重置位置
+                const containerWidth = carouselContainer.offsetWidth;
+                
+                // 修改循环逻辑，当最后一个视频完全滚出视图时重置位置
+                if (scrollPosition >= originalTrackWidth - containerWidth) {
+                    // 无缝循环：重置到开始位置
                     scrollPosition = 0;
                 }
                 
