@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_avg", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 55,
+                            minWidth: 60,
                             widthGrow: 0.7
                         },
                         { 
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             field: "notebook_math", 
                             hozAlign: "center", 
                             formatter: colorFormatterActionSeq, 
-                            minWidth: 55,
+                            minWidth: 60,
                             widthGrow: 0.7
                         },
                         { 
