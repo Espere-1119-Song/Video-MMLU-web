@@ -594,19 +594,6 @@ document.addEventListener('DOMContentLoaded', function() {
             videoItems.push(videoItem);
         });
         
-        // 为了实现无缝循环，复制前面的几个视频项并添加到末尾
-        // 这样当最后一个视频滚动完毕后，会立即看到第一个视频的复制品，实现视觉上的连续性
-        for (let i = 0; i < Math.min(3, videoItems.length); i++) {
-            const clonedItem = videoItems[i].cloneNode(true);
-            carouselTrack.appendChild(clonedItem);
-            
-            // 更新轨道宽度计算
-            originalTrackWidth += 510; // 每个项的宽度加上边距
-        }
-        
-        // 设置轨道宽度以适应所有项（包括复制的项）
-        carouselTrack.style.width = originalTrackWidth + "px";
-        
         // 将视频项添加到轮播轨道
         videoItems.forEach(item => {
             carouselTrack.appendChild(item);
@@ -622,6 +609,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // 替换原始表格
         videoContainer.innerHTML = '';
         videoContainer.appendChild(mainContainer);
+        
+        // 计算轨道宽度
+        const originalTrackWidth = videoItems.length * 510; // 每个项的宽度加上边距
+        carouselTrack.style.width = originalTrackWidth + "px";
         
         // 变量用于自动滚动
         let scrollPosition = 0;
@@ -642,27 +633,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 更新滚动位置
                 scrollPosition += scrollSpeed;
                 
-                // 检查是否滚动到需要重置的位置
-                // 当滚动到原始视频的末尾时（不包括克隆的视频），重置到起点
-                const resetPoint = (videoItems.length * 510) - carouselContainer.clientWidth;
-                
-                if (scrollPosition >= resetPoint) {
-                    // 无缝重置：立即跳回开始位置
+                // 检查是否滚动到末尾，如果是则无缝循环
+                if (scrollPosition >= originalTrackWidth) {
+                    // 无缝循环：当第一个元素完全滚出视图时重置位置
                     scrollPosition = 0;
-                    carouselTrack.style.transition = 'none';
-                    carouselTrack.style.transform = `translateX(-${scrollPosition}px)`;
-                    
-                    // 强制重排以应用无过渡的变换
-                    carouselTrack.offsetHeight;
-                    
-                    // 恢复过渡效果
-                    setTimeout(() => {
-                        carouselTrack.style.transition = 'transform 0.3s ease';
-                    }, 50);
-                } else {
-                    // 正常滚动
-                    carouselTrack.style.transform = `translateX(-${scrollPosition}px)`;
                 }
+                
+                // 应用滚动
+                carouselTrack.style.transform = `translateX(-${scrollPosition}px)`;
             }, 20); // 保持20毫秒的更新频率
         }
         
