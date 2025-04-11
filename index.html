@@ -144,7 +144,7 @@
                             <img src="assets/img/logo/zju_logo.png" alt="Zhejiang University Logo" style="max-height: 50px;">
                         </div>
                         <div class="col-auto mx-3">
-                            <img src="assets/img/logo/uw_logo.png" alt="UW Logo" style="max-height: 35px;">
+                            <img src="assets/img/logo/uw_logo.png" alt="UW Logo" style="max-height: 45px;">
                         </div>
                         <div class="col-auto mx-3">
                             <img src="assets/img/logo/uiuc_logo.png" alt="UIUC Logo" style="max-height: 35px;">
@@ -157,13 +157,62 @@
             </section>
             
             <!-- Abstract -->
+            <!-- <section id="abstract" class="py-5">
+                <div class="container">
+                    <h4 class="blockquote text-center text-primary">
+                        Video-MMLU pushes LMMs to the limits—can the model really understand real-world lectures?
+                    </h4>
+                </div>
+            </section> -->
+
             <section id="abstract" class="py-5">
                 <div class="container">
                     <!-- <h2 class="text-center py-2">TL;DR</h2>
                     <hr> -->
-                    <h4 class="blockquote text-center text-primary">
-                        Video-MMLU pushes LMMs to the limits—can the model really understand real-world lectures?
-                    </h4>
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h4 class="blockquote text-primary mb-4">
+                                Video-MMLU pushes LMMs to the limits—can the model really understand real-world lectures?
+                            </h4>
+                    
+                            <div class="row">
+                                <div class="col-md-4 mb-4">
+                                    <a class="card-link" href="#cases">
+                                        <div class="card card-info h-100">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Lecture Cases</h4>
+                                                <p class="card-text">Video-MMLU spans 3 disciplines, including detailed captions, and diverse questions.</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4 mb-4">
+                                    <a class="card-link" href="#leaderboard">
+                                        <div class="card card-info h-100">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Leaderboard</h4>
+                                                <p class="card-text">Our benchmark evaluates models' understanding of complex video from real-world lectures across multiple domains.</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4 mb-4">
+                                    <a class="card-link" href="#findings">
+                                        <div class="card card-info h-100">
+                                            <div class="card-body">
+                                                <h4 class="card-title">Findings</h4>
+                                                <p class="card-text">Our results reveal model limitations in addressing cognitive challenges in both perception and reasoning.</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <img src="assets/img/figures/teaser.jpg" alt="" class="img-fluid rounded">
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -172,8 +221,8 @@
             <section id="video" class="py-5">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-lg-10">
-                            <video id="teaser" autoplay muted loop playsinline controls width="100%">
+                        <div class="col-lg-12 text-center">
+                            <video id="teaser" autoplay muted loop playsinline controls style="width: 90%; max-width: 1200px; margin: 0 auto;">
                                 <source src="./assets/vid/cases/eai-video-v2.mov" type="video/quicktime">
                                 <source src="assets/vid/teaser.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
@@ -183,48 +232,8 @@
                 </div>
             </section>
 
-            <section id="intro" class="py-5">
-                <div class="container">
-                    <h2 class="text-center py-5">Key Features</h2>
-                    <div class="row">
-                        <div class="col-md-4 mb-4">
-                            <a class="card-link" href="#one">
-                                <div class="card card-info h-100">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Lecture Cases</h4>
-                                        <p class="card-text">Video-MMLU spans 3 disciplines (Mathematics, Physics, Chemistry), including detailed captions, and a diverse set of questions.</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <a class="card-link" href="#one">
-                                <div class="card card-info h-100">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Leaderboard</h4>
-                                        <p class="card-text">Our benchmark evaluates models on their ability to understand complex video content from real-world lectures across multiple domains.</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <a class="card-link" href="#one">
-                                <div class="card card-info h-100">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Findings</h4>
-                                        <p class="card-text">
-                                            Our results highlight model limitations in addressing cognitive challenges, especially in tasks requiring both perception and reasoning.
-                                        </p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <!-- Lecture Cases -->
-            <section id="one" class="py-5 bg-light">
+            <section id="cases" class="py-5 bg-light">
                 <div class="container">
                     <h2 class="text-center py-5">Lecture Cases</h2>
                     <div class="video-container carousel-enabled">
@@ -798,7 +807,7 @@
             </section>
 
             <!-- Leaderboard -->
-            <section id="faq" class="py-5">
+            <section id="leaderboard" class="py-5">
                 <div class="container">
                     <h2 class="text-center py-5">Leaderboard</h2>
                     <div class="card">
@@ -833,7 +842,7 @@
             </section>
 
 
-            <section id="one" class="py-5 bg-light">
+            <section id="findings" class="py-5 bg-light">
                 <div class="container">
                     <h2 class="text-center py-5">Findings</h2>
                     <div class="card-group">
