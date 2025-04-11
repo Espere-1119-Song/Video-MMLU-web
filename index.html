@@ -222,7 +222,7 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-12 text-center">
-                            <video id="teaser" autoplay muted loop playsinline controls style="width: 90%; max-width: 1200px; margin: 0 auto;">
+                            <video id="teaser" autoplay muted loop playsinline controls style="width: 100%; max-width: 1200px; margin: 0 auto;">
                                 <source src="./assets/vid/cases/eai-video-v2.mov" type="video/quicktime">
                                 <source src="assets/vid/teaser.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
@@ -842,7 +842,7 @@
             </section>
 
 
-            <section id="findings" class="py-5 bg-light">
+            <!-- <section id="findings" class="py-5 bg-light">
                 <div class="container">
                     <h2 class="text-center py-5">Findings</h2>
                     <div class="card-group">
@@ -860,10 +860,121 @@
                             </div>
                             <img src="assets/img/figures/20250329.JPG" class="card-img-bottom" alt="Example 1">
                         </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Example Two (Image Bottom)</h5>
+                                <p class="card-text">This is an example of content that can be displayed in a card group layout. Card groups have equal height columns with no gutters.</p>
+                            </div>
+                            <img src="assets/img/figures/20250329.JPG" class="card-img-bottom" alt="Example 1">
+                        </div>
+                    </div>
+                </div>
+            </section> -->
+
+            <section id="findings" class="py-5 bg-light">
+                <div class="container">
+                    <h2 class="text-center py-5">Findings</h2>
+            
+                    <div id="findingsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                        <div class="carousel-inner">
+                            <!-- Slide 1: Findings 1 & 2 -->
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <img src="assets/img/figures/find_1.png" class="card-img-top" alt="Finding 1">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Proprietary models consistently outperform open-source models.</h5>
+                                                <p class="card-text">
+                                                    Both proprietary and open-source models perform poorly on Video-MMLU, with accuracy mostly between 10% and 50%. 
+                                                    Among all evaluated models, Claude-3.5-sonnet achieves the highest performance across all tasks.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Open-source video LMMs may not exhibit clear advantages over image LMMs.</h5>
+                                                <p class="card-text">
+                                                    In Video-MMLU, fine-tuning image LMMs with video-text data does not always improve performance.
+                                                    This might stem from the lack of OCR and visual knowledge reasoning tasks in video-text datasets (common in image-text training), causing video LMMs to struggle with transferring these capabilities to dynamic scenes.
+                                                </p>
+                                            </div>
+                                            <img src="assets/img/figures/find_3.png" class="card-img-top" alt="Finding 3">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+            
+                            <!-- Slide 2: Findings 3 & 4 -->
+                            <div class="carousel-item">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Lecture understanding in models relies more on textual content in frames than on animations.</h5>
+                                                <p class="card-text">
+                                                    Models significantly excel in physics and chemistry lectures, which contain more textual explanations, while mathematics lectures emphasizes formulas and dynamic visual proofs. 
+                                                </p>
+                                            </div>
+                                            <img src="assets/img/figures/find_2.png" class="card-img-top" alt="Finding 2">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <img src="assets/img/figures/find_4.png" class="card-img-top" alt="Finding 4">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Large scale LMMs do not show clear advantages over smaller ones.</h5>
+                                                <p class="card-text">
+                                                    While the scaling law of LMMs suggests significant performance improvements with increased model size, this trend, although persistent in Video-MMLU, has a less pronounced effect.
+                                                    Model size shows a stronger correlation with performance in video QA compared to video captioning, implying reasoning benefits more from scaling.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <!-- Slide 3: Findings 5 & 6 -->
+                            <div class="carousel-item">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <img src="assets/img/figures/finding_5.jpg" class="card-img-top" alt="Finding 5">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Larger LLMs enhance lecture understanding but with diminishing returns.</h5>
+                                                <p class="card-text">
+                                                    As model size increases, Qwen2.5 exhibits continuous performance gains, while InternVL2.5 (Qwen2.5 as LLM) follows a similar trend, indicating that scaling up the LLMs enhances lecture understanding. 
+                                                    However, the performance gains gradually diminish with increasing model size.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card h-100">
+                                            <img src="assets/img/figures/finding_6.jpg" class="card-img-top" alt="Finding 6">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Finding Title 6</h5>
+                                                <p class="card-text">Description for finding 6. Implications of the findings for future research directions.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            
+
+                        <!-- Indicators -->
+                        <div class="carousel-indicators" style="position: relative; margin-top: 20px;">
+                             <button type="button" data-bs-target="#findingsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1" style="background-color: #6c757d;"></button>
+                             <button type="button" data-bs-target="#findingsCarousel" data-bs-slide-to="1" aria-label="Slide 2" style="background-color: #6c757d;"></button>
+                             <button type="button" data-bs-target="#findingsCarousel" data-bs-slide-to="2" aria-label="Slide 3" style="background-color: #6c757d;"></button>
+                        </div>
                     </div>
                 </div>
             </section>
-
 
 
             <section id="faq" class="py-5">
@@ -941,7 +1052,7 @@
 
 
         <!-- Core Javascripts -->
-        <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+        <script src="assets/vendor/jquery/dist/jquery.min.js"></script> <!-- Bootstrap 5 doesn't strictly require jQuery, but your theme might -->
         <script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
         <script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="assets/vendor/typed.js/lib/typed.min.js"></script>
@@ -957,6 +1068,9 @@
         <!-- Theme Javascripts -->
         <script src="assets/js/theme.js"></script>
         <script src="assets/js/top.js"></script>
+
+        <!-- Bootstrap 5 JS Bundle (includes Popper.js) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     </body>
 </html>
