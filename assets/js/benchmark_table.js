@@ -166,6 +166,55 @@ const simpleColorFormatter = function(cell, formatterParams) {
     ">${formattedValue}</div>`;
 };
 
+// Function to toggle sub-columns and update icon
+function toggleSubColumns(e, column) {
+    const table = column.getTable();
+    const subColumns = column.getColumns(); // Get sub-columns of the group
+    let fieldsToToggle = [];
+    let iconElementSelector = ''; // CSS selector for the icon in the header
+
+    // Determine which group was clicked and the fields/icon selector
+    const columnTitle = column.getDefinition().title;
+    if (columnTitle.includes("Notebook")) {
+        fieldsToToggle = ['notebook_math', 'notebook_physics', 'notebook_chemistry'];
+        iconElementSelector = '.notebook-toggle-icon';
+    } else if (columnTitle.includes("Quiz")) {
+        fieldsToToggle = ['quiz_math', 'quiz_physics', 'quiz_chemistry'];
+        iconElementSelector = '.quiz-toggle-icon';
+    }
+
+    if (fieldsToToggle.length > 0) {
+        // Check current visibility state based on the first column to toggle
+        const firstSubColumn = table.getColumn(fieldsToToggle[0]);
+        if (!firstSubColumn) return; // Safety check
+
+        const isCurrentlyVisible = firstSubColumn.isVisible();
+
+        // Toggle visibility of each subject column
+        fieldsToToggle.forEach(field => {
+            const subCol = table.getColumn(field);
+            if (subCol) { // Check if column exists before toggling
+                 table.toggleColumn(field);
+            }
+        });
+
+        // Update the icon in the header element directly
+        const headerElement = column.getElement(); // Get the header DOM element
+        const iconElement = headerElement.querySelector(iconElementSelector);
+        if (iconElement) {
+            if (isCurrentlyVisible) {
+                // Columns were visible, now hidden -> show plus icon
+                iconElement.classList.remove('fa-minus-square');
+                iconElement.classList.add('fa-plus-square');
+            } else {
+                // Columns were hidden, now visible -> show minus icon
+                iconElement.classList.remove('fa-plus-square');
+                iconElement.classList.add('fa-minus-square');
+            }
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     Promise.all([
         fetch('assets/data/behavior_total_benchmark.json').then(response => response.json()),
@@ -197,7 +246,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     title: "Model",
                     field: "model",
                     widthGrow: 2,
-                    minWidth: 70
+                    minWidth: 70,
+                    frozen: true // Freeze the Model column
                 },
                 {
                     title: "#F",
@@ -225,76 +275,86 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 },
                 {
-                    title: "<div style='text-align: center;'>Notebook</div>",
+                    // Add icon and specific class, assign headerClick
+                    title: "<div style='text-align: center; cursor: pointer;'>Notebook <i class='fas fa-plus-square notebook-toggle-icon'></i></div>",
+                    headerClick: toggleSubColumns, // Assign the click handler function
                     columns: [
-                        { 
-                            title: "<span style='font-size: 0.85em;'>Avg.</span>", 
-                            field: "notebook_avg", 
-                            hozAlign: "center", 
-                            formatter: colorFormatterActionSeq, 
+                        {
+                            title: "<span style='font-size: 0.85em;'>Avg.</span>",
+                            field: "notebook_avg",
+                            hozAlign: "center",
+                            formatter: colorFormatterActionSeq,
                             minWidth: 60,
                             widthGrow: 0.7
                         },
-                        { 
-                            title: "<span style='font-size: 0.85em;'>Math</span>", 
-                            field: "notebook_math", 
-                            hozAlign: "center", 
-                            formatter: colorFormatterActionSeq, 
+                        {
+                            title: "<span style='font-size: 0.85em;'>Math</span>",
+                            field: "notebook_math",
+                            hozAlign: "center",
+                            formatter: colorFormatterActionSeq,
                             minWidth: 60,
-                            widthGrow: 0.7
+                            widthGrow: 0.7,
+                            visible: false // Initially hidden
                         },
-                        { 
-                            title: "<span style='font-size: 0.85em;'>Physics</span>", 
-                            field: "notebook_physics", 
-                            hozAlign: "center", 
-                            formatter: colorFormatterActionSeq, 
+                        {
+                            title: "<span style='font-size: 0.85em;'>Physics</span>",
+                            field: "notebook_physics",
+                            hozAlign: "center",
+                            formatter: colorFormatterActionSeq,
                             minWidth: 60,
-                            widthGrow: 0.8
+                            widthGrow: 0.8,
+                            visible: false // Initially hidden
                         },
-                        { 
-                            title: "<span style='font-size: 0.85em;'>Chemistry</span>", 
-                            field: "notebook_chemistry", 
-                            hozAlign: "center", 
-                            formatter: colorFormatterActionSeq, 
+                        {
+                            title: "<span style='font-size: 0.85em;'>Chemistry</span>",
+                            field: "notebook_chemistry",
+                            hozAlign: "center",
+                            formatter: colorFormatterActionSeq,
                             minWidth: 70,
-                            widthGrow: 1.2
+                            widthGrow: 1.2,
+                            visible: false // Initially hidden
                         }
                     ]
                 },
                 {
-                    title: "<div style='text-align: center;'>Quiz</div>",
+                     // Add icon and specific class, assign headerClick
+                    title: "<div style='text-align: center; cursor: pointer;'>Quiz <i class='fas fa-plus-square quiz-toggle-icon'></i></div>",
+                    headerClick: toggleSubColumns, // Assign the click handler function
                     columns: [
-                        { 
-                            title: "<span style='font-size: 0.85em;'>Avg.</span>", 
-                            field: "quiz_avg", 
-                            hozAlign: "center", 
-                            formatter: simpleColorFormatter, 
+                        {
+                            title: "<span style='font-size: 0.85em;'>Avg.</span>",
+                            field: "quiz_avg",
+                            hozAlign: "center",
+                            formatter: simpleColorFormatter,
                             minWidth: 55,
                             widthGrow: 0.7
                         },
-                        { 
-                            title: "<span style='font-size: 0.85em;'>Math</span>", 
-                            field: "quiz_math", 
-                            hozAlign: "center", 
-                            formatter: simpleColorFormatter, 
+                        {
+                            title: "<span style='font-size: 0.85em;'>Math</span>",
+                            field: "quiz_math",
+                            hozAlign: "center",
+                            formatter: simpleColorFormatter,
                             minWidth: 55,
-                            widthGrow: 0.7
+                            widthGrow: 0.7,
+                            visible: false // Initially hidden
                         },
-                        { 
-                            title: "<span style='font-size: 0.85em;'>Physics</span>", 
-                            field: "quiz_physics", 
-                            hozAlign: "center", 
-                            formatter: simpleColorFormatter, 
+                        {
+                            title: "<span style='font-size: 0.85em;'>Physics</span>",
+                            field: "quiz_physics",
+                            hozAlign: "center",
+                            formatter: simpleColorFormatter,
                             minWidth: 60,
-                            widthGrow: 0.8
+                            widthGrow: 0.8,
+                            visible: false // Initially hidden
                         },
-                        { 
-                            title: "<span style='font-size: 0.85em;'>Chemistry</span>", 
-                            field: "quiz_chemistry", 
-                            hozAlign: "center", 
-                            formatter: simpleColorFormatter, 
+                        {
+                            title: "<span style='font-size: 0.85em;'>Chemistry</span>",
+                            field: "quiz_chemistry",
+                            hozAlign: "center",
+                            formatter: simpleColorFormatter,
                             minWidth: 70,
-                            widthGrow: 1.2
+                            widthGrow: 1.2,
+                            visible: false // Initially hidden
                         }
                     ]
                 }
