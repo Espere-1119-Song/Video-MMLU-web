@@ -168,6 +168,8 @@ const simpleColorFormatter = function(cell, formatterParams) {
 
 // Function to toggle sub-columns and update icon
 function toggleSubColumns(e, column) {
+    console.log("toggleSubColumns called for header:", column.getDefinition().title); // Log when function starts
+
     const table = column.getTable();
     const subColumns = column.getColumns(); // Get sub-columns of the group
     let fieldsToToggle = [];
@@ -175,42 +177,68 @@ function toggleSubColumns(e, column) {
 
     // Determine which group was clicked and the fields/icon selector
     const columnTitle = column.getDefinition().title;
+    console.log("Clicked column title raw:", columnTitle); // Log the raw title
+
     if (columnTitle.includes("Notebook")) {
         fieldsToToggle = ['notebook_math', 'notebook_physics', 'notebook_chemistry'];
         iconElementSelector = '.notebook-toggle-icon';
+        console.log("Identified as Notebook group.");
     } else if (columnTitle.includes("Quiz")) {
         fieldsToToggle = ['quiz_math', 'quiz_physics', 'quiz_chemistry'];
         iconElementSelector = '.quiz-toggle-icon';
+        console.log("Identified as Quiz group.");
+    } else {
+        console.log("Group not identified.");
+        return; // Exit if group not identified
     }
+
+    console.log("Fields to toggle:", fieldsToToggle);
 
     if (fieldsToToggle.length > 0) {
         // Check current visibility state based on the first column to toggle
         const firstSubColumn = table.getColumn(fieldsToToggle[0]);
-        if (!firstSubColumn) return; // Safety check
+        if (!firstSubColumn) {
+            console.error("Could not find the first sub-column:", fieldsToToggle[0]); // Error if first column not found
+            return; // Safety check
+        }
+        console.log("First sub-column to check visibility:", firstSubColumn.getField());
+
 
         const isCurrentlyVisible = firstSubColumn.isVisible();
+        console.log("Sub-columns currently visible:", isCurrentlyVisible);
+
 
         // Toggle visibility of each subject column
         fieldsToToggle.forEach(field => {
             const subCol = table.getColumn(field);
             if (subCol) { // Check if column exists before toggling
+                 console.log("Toggling column:", field);
                  table.toggleColumn(field);
+            } else {
+                console.error("Could not find column to toggle:", field); // Error if column not found during toggle
             }
         });
 
         // Update the icon in the header element directly
         const headerElement = column.getElement(); // Get the header DOM element
+        console.log("Header element:", headerElement);
         const iconElement = headerElement.querySelector(iconElementSelector);
+        console.log("Icon element found:", iconElement);
+
         if (iconElement) {
             if (isCurrentlyVisible) {
                 // Columns were visible, now hidden -> show plus icon
+                console.log("Changing icon to plus");
                 iconElement.classList.remove('fa-minus-square');
                 iconElement.classList.add('fa-plus-square');
             } else {
                 // Columns were hidden, now visible -> show minus icon
+                console.log("Changing icon to minus");
                 iconElement.classList.remove('fa-plus-square');
                 iconElement.classList.add('fa-minus-square');
             }
+        } else {
+             console.error("Could not find icon element with selector:", iconElementSelector);
         }
     }
 }
