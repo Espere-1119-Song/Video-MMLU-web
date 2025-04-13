@@ -1,0 +1,86 @@
+/* NEW: Style for the container holding BOTH detail sections */
+.combined-details-container {
+    display: flex;
+    /* flex-wrap: nowrap; */ /* Allow wrapping temporarily for debugging */
+    width: 100%;
+    padding: 5px 0 8px 0; /* Vertical padding only */
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    box-sizing: border-box;
+    /* overflow: hidden; */ /* Keep commented out for debugging */
+}
+
+/* NEW: Style for each section (notebook or quiz) within the container */
+.detail-section {
+    /* flex: 1 1 0; */ /* REMOVE flex sizing */
+    /* min-width: 0; */ /* REMOVE min-width */
+    font-size: 0.8em;
+    color: #495057;
+    box-sizing: border-box;
+    /* Remove margins */
+    /* margin: 0 5px; */
+    width: 100%; /* Let section take full width initially */
+    position: relative; /* Needed if we were to overlap, maybe helps? */
+}
+/* Remove margin overrides */
+/* .detail-section:first-child { margin-left: 0; } */
+/* .detail-section:last-child { margin-right: 0; } */
+
+/* Style for the container holding the detailed scores */
+.row-detail-scores {
+    padding: 5px 15px 8px 15px; /* Adjust vertical padding */
+    background-color: #f8f9fa; /* Light background */
+    border-top: 1px solid #dee2e6; /* Separator line */
+    font-size: 0.9em; /* Slightly smaller font */
+    color: #495057; /* Text color */
+    box-sizing: border-box;
+    /* Ensure it takes full width relative to the row */
+    width: 100%;
+    overflow: hidden; /* Prevent content overflow issues */
+    text-align: left; /* Default text alignment */
+}
+
+/* Alignment for Notebook details */
+.notebook-details .detail-labels,
+.notebook-details .detail-values {
+    padding-left: 40%; /* Adjust! Pushes Math/Physics/Chem over */
+}
+
+/* Alignment for Quiz details */
+.quiz-details .detail-labels,
+.quiz-details .detail-values {
+    padding-left: 55%; /* Adjust! Pushes Math/Physics/Chem over further */
+}
+
+/* NEW CSS for two-line details */
+.detail-labels,
+.detail-values {
+    display: flex; /* Keep flex for items inside */
+    justify-content: flex-start;
+    /* width: 100%; */ /* Let width be determined by padding + items */
+}
+.detail-labels { margin-bottom: 1px; font-weight: 500; color: #6c757d; }
+
+/* Item - Make very small temporarily to test layout */
+.detail-item {
+    width: 45px;
+    text-align: left;
+    margin-right: 3px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-shrink: 0; /* Prevent items shrinking */
+}
+
+/* Optional: Style for the clickable average cells */
+.clickable-avg {
+    position: relative;
+    cursor: pointer; /* Ensure cursor indicates clickability */
+}
+
+/* Example: Add a small triangle when clickable (optional) */
+/* .clickable-avg::after { ... } */
+
+/* Style for the clickable average cells when expanded */
+.clickable-avg.expanded { font-weight: bold; }

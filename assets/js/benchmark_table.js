@@ -166,82 +166,6 @@ const simpleColorFormatter = function(cell, formatterParams) {
     ">${formattedValue}</div>`;
 };
 
-// REFACTORED Function to toggle sub-columns and update icon
-// Now accepts table instance and group name
-function toggleSubColumns(table, groupName) {
-    console.log("toggleSubColumns called for group:", groupName); // Log when function starts
-
-    let fieldsToToggle = [];
-    let iconElementSelector = '';
-    let headerElementSelector = ''; // Selector to find the specific header div
-
-    if (groupName === "notebook") {
-        fieldsToToggle = ['notebook_math', 'notebook_physics', 'notebook_chemistry'];
-        iconElementSelector = '.notebook-toggle-icon';
-        headerElementSelector = '.clickable-group-header[data-group="notebook"]';
-    } else if (groupName === "quiz") {
-        fieldsToToggle = ['quiz_math', 'quiz_physics', 'quiz_chemistry'];
-        iconElementSelector = '.quiz-toggle-icon';
-        headerElementSelector = '.clickable-group-header[data-group="quiz"]';
-    } else {
-        console.log("Group not identified.");
-        return; // Exit if group not identified
-    }
-
-    console.log("Fields to toggle:", fieldsToToggle);
-
-    if (fieldsToToggle.length > 0) {
-        // Check current visibility state based on the first column to toggle
-        const firstSubColumn = table.getColumn(fieldsToToggle[0]);
-        if (!firstSubColumn) {
-            console.error("Could not find the first sub-column:", fieldsToToggle[0]);
-            return; // Safety check
-        }
-        console.log("First sub-column to check visibility:", firstSubColumn.getField());
-
-        const isCurrentlyVisible = firstSubColumn.isVisible();
-        console.log("Sub-columns currently visible:", isCurrentlyVisible);
-
-        // Toggle visibility of each subject column
-        fieldsToToggle.forEach(field => {
-            const subCol = table.getColumn(field);
-            if (subCol) {
-                 console.log("Toggling column:", field);
-                 table.toggleColumn(field);
-            } else {
-                console.error("Could not find column to toggle:", field);
-            }
-        });
-
-        // Update the icon in the header element directly
-        // Find the specific header element within the table's element
-        const tableElement = table.element; // Get the main table container element
-        const headerElement = tableElement.querySelector(headerElementSelector); // Find the specific div
-        console.log("Header element found:", headerElement);
-
-        if (headerElement) {
-            const iconElement = headerElement.querySelector(iconElementSelector);
-            console.log("Icon element found:", iconElement);
-
-            if (iconElement) {
-                if (isCurrentlyVisible) {
-                    console.log("Changing icon to plus");
-                    iconElement.classList.remove('fa-minus-square');
-                    iconElement.classList.add('fa-plus-square');
-                } else {
-                    console.log("Changing icon to minus");
-                    iconElement.classList.remove('fa-plus-square');
-                    iconElement.classList.add('fa-minus-square');
-                }
-            } else {
-                 console.error("Could not find icon element with selector:", iconElementSelector, "within", headerElement);
-            }
-        } else {
-            console.error("Could not find header element with selector:", headerElementSelector);
-        }
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     Promise.all([
         fetch('assets/data/behavior_total_benchmark.json').then(response => response.json()),
@@ -267,132 +191,80 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             var behavior_columns = [
+                // Model column - keep default (left) alignment
+                { title: "Model", field: "model", widthGrow: 1, minWidth: 60, frozen: true },
+                // Center align headers for the rest
+                { title: "#F", field: "frames", widthGrow: 0.5, minWidth: 5},
                 {
-                    title: "Model",
-                    field: "model",
-                    widthGrow: 2,
-                    minWidth: 70,
-                    frozen: true // Freeze the Model column
+                    title: "#T", field: "tpf", widthGrow: 0.5, minWidth: 5, sorter: "number",
+                    formatter: function(cell, formatterParams){
+                        const value = cell.getValue();
+                        if (value === Infinity || value === null || value === undefined) {
+                            return "-";
+                        }
+                        return value;
+                    }
                 },
                 {
-                    title: "#F",
-                    field: "frames",
-                    widthGrow: 0.6,
-                    minWidth: 35
-                },
-                {
-                    title: "#T",
-                    field: "tpf",
-                    widthGrow: 0.6,
-                    minWidth: 35,
-                    sorter: "number" // Explicitly set the sorter to number
-                },
-                {
-                    title: "Avg.",
-                    field: "avg_acc",
-                    widthGrow: 0.7,
-                    minWidth: 50,
-                    formatter: colorFormatterAvg,
+                    title: "Avg.", field: "avg_acc", widthGrow: 0.8, minWidth: 50, formatter: colorFormatterAvg, headerHozAlign: "center",
                     sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
-                        // Convert to numbers for proper sorting
                         var a_val = parseFloat(a) || 0;
                         var b_val = parseFloat(b) || 0;
                         return a_val - b_val;
                     }
                 },
+                // --- Unnested Notebook Columns ---
                 {
-                    // Add class and data-group to the div, remove headerClick
-                    title: "<div class='clickable-group-header' data-group='notebook' style='text-align: center; cursor: pointer;'>Notebook <i class='fas fa-plus-square notebook-toggle-icon'></i></div>",
-                    columns: [
-                        {
-                            title: "<span style='font-size: 0.85em;'>Avg.</span>",
-                            field: "notebook_avg",
-                            hozAlign: "center",
-                            formatter: colorFormatterActionSeq,
-                            minWidth: 60,
-                            widthGrow: 0.7
-                        },
-                        {
-                            title: "<span style='font-size: 0.85em;'>Math</span>",
-                            field: "notebook_math",
-                            hozAlign: "center",
-                            formatter: colorFormatterActionSeq,
-                            minWidth: 60,
-                            widthGrow: 0.7,
-                            visible: false // Initially hidden
-                        },
-                        {
-                            title: "<span style='font-size: 0.85em;'>Physics</span>",
-                            field: "notebook_physics",
-                            hozAlign: "center",
-                            formatter: colorFormatterActionSeq,
-                            minWidth: 60,
-                            widthGrow: 0.8,
-                            visible: false // Initially hidden
-                        },
-                        {
-                            title: "<span style='font-size: 0.85em;'>Chemistry</span>",
-                            field: "notebook_chemistry",
-                            hozAlign: "center",
-                            formatter: colorFormatterActionSeq,
-                            minWidth: 70,
-                            widthGrow: 1.2,
-                            visible: false // Initially hidden
-                        }
-                    ]
+                    title: "Notebook",
+                    field: "notebook_avg",
+                    hozAlign: "center", // Cell content alignment
+                    headerHozAlign: "center", // Header alignment
+                    formatter: colorFormatterActionSeq,
+                    minWidth: 60,
+                    widthGrow: 1,
+                    cssClass: "clickable-avg notebook-avg-cell"
                 },
+                // Hidden Notebook subject columns
+                { title: "Notebook Math", field: "notebook_math", visible: false, formatter: colorFormatterActionSeq, headerHozAlign: "center" },
+                { title: "Notebook Physics", field: "notebook_physics", visible: false, formatter: colorFormatterActionSeq, headerHozAlign: "center" },
+                { title: "Notebook Chemistry", field: "notebook_chemistry", visible: false, formatter: colorFormatterActionSeq, headerHozAlign: "center" },
+
+                // --- Unnested Quiz Columns ---
                 {
-                     // Add class and data-group to the div, remove headerClick
-                    title: "<div class='clickable-group-header' data-group='quiz' style='text-align: center; cursor: pointer;'>Quiz <i class='fas fa-plus-square quiz-toggle-icon'></i></div>",
-                    columns: [
-                        {
-                            title: "<span style='font-size: 0.85em;'>Avg.</span>",
-                            field: "quiz_avg",
-                            hozAlign: "center",
-                            formatter: simpleColorFormatter,
-                            minWidth: 55,
-                            widthGrow: 0.7
-                        },
-                        {
-                            title: "<span style='font-size: 0.85em;'>Math</span>",
-                            field: "quiz_math",
-                            hozAlign: "center",
-                            formatter: simpleColorFormatter,
-                            minWidth: 55,
-                            widthGrow: 0.7,
-                            visible: false // Initially hidden
-                        },
-                        {
-                            title: "<span style='font-size: 0.85em;'>Physics</span>",
-                            field: "quiz_physics",
-                            hozAlign: "center",
-                            formatter: simpleColorFormatter,
-                            minWidth: 60,
-                            widthGrow: 0.8,
-                            visible: false // Initially hidden
-                        },
-                        {
-                            title: "<span style='font-size: 0.85em;'>Chemistry</span>",
-                            field: "quiz_chemistry",
-                            hozAlign: "center",
-                            formatter: simpleColorFormatter,
-                            minWidth: 70,
-                            widthGrow: 1.2,
-                            visible: false // Initially hidden
-                        }
-                    ]
-                }
+                    title: "Quiz",
+                    field: "quiz_avg",
+                    hozAlign: "center", // Cell content alignment
+                    headerHozAlign: "center", // Header alignment
+                    formatter: simpleColorFormatter,
+                    minWidth: 55,
+                    widthGrow: 1,
+                    cssClass: "clickable-avg quiz-avg-cell"
+                },
+                // Hidden Quiz subject columns
+                { title: "Quiz Math", field: "quiz_math", visible: false, formatter: simpleColorFormatter, headerHozAlign: "center" },
+                { title: "Quiz Physics", field: "quiz_physics", visible: false, formatter: simpleColorFormatter, headerHozAlign: "center" },
+                { title: "Quiz Chemistry", field: "quiz_chemistry", visible: false, formatter: simpleColorFormatter, headerHozAlign: "center" }
             ];
 
+            // --- Update formatterParams assignment logic ---
             behavior_columns.forEach(column => {
-                if (column.columns) {
-                    column.columns.forEach(subColumn => {
-                        let { min, max } = getColumnMinMax(behavior_total_benchmark_data, subColumn.field);
-                        subColumn.formatterParams = { min, max };
-                    });
-                } else if (column.field !== "model" && column.field !== "frames" && column.field !== "tpf") {
-                    let { min, max } = getColumnMinMax(behavior_total_benchmark_data, column.field);
-                    column.formatterParams = { min, max };
+                // Check if the column field is one that needs min/max params
+                // This includes the visible averages and the hidden subject scores
+                const fieldsNeedingParams = [
+                    "avg_acc",
+                    "notebook_avg", "notebook_math", "notebook_physics", "notebook_chemistry",
+                    "quiz_avg", "quiz_math", "quiz_physics", "quiz_chemistry"
+                ];
+
+                if (fieldsNeedingParams.includes(column.field)) {
+                    // Ensure the column has a formatter function before assigning params
+                    if (column.formatter) {
+                        let { min, max } = getColumnMinMax(behavior_total_benchmark_data, column.field);
+                        column.formatterParams = { min, max };
+                    } else {
+                        // Optional: Log a warning if a column needing params is missing a formatter
+                        // console.warn(`Column "${column.field}" needs params but is missing a formatter.`);
+                    }
                 }
             });
 
@@ -437,6 +309,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
+            // Helper function to generate HTML string for a detail type
+            function createDetailHTML(rowData, type) {
+                const math = rowData[`${type}_math`];
+                const physics = rowData[`${type}_physics`];
+                const chemistry = rowData[`${type}_chemistry`];
+
+                // Format values
+                const mathVal = math !== undefined && math !== null ? math.toFixed(1) : '-';
+                const physicsVal = physics !== undefined && physics !== null ? physics.toFixed(1) : '-';
+                const chemistryVal = chemistry !== undefined && chemistry !== null ? chemistry.toFixed(1) : '-';
+
+                // Add the specific class back to the main section div
+                return `
+                    <div class="detail-section ${type}-details">
+                        <div class="detail-labels">
+                            <span class="detail-item">Math</span>
+                            <span class="detail-item">Physics</span>
+                            <span class="detail-item">Chemistry</span>
+                        </div>
+                        <div class="detail-values">
+                            <span class="detail-item">${mathVal}</span>
+                            <span class="detail-item">${physicsVal}</span>
+                            <span class="detail-item">${chemistryVal}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
             var behavior_table = new Tabulator("#behavior-benchmark-main-table", {
                 data: behavior_total_benchmark_data,
                 layout: "fitColumns",
@@ -451,21 +351,92 @@ document.addEventListener('DOMContentLoaded', function () {
                     headerWordWrap: true,
                 },
                 columns: behavior_columns,
-                height: "800px", // Set a fixed height for the table
-                virtualDom: true, // Enable virtual DOM for better performance with large datasets
-                // ADD tableBuilt callback
-                tableBuilt: function(){
-                    console.log("Table built, attaching listeners...");
-                    // Attach click listeners to the custom header divs
-                    this.element.querySelectorAll('.clickable-group-header').forEach(headerDiv => {
-                        headerDiv.addEventListener('click', () => {
-                            const group = headerDiv.getAttribute('data-group');
-                            console.log("Manual listener clicked for group:", group);
-                            toggleSubColumns(this, group); // 'this' refers to the table instance
+                height: "800px",
+                virtualDom: true,
+
+                rowFormatter: function(row) {
+                    var element = row.getElement(); // Get the row DOM element
+                    var data = row.getData(); // Get the data for the row
+
+                    // Find the clickable average cells
+                    var notebookAvgCell = element.querySelector('.notebook-avg-cell');
+                    var quizAvgCell = element.querySelector('.quiz-avg-cell');
+
+                    // Function to render/update the combined details container
+                    const renderCombinedDetails = () => {
+                        // Check expansion state (using data attributes on the row element)
+                        const notebookExpanded = element.dataset.notebookExpanded === 'true';
+                        const quizExpanded = element.dataset.quizExpanded === 'true';
+
+                        // Find existing details container or create if needed
+                        let detailContainer = element.querySelector('.combined-details-container');
+
+                        // Remove container if nothing is expanded
+                        if (!notebookExpanded && !quizExpanded) {
+                            if (detailContainer) {
+                                detailContainer.remove();
+                            }
+                            return; // Exit
+                        }
+
+                        // Create container if it doesn't exist
+                        if (!detailContainer) {
+                            detailContainer = document.createElement('div');
+                            detailContainer.classList.add('combined-details-container');
+                            element.appendChild(detailContainer); // Append once
+                        }
+
+                        // Generate HTML based on state
+                        let combinedHTML = '';
+                        if (notebookExpanded) {
+                            combinedHTML += createDetailHTML(data, 'notebook');
+                        }
+                        if (quizExpanded) {
+                            combinedHTML += createDetailHTML(data, 'quiz');
+                        }
+
+                        // *** Add console log for debugging ***
+                        if (notebookExpanded && quizExpanded) {
+                            console.log("Attempting to render BOTH Notebook and Quiz sections in row for model:", data.model);
+                        }
+                        // *** End console log ***
+
+                        // Update the container's content
+                        detailContainer.innerHTML = combinedHTML;
+                    };
+
+                    // Add click listener for Notebook Avg
+                    if (notebookAvgCell) {
+                        notebookAvgCell.style.cursor = 'pointer';
+                        notebookAvgCell.title = 'Click to see subject scores';
+                        notebookAvgCell.addEventListener('click', () => {
+                            // Toggle state
+                            const isExpanded = element.dataset.notebookExpanded === 'true';
+                            element.dataset.notebookExpanded = isExpanded ? 'false' : 'true';
+                            notebookAvgCell.classList.toggle('expanded', !isExpanded);
+                            // Re-render details
+                            renderCombinedDetails();
                         });
-                    });
+                    }
+
+                    // Add click listener for Quiz Avg
+                    if (quizAvgCell) {
+                        quizAvgCell.style.cursor = 'pointer';
+                        quizAvgCell.title = 'Click to see subject scores';
+                        quizAvgCell.addEventListener('click', () => {
+                            // Toggle state
+                            const isExpanded = element.dataset.quizExpanded === 'true';
+                            element.dataset.quizExpanded = isExpanded ? 'false' : 'true';
+                            quizAvgCell.classList.toggle('expanded', !isExpanded);
+                            // Re-render details
+                            renderCombinedDetails();
+                        });
+                    }
+
+                    // Initial render in case state is somehow preserved (optional)
+                    // renderCombinedDetails();
                 }
             });
         });
-})
+});
 
