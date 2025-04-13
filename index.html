@@ -20,6 +20,20 @@
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff"> -->
 
+        <!-- Open Graph -->
+        <meta property="og:url" content="https://enxinsong.com/Video-MMLU-web/" />
+        <meta property="og:image" content="https://github.com/Espere-1119-Song/Video-MMLU-web/blob/main/assets/img/figures/teaser.jpg" />
+        <meta property="og:title" content="Video-MMLU: A Massive Multi-Discipline Lecture Understanding Benchmark" />
+        <meta property="og:description" content="Video-MMLU pushes LMMs to the limits—can the model really understand real-world lectures?" />
+
+        <!-- Twitter -->
+        <!-- <meta name="twitter:url" content="https://xichenpan.com/metaquery/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://xichenpan.com/metaquery/static/img/preview.png" />
+        <meta name="twitter:title" content="Transfer between Modalities with MetaQueries" />
+        <meta name="twitter:description" content="Introducing MetaQuery, a minimal recipe for building state-of-the-art unified multimodal understanding (text output) and generation (pixel output) models" /> -->
+
+
         <!-- Vendor Stylesheets -->
         <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,700%7CRoboto:300,400,700" rel="stylesheet">
         <link href="assets/vendor/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
@@ -1144,6 +1158,62 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Previous work -->
+            <section id="related_work" class="py-3">
+                <div class="container">
+                    <h2 class="text-center py-3">Our Related Work</h2>
+                    <div class="faq">
+                        <div class="card">
+                            <div class="has-text-centered">
+                                <h5 style="font-weight: bold; margin: 3px 0; text-align: center;">
+                                    MovieChat: From Dense Token to Sparse Memory for Long Video Understanding
+                                </h5>
+                                <p style="color: hsl(271, 100%, 27%); font-weight: bold; text-align: center; margin: 3px 0;">The first long-form video open-ended benchmark.</p>
+                                <div class="'is-size-4 publication-authors" style="text-align: center;">
+                                    <span class="author-block" style="color: darkred; font-weight: bold;">CVPR 2024</span>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-auto">
+                                        <a href="https://arxiv.org/abs/2307.16449v4" class="btn btn-primary mx-2 px-5 mb-3" data-aos="fade-left" data-aos-delay="50" data-aos-duration="500" target="_blank">arXiv</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="https://github.com/rese1f/MovieChat" class="btn btn-light mx-2 px-5 mb-3" data-aos="fade-left" data-aos-delay="50" data-aos-duration="500" target="_blank">GitHub</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="https://huggingface.co/datasets/Enxin/MovieChat-1K-test" class="btn btn-warning mx-2 px-5 mb-3" data-aos="fade-left" data-aos-delay="50" data-aos-duration="500" target="_blank">Huggingface</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card">
+                            <div class="has-text-centered">
+                                <h5 style="font-weight: bold; margin: 3px 0; text-align: center;">
+                                    AuroraCap: Efficient, Performant Video Detailed Captioning and a New Benchmark
+                                </h5>
+                                <p style="color: hsl(271, 100%, 27%); font-weight: bold; text-align: center; margin: 3px 0;">A more efficient multimodal large language model series.</p>
+                                <div class="'is-size-4 publication-authors" style="text-align: center;">
+                                    <span class="author-block" style="color: darkred; font-weight: bold;">ICLR 2025</span>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-auto">
+                                        <a href="https://arxiv.org/abs/2410.03051" class="btn btn-primary mx-2 px-5 mb-3" data-aos="fade-left" data-aos-delay="50" data-aos-duration="500" target="_blank">arXiv</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="https://rese1f.github.io/aurora-web/" class="btn btn-light mx-2 px-5 mb-3" data-aos="fade-left" data-aos-delay="50" data-aos-duration="500" target="_blank">Website</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <a href="https://huggingface.co/datasets/wchai/Video-Detailed-Caption" class="btn btn-warning mx-2 px-5 mb-3" data-aos="fade-left" data-aos-delay="50" data-aos-duration="500" target="_blank">Huggingface</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
             
         </main>
         
@@ -1156,13 +1226,13 @@
                 <p><strong>BibTeX</strong></p> <!-- Added a smaller, left-aligned label -->
                 <!-- Removed the card and card-body divs -->
                 <pre style="background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 1rem; border-radius: .25rem;"><code>@misc{song2024videommlu,
-    title={Video-MMLU: A Massive Multi-discipline Lecture Understanding Benchmark}, 
-    author={Enxin Song and Wenhao Chai and Weili Xu and Jianwen Xie and Yuxuan Liu and Gaoang Wang},
-    year={2024},
-    eprint={2407.04171},
-    archivePrefix={arXiv},
-    primaryClass={cs.CV}
-}</code></pre>
+                    title={Video-MMLU: A Massive Multi-discipline Lecture Understanding Benchmark}, 
+                    author={Enxin Song and Wenhao Chai and Weili Xu and Jianwen Xie and Yuxuan Liu and Gaoang Wang},
+                    year={2024},
+                    eprint={2407.04171},
+                    archivePrefix={arXiv},
+                    primaryClass={cs.CV}
+                }</code></pre>
             </div>
         </section>
         <!-- End of BibTeX -->
