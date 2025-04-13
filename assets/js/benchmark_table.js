@@ -284,7 +284,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     title: "#T",
                     field: "tpf",
                     widthGrow: 0.6,
-                    minWidth: 35
+                    minWidth: 35,
+                    sorter: "number" // Explicitly set the sorter to number
                 },
                 {
                     title: "Avg.",
@@ -424,6 +425,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 if (typeof item.quiz_chemistry === 'string') {
                     item.quiz_chemistry = parseFloat(item.quiz_chemistry) || 0;
+                }
+
+                // Add conversion for tpf, handling non-numeric like '-'
+                if (typeof item.tpf === 'string' || item.tpf === '-') {
+                    // Attempt to parse, default to a very large number or 0 if '-' or invalid
+                    // Using Infinity ensures '-' goes to one end when sorting
+                    item.tpf = parseFloat(item.tpf) || Infinity;
+                } else if (typeof item.tpf !== 'number') {
+                     item.tpf = Infinity; // Handle other non-numeric types
                 }
             });
 
