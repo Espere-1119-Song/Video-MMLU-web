@@ -91,3 +91,135 @@
    font-weight: bold;
    /* Or remove if not needed */
 }
+
+/* --- SCORE BAR STYLES --- */
+
+/* Container for bar + text in Notebook/Quiz cells */
+.score-cell-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 6px; /* Slightly increased radius for thicker bar */
+}
+
+/* The visual bar itself (behind the text) */
+.score-bar {
+    height: 100%;
+    border-radius: 6px; /* Match container radius */
+    transition: width 0.3s ease-in-out;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+/* Text displayed in Notebook/Quiz cells */
+.score-cell-text {
+    position: relative;
+    z-index: 2;
+    font-size: 1.1em; /* << REDUCED font size from 1.3em */
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.85);
+    text-align: center;
+    line-height: 1.2;
+    text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.5);
+}
+
+
+/* Specific gradients for each type */
+.notebook-bar {
+    /* Lighter green gradient */
+    background-image: linear-gradient(to right, #C8F0C8, #90D990);
+}
+.quiz-bar {
+    /* Lighter purple gradient */
+    background-image: linear-gradient(to right, #D9CDEB, #BDA8E0);
+}
+
+
+/* Adjust cell height */
+.tabulator-cell.notebook-avg-cell,
+.tabulator-cell.quiz-avg-cell {
+    padding: 0;
+    height: 48px; /* << INCREASED HEIGHT for thicker bars */
+    box-sizing: border-box;
+}
+
+
+/* --- RING FORMATTER STYLES --- */
+/* ... .ring-formatter-container, .progress-ring styles ... */
+.ring-formatter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+.progress-ring {
+    flex-shrink: 0;
+}
+
+.progress-ring circle {
+    fill: none;
+}
+
+.progress-ring-bg {
+    stroke: #e6e6e6;
+    stroke-linecap: round;
+}
+
+.progress-ring-bar {
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s ease;
+}
+
+
+.ring-formatter-text {
+    font-size: 1.1em;
+    color: #333;
+    line-height: 1;
+}
+
+/* ... .tabulator-cell[tabulator-field="avg_acc"] styles ... */
+.tabulator-cell[tabulator-field="avg_acc"] {
+     padding: 1px 2px;
+     min-height: 45px;
+}
+
+
+/* --- POPUP STYLES (Keep as is) --- */
+/* ... existing popup styles ... */
+
+/* --- MODEL TYPE ICONS --- */
+
+/* Base style for all model type icons */
+.model-icon {
+    margin-right: 5px;  /* Space between icon and model name text */
+    font-size: 0.9em;   /* Make icon slightly smaller than text */
+    color: #666;       /* Default icon color (grey) */
+    width: 1.1em;       /* Consistent width for alignment */
+    text-align: center; /* Center icon within its space */
+    vertical-align: middle; /* Align icon vertically with text */
+}
+
+/* Style for Proprietary model icons (lock icon) */
+.proprietary-icon {
+    color: #a87f0a; /* Gold/Orange color */
+}
+
+/* Style for Open Source model icons (open box icon) */
+.open-source-icon {
+    color: #3a8a47; /* Green color */
+}
+
+/* Style for Base LLM icons (brain icon) */
+.llm-icon {
+    color: #4a6e9a; /* Blue color */
+}

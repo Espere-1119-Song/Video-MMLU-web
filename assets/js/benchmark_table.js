@@ -1,34 +1,57 @@
 //Formatter to generate charts
 var chartFormatter = function (cell, formatterParams, onRendered) {
-    var content = document.createElement("span");
-    var values = cell.getValue();
+    const value = cell.getValue();
+    const field = cell.getField();
+    const container = document.createElement("div");
+    container.classList.add("score-cell-container"); // Use container class
 
-    //invert values if needed
-    if (formatterParams.invert) {
-        values = values.map(val => val * -1);
+    // Handle non-numeric or missing values
+    if (value === undefined || value === null || isNaN(value) || value === "-") {
+        container.textContent = "-";
+        container.style.textAlign = "center";
+        container.style.width = "100%";
+        container.style.height = "100%";
+        container.style.display = "flex";
+        container.style.alignItems = "center";
+        container.style.justifyContent = "center";
+        return container;
     }
 
-    //add values to chart and style
-    content.classList.add(formatterParams.type);
-    content.innerHTML = values.join(",");
+    const numValue = parseFloat(value);
+    const { min = 0, max = 100 } = formatterParams || {};
+    const percentage = Math.max(0, Math.min(100, ((numValue - min) / (max - min)) * 100));
 
-    //setup chart options
-    var options = {
-        width: 50,
-        // min: 0.0,
-        // max: 100.0,
+    // --- Create the Bar ---
+    const bar = document.createElement("div");
+    bar.classList.add("score-bar");
+    bar.style.width = percentage + "%";
+    bar.style.position = "absolute"; // Position behind text
+    bar.style.left = "0";
+    bar.style.top = "0";
+    bar.style.height = "100%";
+    bar.style.zIndex = "1"; // Bar is behind
+
+    // Add specific class for color gradient
+    if (field.includes("notebook")) {
+        bar.classList.add("notebook-bar");
+    } else if (field.includes("quiz")) {
+        bar.classList.add("quiz-bar");
     }
 
-    if (formatterParams.fill) {
-        options.fill = formatterParams.fill
-    }
+    // --- Create the Text ---
+    const textSpan = document.createElement("span");
+    textSpan.classList.add("score-cell-text"); // Use the text class
+    textSpan.textContent = numValue.toFixed(1);
+    textSpan.style.position = "relative"; // Relative to allow z-index
+    textSpan.style.zIndex = "2"; // Text is on top
+    // --- END Text Creation ---
 
-    //instantiate piety chart after the cell element has been aded to the DOM
-    onRendered(function () {
-        peity(content, formatterParams.type, options);
-    });
 
-    return content;
+    // --- Assemble Container (Bar and Text) ---
+    container.appendChild(bar);
+    container.appendChild(textSpan);
+
+    return container;
 };
 
 // 基础格式化函数
@@ -166,6 +189,125 @@ const simpleColorFormatter = function(cell, formatterParams) {
     ">${formattedValue}</div>`;
 };
 
+// --- NEW: Helper function to interpolate between two hex colors ---
+function interpolateColor(value, minVal, maxVal, startColorHex, endColorHex) {
+    // Ensure value is within bounds
+    value = Math.max(minVal, Math.min(maxVal, value));
+
+    // Calculate the interpolation factor (0 to 1)
+    const factor = (value - minVal) / (maxVal - minVal);
+
+    // Convert hex colors to RGB integers
+    const startRGB = parseInt(startColorHex.slice(1), 16);
+    const endRGB = parseInt(endColorHex.slice(1), 16);
+
+    const startR = (startRGB >> 16) & 255;
+    const startG = (startRGB >> 8) & 255;
+    const startB = startRGB & 255;
+
+    const endR = (endRGB >> 16) & 255;
+    const endG = (endRGB >> 8) & 255;
+    const endB = endRGB & 255;
+
+    // Interpolate each color component
+    const r = Math.round(startR + factor * (endR - startR));
+    const g = Math.round(startG + factor * (endG - startG));
+    const b = Math.round(startB + factor * (endB - startB));
+
+    // Convert back to hex string
+    return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1).toUpperCase()}`;
+}
+// --- END HELPER FUNCTION ---
+
+// --- Formatter for Percentage Ring (Now Semicircle with Interpolated Color) ---
+function ringFormatter(cell, formatterParams, onRendered) {
+    const value = cell.getValue();
+    const container = document.createElement("div");
+    container.classList.add("ring-formatter-container");
+
+    // Handle non-numeric or missing values
+    if (value === undefined || value === null || isNaN(value) || value === "-") {
+        container.textContent = "-";
+        container.style.textAlign = "center";
+        return container;
+    }
+
+    const numValue = parseFloat(value);
+    const percentage = Math.max(0, Math.min(100, numValue));
+
+    // --- SVG Semicircle Elements ---
+    const svgNS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNS, "svg");
+    const size = 54;
+    const radius = 22;
+    const strokeWidth = 5;
+    const cx = size / 2;
+    const cy = size / 2 + (size - radius * 2 - strokeWidth) / 2 - 2;
+    const circumference = 2 * Math.PI * radius;
+    const semiCircumference = circumference / 2;
+    const offset = semiCircumference * (1 - percentage / 100);
+    // No gradient needed now
+    // const gradientId = `ringGradient-${cell.getRow().getPosition()}-${cell.getField()}`;
+
+    svg.setAttribute("viewBox", `0 0 ${size} ${size}`);
+    svg.setAttribute("width", size);
+    svg.setAttribute("height", size);
+    svg.classList.add("progress-ring");
+
+    // --- Calculate Interpolated Color ---
+    // Define the color range (e.g., Purple for 0, Aqua for 100)
+    const minScoreColor = "#6A0DAD"; // Deep Purple
+    const maxScoreColor = "#40E0D0"; // Turquoise / Aqua
+    // You could add a mid-point color and do two interpolations if desired
+    const calculatedColor = interpolateColor(numValue, 0, 100, minScoreColor, maxScoreColor);
+    // --- End Color Calculation ---
+
+
+    // --- Remove Gradient Definition ---
+    // const defs = document.createElementNS(svgNS, "defs");
+    // ... gradient definition removed ...
+    // svg.appendChild(defs);
+    // --- End Remove Gradient ---
+
+
+    // Background Semicircle (the track)
+    const bgCircle = document.createElementNS(svgNS, "circle");
+    bgCircle.setAttribute("cx", cx);
+    bgCircle.setAttribute("cy", cy);
+    bgCircle.setAttribute("r", radius);
+    bgCircle.setAttribute("stroke-width", strokeWidth);
+    bgCircle.setAttribute("stroke-dasharray", `${semiCircumference} ${circumference}`);
+    bgCircle.setAttribute("transform", `rotate(180 ${cx} ${cy})`);
+    bgCircle.classList.add("progress-ring-bg");
+    svg.appendChild(bgCircle);
+
+    // Progress Semicircle Arc
+    const progressCircle = document.createElementNS(svgNS, "circle");
+    progressCircle.setAttribute("cx", cx);
+    progressCircle.setAttribute("cy", cy);
+    progressCircle.setAttribute("r", radius);
+    progressCircle.setAttribute("stroke-width", strokeWidth);
+    progressCircle.setAttribute("stroke-dasharray", `${semiCircumference} ${circumference}`);
+    progressCircle.setAttribute("stroke-dashoffset", offset);
+    progressCircle.setAttribute("transform", `rotate(180 ${cx} ${cy})`);
+    // Apply the calculated solid color directly
+    progressCircle.setAttribute("stroke", calculatedColor); // << Use calculated solid color
+    progressCircle.classList.add("progress-ring-bar");
+    svg.appendChild(progressCircle);
+
+    // --- Text Value Element ---
+    const textSpan = document.createElement("span");
+    textSpan.classList.add("ring-formatter-text");
+    textSpan.textContent = numValue.toFixed(1);
+
+    // --- Assemble Container ---
+    container.appendChild(svg);
+    container.appendChild(textSpan);
+
+    return container;
+}
+// --- END UPDATED FORMATTER ---
+
 document.addEventListener('DOMContentLoaded', function () {
     Promise.all([
         fetch('assets/data/behavior_total_benchmark.json').then(response => response.json()),
@@ -191,8 +333,37 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             var behavior_columns = [
-                // Model column - keep default (left) alignment
-                { title: "Model", field: "model", widthGrow: 1, minWidth: 60, frozen: true },
+                // Model column - add formatter for icons
+                {
+                    title: "Model",
+                    field: "model",
+                    widthGrow: 1,
+                    minWidth: 150, // May need slight increase for icon
+                    frozen: true,
+                    formatter: function(cell, formatterParams, onRendered) {
+                        const modelName = cell.getValue();
+                        const rowData = cell.getRow().getData();
+                        const modelType = rowData.model_type; // Get the type from data
+
+                        let iconHtml = '';
+                        let iconTitle = ''; // Tooltip text
+
+                        if (modelType === 'proprietary') {
+                            iconHtml = '<i class="fas fa-lock model-icon proprietary-icon"></i> ';
+                            iconTitle = 'Proprietary Model';
+                        } else if (modelType === 'open-source') {
+                            iconHtml = '<i class="fas fa-box-open model-icon open-source-icon"></i> ';
+                            iconTitle = 'Open Source Model';
+                        } else if (modelType === 'llm') { // Added condition for LLM
+                            iconHtml = '<i class="fas fa-brain model-icon llm-icon"></i> ';
+                            iconTitle = 'Base LLM';
+                        }
+                        // No icon for unspecified types
+
+                        // Create a container span for better control and add tooltip
+                        return `<span title="${iconTitle}">${iconHtml}${modelName}</span>`;
+                    }
+                },
                 // Center align headers for the rest
                 { title: "#F", field: "frames", widthGrow: 0.5, minWidth: 5},
                 {
@@ -205,41 +376,46 @@ document.addEventListener('DOMContentLoaded', function () {
                         return value;
                     }
                 },
+                // Overall column using ringFormatter
                 {
-                    title: "Avg.", field: "avg_acc", widthGrow: 0.8, minWidth: 50, formatter: colorFormatterAvg, headerHozAlign: "center",
-                    sorter: function(a, b, aRow, bRow, column, dir, sorterParams){
-                        var a_val = parseFloat(a) || 0;
-                        var b_val = parseFloat(b) || 0;
-                        return a_val - b_val;
-                    }
+                    title: "Overall", field: "avg_acc", widthGrow: 1, minWidth: 100, // Adjusted width slightly
+                    hozAlign: "center", // Center the ring+text combo
+                    headerHozAlign: "center",
+                    sorter: function(a, b, aRow, bRow, column, dir, sorterParams) {
+                        // Handle non-numeric values for sorting
+                        const valA = parseFloat(a);
+                        const valB = parseFloat(b);
+                        const numA = isNaN(valA) ? -Infinity : valA;
+                        const numB = isNaN(valB) ? -Infinity : valB;
+                        return numA - numB;
+                    },
+                    formatter: ringFormatter // Use the ring formatter
+                    // No formatterParams needed here anymore
                 },
-                // --- Unnested Notebook Columns ---
+                // Notebook column using chartFormatter
                 {
-                    title: "Notebook",
-                    field: "notebook_avg",
-                    hozAlign: "center", // Cell content alignment
-                    headerHozAlign: "center", // Header alignment
-                    formatter: colorFormatterActionSeq,
-                    minWidth: 60,
-                    widthGrow: 1,
-                    cssClass: "clickable-avg notebook-avg-cell"
+                    title: "Notebook", field: "notebook_avg", widthGrow: 1, minWidth: 250,
+                    hozAlign: "center", // << Center the content (text) in the cell
+                    headerHozAlign: "center",
+                    sorter: "number",
+                    formatter: chartFormatter, // Use the updated chartFormatter
+                    formatterParams: { min: 0, max: 100 }, // Pass min/max if needed
+                    cssClass: "notebook-avg-cell" // Keep class for potential specific cell styling
+                },
+                // Quiz column using chartFormatter
+                {
+                    title: "Quiz", field: "quiz_avg", widthGrow: 1, minWidth: 250,
+                    hozAlign: "center", // << Center the content (text) in the cell
+                    headerHozAlign: "center",
+                    sorter: "number",
+                    formatter: chartFormatter, // Use the updated chartFormatter
+                    formatterParams: { min: 0, max: 100 }, // Pass min/max if needed
+                    cssClass: "quiz-avg-cell" // Keep class for potential specific cell styling
                 },
                 // Hidden Notebook subject columns
                 { title: "Notebook Math", field: "notebook_math", visible: false, formatter: colorFormatterActionSeq, headerHozAlign: "center" },
                 { title: "Notebook Physics", field: "notebook_physics", visible: false, formatter: colorFormatterActionSeq, headerHozAlign: "center" },
                 { title: "Notebook Chemistry", field: "notebook_chemistry", visible: false, formatter: colorFormatterActionSeq, headerHozAlign: "center" },
-
-                // --- Unnested Quiz Columns ---
-                {
-                    title: "Quiz",
-                    field: "quiz_avg",
-                    hozAlign: "center", // Cell content alignment
-                    headerHozAlign: "center", // Header alignment
-                    formatter: simpleColorFormatter,
-                    minWidth: 55,
-                    widthGrow: 1,
-                    cssClass: "clickable-avg quiz-avg-cell"
-                },
                 // Hidden Quiz subject columns
                 { title: "Quiz Math", field: "quiz_math", visible: false, formatter: simpleColorFormatter, headerHozAlign: "center" },
                 { title: "Quiz Physics", field: "quiz_physics", visible: false, formatter: simpleColorFormatter, headerHozAlign: "center" },
@@ -248,22 +424,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // --- Update formatterParams assignment logic ---
             behavior_columns.forEach(column => {
-                // Check if the column field is one that needs min/max params
-                // This includes the visible averages and the hidden subject scores
                 const fieldsNeedingParams = [
-                    "avg_acc",
                     "notebook_avg", "notebook_math", "notebook_physics", "notebook_chemistry",
                     "quiz_avg", "quiz_math", "quiz_physics", "quiz_chemistry"
                 ];
 
                 if (fieldsNeedingParams.includes(column.field)) {
-                    // Ensure the column has a formatter function before assigning params
                     if (column.formatter) {
                         let { min, max } = getColumnMinMax(behavior_total_benchmark_data, column.field);
                         column.formatterParams = { min, max };
-                    } else {
-                        // Optional: Log a warning if a column needing params is missing a formatter
-                        // console.warn(`Column "${column.field}" needs params but is missing a formatter.`);
                     }
                 }
             });
