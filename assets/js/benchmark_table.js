@@ -166,27 +166,23 @@ const simpleColorFormatter = function(cell, formatterParams) {
     ">${formattedValue}</div>`;
 };
 
-// Function to toggle sub-columns and update icon
-function toggleSubColumns(e, column) {
-    console.log("toggleSubColumns called for header:", column.getDefinition().title); // Log when function starts
+// REFACTORED Function to toggle sub-columns and update icon
+// Now accepts table instance and group name
+function toggleSubColumns(table, groupName) {
+    console.log("toggleSubColumns called for group:", groupName); // Log when function starts
 
-    const table = column.getTable();
-    const subColumns = column.getColumns(); // Get sub-columns of the group
     let fieldsToToggle = [];
-    let iconElementSelector = ''; // CSS selector for the icon in the header
+    let iconElementSelector = '';
+    let headerElementSelector = ''; // Selector to find the specific header div
 
-    // Determine which group was clicked and the fields/icon selector
-    const columnTitle = column.getDefinition().title;
-    console.log("Clicked column title raw:", columnTitle); // Log the raw title
-
-    if (columnTitle.includes("Notebook")) {
+    if (groupName === "notebook") {
         fieldsToToggle = ['notebook_math', 'notebook_physics', 'notebook_chemistry'];
         iconElementSelector = '.notebook-toggle-icon';
-        console.log("Identified as Notebook group.");
-    } else if (columnTitle.includes("Quiz")) {
+        headerElementSelector = '.clickable-group-header[data-group="notebook"]';
+    } else if (groupName === "quiz") {
         fieldsToToggle = ['quiz_math', 'quiz_physics', 'quiz_chemistry'];
         iconElementSelector = '.quiz-toggle-icon';
-        console.log("Identified as Quiz group.");
+        headerElementSelector = '.clickable-group-header[data-group="quiz"]';
     } else {
         console.log("Group not identified.");
         return; // Exit if group not identified
@@ -198,47 +194,50 @@ function toggleSubColumns(e, column) {
         // Check current visibility state based on the first column to toggle
         const firstSubColumn = table.getColumn(fieldsToToggle[0]);
         if (!firstSubColumn) {
-            console.error("Could not find the first sub-column:", fieldsToToggle[0]); // Error if first column not found
+            console.error("Could not find the first sub-column:", fieldsToToggle[0]);
             return; // Safety check
         }
         console.log("First sub-column to check visibility:", firstSubColumn.getField());
 
-
         const isCurrentlyVisible = firstSubColumn.isVisible();
         console.log("Sub-columns currently visible:", isCurrentlyVisible);
-
 
         // Toggle visibility of each subject column
         fieldsToToggle.forEach(field => {
             const subCol = table.getColumn(field);
-            if (subCol) { // Check if column exists before toggling
+            if (subCol) {
                  console.log("Toggling column:", field);
                  table.toggleColumn(field);
             } else {
-                console.error("Could not find column to toggle:", field); // Error if column not found during toggle
+                console.error("Could not find column to toggle:", field);
             }
         });
 
         // Update the icon in the header element directly
-        const headerElement = column.getElement(); // Get the header DOM element
-        console.log("Header element:", headerElement);
-        const iconElement = headerElement.querySelector(iconElementSelector);
-        console.log("Icon element found:", iconElement);
+        // Find the specific header element within the table's element
+        const tableElement = table.element; // Get the main table container element
+        const headerElement = tableElement.querySelector(headerElementSelector); // Find the specific div
+        console.log("Header element found:", headerElement);
 
-        if (iconElement) {
-            if (isCurrentlyVisible) {
-                // Columns were visible, now hidden -> show plus icon
-                console.log("Changing icon to plus");
-                iconElement.classList.remove('fa-minus-square');
-                iconElement.classList.add('fa-plus-square');
+        if (headerElement) {
+            const iconElement = headerElement.querySelector(iconElementSelector);
+            console.log("Icon element found:", iconElement);
+
+            if (iconElement) {
+                if (isCurrentlyVisible) {
+                    console.log("Changing icon to plus");
+                    iconElement.classList.remove('fa-minus-square');
+                    iconElement.classList.add('fa-plus-square');
+                } else {
+                    console.log("Changing icon to minus");
+                    iconElement.classList.remove('fa-plus-square');
+                    iconElement.classList.add('fa-minus-square');
+                }
             } else {
-                // Columns were hidden, now visible -> show minus icon
-                console.log("Changing icon to minus");
-                iconElement.classList.remove('fa-plus-square');
-                iconElement.classList.add('fa-minus-square');
+                 console.error("Could not find icon element with selector:", iconElementSelector, "within", headerElement);
             }
         } else {
-             console.error("Could not find icon element with selector:", iconElementSelector);
+            console.error("Could not find header element with selector:", headerElementSelector);
         }
     }
 }
@@ -248,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('assets/data/behavior_total_benchmark.json').then(response => response.json()),
     ])
         .then(([
-            // virtualhome_total_benchmark_data,
             behavior_total_benchmark_data,
         ]) => {
             var getColumnMinMax = (data, field) => {
@@ -267,7 +265,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 // 如果 min 和 max 相等，稍微调整 max 值以避免除以零
                 return min === max ? { min, max: max + 0.1 } : { min, max };
             };
-
 
             var behavior_columns = [
                 {
@@ -303,9 +300,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 },
                 {
-                    // Add icon and specific class, assign headerClick
-                    title: "<div style='text-align: center; cursor: pointer;'>Notebook <i class='fas fa-plus-square notebook-toggle-icon'></i></div>",
-                    headerClick: toggleSubColumns, // Assign the click handler function
+                    // Add class and data-group to the div, remove headerClick
+                    title: "<div class='clickable-group-header' data-group='notebook' style='text-align: center; cursor: pointer;'>Notebook <i class='fas fa-plus-square notebook-toggle-icon'></i></div>",
                     columns: [
                         {
                             title: "<span style='font-size: 0.85em;'>Avg.</span>",
@@ -345,9 +341,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     ]
                 },
                 {
-                     // Add icon and specific class, assign headerClick
-                    title: "<div style='text-align: center; cursor: pointer;'>Quiz <i class='fas fa-plus-square quiz-toggle-icon'></i></div>",
-                    headerClick: toggleSubColumns, // Assign the click handler function
+                     // Add class and data-group to the div, remove headerClick
+                    title: "<div class='clickable-group-header' data-group='quiz' style='text-align: center; cursor: pointer;'>Quiz <i class='fas fa-plus-square quiz-toggle-icon'></i></div>",
                     columns: [
                         {
                             title: "<span style='font-size: 0.85em;'>Avg.</span>",
@@ -448,7 +443,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 columns: behavior_columns,
                 height: "800px", // Set a fixed height for the table
                 virtualDom: true, // Enable virtual DOM for better performance with large datasets
-                // Pagination removed and replaced with scrolling configuration
+                // ADD tableBuilt callback
+                tableBuilt: function(){
+                    console.log("Table built, attaching listeners...");
+                    // Attach click listeners to the custom header divs
+                    this.element.querySelectorAll('.clickable-group-header').forEach(headerDiv => {
+                        headerDiv.addEventListener('click', () => {
+                            const group = headerDiv.getAttribute('data-group');
+                            console.log("Manual listener clicked for group:", group);
+                            toggleSubColumns(this, group); // 'this' refers to the table instance
+                        });
+                    });
+                }
             });
         });
 })
