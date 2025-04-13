@@ -209,7 +209,122 @@
                     <source src="assets/vid/teaser.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
-        </section>
+            </section>
+
+
+            <!-- Leaderboard -->
+            <section id="leaderboard" class="py-5">
+                <div class="container">
+                    <h2 class="text-center py-5">Leaderboard</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" style="text-align: center;">🤩 Welcome to the Video-MMLU lecture hall! Is your model ready to be tested?</h5>
+                            <br>
+                            <h5 style="text-align: center;">Class is in session! Submit your scores to see if your models make the honor roll. Professor is waiting...</h5>
+                            <br>
+                            <p class="card-text" style="text-align: center;">
+                                Please remember to report your frame rate and tokens per frame with each submission.
+                                Email us at <a href="mailto:enxin.23 at intl.zju.edu.cn"><i class="fas fa-envelope"></i></a> or <a href="mailto:wchai at uw.edu"><i class="fas fa-envelope"></i></a>.
+                            </p>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="benchmark-table-content" role="tabpanel"
+                                    aria-labelledby="benchmark-table-content">
+                                    <div id="behavior-benchmark-main-table"></div>
+                                </div>
+                            </div>
+                            <p class="card-text">
+                                #F stands for the frame sampling number of the input video, and #T stands for the visual tokens per frame. 
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Findings -->
+            <section id="findings" class="py-5 bg-light">
+                <div class="container">
+                    <h2 class="text-center py-5">Findings</h2>
+                    <div>
+                        <div class="row mb-4">
+                            <div class="col-md-12 mb-4 mb-md-0"> <!-- Second card takes half width, add margin for small screens -->
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Large scale LMMs do not show clear advantages over smaller ones.</h5>
+                                        <p class="card-text">
+                                            Although LMM scaling laws suggest significant performance improvements with increased model size, this trend is less pronounced in Video-MMLU.
+                                            Model size shows a stronger correlation with performance in video QA compared to video captioning, implying reasoning benefits more from scaling.
+                                        </p>
+                                    </div>
+                                    <img src="assets/img/figures/find_4.png" class="card-img-top" alt="Finding 4">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-12 mb-4 mb-md-0"> <!-- Second card takes half width, add margin for small screens -->
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title"> LLM Architecture shapes LMMs' balance between perception and reasoning.</h5>
+                                        <p class="card-text">
+                                            Most models excel in captioning over QA, highlighting the greater reasoning challenge lecture QA in Video-MMLU. 
+                                            LMMs built on Qwen2.5 and InternLM2.5 achieve strong and balanced performance, while MoE-based LLMs also perform well. 
+                                            Earlier architectures like Vicuna and LLaMA2 perform poorly in QA for its weaker reasoning and instruction-following capabilities. 
+                                        </p>
+                                    </div>
+                                    <img src="assets/img/figures/find_6.png" class="card-img-top" alt="Finding 4">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-12 mb-4 mb-md-0"> <!-- Second card takes half width, add margin for small screens -->
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title"> Can LMMs with visual token compression sustain strong performance in complex, context-rich lecture understanding tasks like Video-MMLU? </h5>
+                                        <p class="card-text">
+                                            <ol class="card-text">
+                                                <li>Token compression boosts efficiency but still lags significantly behind SOTA models.</li>
+                                                <li>Architecture and compression are as crucial as token count, affecting performance variance.</li>
+                                                <li>Significant token reduction works while maintaining performance, but ultra-low counts cause sharp drops.</li>
+                                                <li>16–300 tokens per frame is the optimal efficiency-performance balance.</li>
+                                                <li>Larger models can partially offset compression's information loss.</li>
+                                                <li>AuroraCap's non-linear curve shows the need for domain-specific token optimization.</li>
+                                            </ol>
+                                        </p>
+                                    </div>
+                                    <img src="assets/img/figures/find_7.png" class="card-img-top" alt="Finding 4">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4"> <!-- Add margin bottom for spacing between rows -->
+                            <div class="col-md-6"> <!-- First card takes full width -->
+                                <div class="card h-100"> <!-- Use h-100 for potentially equal height cards in a row -->
+                                    <div class="card-body">
+                                        <h5 class="card-title">Lecture understanding in models relies more on textual content in frames than on animations.</h5>
+                                        <p class="card-text">
+                                            Models significantly excel in physics and chemistry lectures, which contain more textual explanations, while mathematics lectures emphasizes formulas and dynamic visual proofs.
+                                        </p>
+                                    </div>
+                                    <img src="assets/img/figures/find_2.png" class="card-img-top" alt="Finding 2" style="width: 90%; margin: auto; display: block;">
+                                </div>
+                            </div>
+                            <div class="col-md-6"> 
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Larger LLMs enhance lecture understanding but with diminishing returns.</h5>
+                                        <p class="card-text">
+                                            As model size increases, Qwen2.5 exhibits continuous performance gains, while InternVL2.5 (Qwen2.5 as LLM) gains gradually diminish with increasing model size.
+                                        </p>
+                                    </div>
+                                    <img src="assets/img/figures/find_5.png" class="card-img-top" alt="Finding 5" style="width: 90%; margin: auto; display: block;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
 
             <!-- Lecture Cases -->
             <section id="cases" class="py-5 bg-light">
@@ -785,126 +900,21 @@
                 </div>
             </section>
 
-            <!-- Leaderboard -->
-            <section id="leaderboard" class="py-5">
+            
+
+            <!-- huggingface dataset -->
+            <section id="huggingface" class="py-5">
                 <div class="container">
-                    <h2 class="text-center py-5">Leaderboard</h2>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title" style="text-align: center;">🤩 Welcome to the Video-MMLU lecture hall! Is your model ready to be tested?</h5>
-                            <br>
-                            <h5 style="text-align: center;">Class is in session! Submit your scores to see if your models make the honor roll. Professor is waiting...</h5>
-                            <br>
-                            <p class="card-text" style="text-align: center;">
-                                Please remember to report your frame rate and tokens per frame with each submission.
-                                Email us at <a href="mailto:enxin.23 at intl.zju.edu.cn"><i class="fas fa-envelope"></i></a> or <a href="mailto:wchai at uw.edu"><i class="fas fa-envelope"></i></a>.
-                            </p>
-                            <!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="main-results-tab" data-bs-toggle="tab"
-                                        data-bs-target="#benchmark-table-content" type="button" role="tab"
-                                        aria-controls="main-results-tab" aria-selected="true">Video-MMLU</button>
-                                </li>
-                            </ul> -->
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="benchmark-table-content" role="tabpanel"
-                                    aria-labelledby="benchmark-table-content">
-                                    <div id="behavior-benchmark-main-table"></div>
-                                </div>
-                            </div>
-                            <p class="card-text">
-                                #F stands for the frame sampling number of the input video, and #T stands for the visual tokens per frame. 
-                            </p>
-                        </div>
-                    </div>
+                    <h2 class="text-center py-5">Dataset Construction</h2>
                 </div>
+                <h2 class="text-center py-5">Dataset Viewer</h2>
+                <iframe
+                src="https://huggingface.co/datasets/wchai/Video-Detailed-Caption/embed/viewer/default/VDC_captions"
+                frameborder="0"
+                width="100%"
+                height="560px"
+                ></iframe>
             </section>
-
-
-            <section id="findings" class="py-5 bg-light">
-                <div class="container">
-                    <h2 class="text-center py-5">Findings</h2>
-                    <div>
-                        <div class="row mb-4">
-                            <div class="col-md-12 mb-4 mb-md-0"> <!-- Second card takes half width, add margin for small screens -->
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Large scale LMMs do not show clear advantages over smaller ones.</h5>
-                                        <p class="card-text">
-                                            Although LMM scaling laws suggest significant performance improvements with increased model size, this trend is less pronounced in Video-MMLU.
-                                            Model size shows a stronger correlation with performance in video QA compared to video captioning, implying reasoning benefits more from scaling.
-                                        </p>
-                                    </div>
-                                    <img src="assets/img/figures/find_4.png" class="card-img-top" alt="Finding 4">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-4">
-                            <div class="col-md-12 mb-4 mb-md-0"> <!-- Second card takes half width, add margin for small screens -->
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title"> LLM Architecture shapes LMMs' balance between perception and reasoning.</h5>
-                                        <p class="card-text">
-                                            Most models excel in captioning over QA, highlighting the greater reasoning challenge lecture QA in Video-MMLU. 
-                                            LMMs built on Qwen2.5 and InternLM2.5 achieve strong and balanced performance, while MoE-based LLMs also perform well. 
-                                            Earlier architectures like Vicuna and LLaMA2 perform poorly in QA for its weaker reasoning and instruction-following capabilities. 
-                                        </p>
-                                    </div>
-                                    <img src="assets/img/figures/find_6.png" class="card-img-top" alt="Finding 4">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-4">
-                            <div class="col-md-12 mb-4 mb-md-0"> <!-- Second card takes half width, add margin for small screens -->
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title"> Can LMMs with visual token compression sustain strong performance in complex, context-rich lecture understanding tasks like Video-MMLU? </h5>
-                                        <p class="card-text">
-                                            <ol class="card-text">
-                                                <li>Token compression boosts efficiency but still lags significantly behind SOTA models.</li>
-                                                <li>Architecture and compression are as crucial as token count, affecting performance variance.</li>
-                                                <li>Significant token reduction works while maintaining performance, but ultra-low counts cause sharp drops.</li>
-                                                <li>16–300 tokens per frame is the optimal efficiency-performance balance.</li>
-                                                <li>Larger models can partially offset compression's information loss.</li>
-                                                <li>AuroraCap's non-linear curve shows the need for domain-specific token optimization.</li>
-                                            </ol>
-                                        </p>
-                                    </div>
-                                    <img src="assets/img/figures/find_7.png" class="card-img-top" alt="Finding 4">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-4"> <!-- Add margin bottom for spacing between rows -->
-                            <div class="col-md-6"> <!-- First card takes full width -->
-                                <div class="card h-100"> <!-- Use h-100 for potentially equal height cards in a row -->
-                                    <div class="card-body">
-                                        <h5 class="card-title">Lecture understanding in models relies more on textual content in frames than on animations.</h5>
-                                        <p class="card-text">
-                                            Models significantly excel in physics and chemistry lectures, which contain more textual explanations, while mathematics lectures emphasizes formulas and dynamic visual proofs.
-                                        </p>
-                                    </div>
-                                    <img src="assets/img/figures/find_2.png" class="card-img-top" alt="Finding 2" style="width: 90%; margin: auto; display: block;">
-                                </div>
-                            </div>
-                            <div class="col-md-6"> 
-                                <div class="card h-100">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Larger LLMs enhance lecture understanding but with diminishing returns.</h5>
-                                        <p class="card-text">
-                                            As model size increases, Qwen2.5 exhibits continuous performance gains, while InternVL2.5 (Qwen2.5 as LLM) gains gradually diminish with increasing model size.
-                                        </p>
-                                    </div>
-                                    <img src="assets/img/figures/find_5.png" class="card-img-top" alt="Finding 5" style="width: 90%; margin: auto; display: block;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
 
             <section id="faq" class="py-5">
                 <div class="container">
@@ -951,21 +961,6 @@
                     </div>
                 </div>
             </section>
-
-            <!-- huggingface dataset -->
-            <section id="huggingface" class="py-5">
-                <div class="container">
-                    <h2 class="text-center py-5">Dataset Construction</h2>
-                </div>
-                <h2 class="text-center py-5">Dataset Viewer</h2>
-                <iframe
-                src="https://huggingface.co/datasets/wchai/Video-Detailed-Caption/embed/viewer/default/VDC_captions"
-                frameborder="0"
-                width="100%"
-                height="560px"
-                ></iframe>
-            </section>
-
             
         </main>
         <!-- End of Main Content -->
