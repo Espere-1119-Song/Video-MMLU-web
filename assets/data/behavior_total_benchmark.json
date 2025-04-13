@@ -2,6 +2,7 @@
   {
     "model": "Qwen2.5-0.5B",
     "model_type": "llm",
+    "model_url": "https://github.com/QwenLM/Qwen2",
     "frames": "-",
     "tpf": "-",
     "avg_acc": 4.29,
@@ -17,6 +18,7 @@
   {
     "model": "Qwen2.5-1.5B",
     "model_type": "llm",
+    "model_url": null,
     "frames": "-",
     "tpf": "-",
     "avg_acc": 16.49,
@@ -32,6 +34,7 @@
   {
     "model": "Qwen2.5-3B",
     "model_type": "llm",
+    "model_url": null,
     "frames": "-",
     "tpf": "-",
     "avg_acc": 21.64,
@@ -47,6 +50,7 @@
   {
     "model": "Qwen2.5-7B",
     "model_type": "llm",
+    "model_url": null,
     "frames": "-",
     "tpf": "-",
     "avg_acc": 22.34,
@@ -62,6 +66,7 @@
   {
     "model": "Qwen2.5-32B",
     "model_type": "llm",
+    "model_url": null,
     "frames": "-",
     "tpf": "-",
     "avg_acc": 24.76,
@@ -77,6 +82,7 @@
   {
     "model": "Qwen2.5-72B",
     "model_type": "llm",
+    "model_url": null,
     "frames": "-",
     "tpf": "-",
     "avg_acc": 24.99,
@@ -92,6 +98,7 @@
   {
     "model": "Gemini-1.5-Flash",
     "model_type": "proprietary",
+    "model_url": "https://deepmind.google/technologies/gemini/flash/",
     "frames": "32",
     "tpf": "-",
     "avg_acc": 43.63,
@@ -107,6 +114,7 @@
   {
     "model": "GPT-4o",
     "model_type": "proprietary",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 49.41,
@@ -122,6 +130,7 @@
   {
     "model": "Claude-3.5-sonnet",
     "model_type": "proprietary",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 69.34,
@@ -137,6 +146,7 @@
   {
     "model": "SmolVLM-256M",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 8.95,
@@ -152,6 +162,7 @@
   {
     "model": "VILA1.5-3B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 9.61,
@@ -167,6 +178,7 @@
   {
     "model": "SmolVLM-500M",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 11.05,
@@ -182,6 +194,7 @@
   {
     "model": "SmolVLM",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 14.14,
@@ -197,6 +210,7 @@
   {
     "model": "DeepSeek-VL-1.3B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 15.28,
@@ -212,6 +226,7 @@
   {
     "model": "InternVL2-2B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 15.60,
@@ -227,6 +242,7 @@
   {
     "model": "Mini-InternVL-Chat-2B-V1.5",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 16.12,
@@ -242,6 +258,7 @@
   {
     "model": "XinYuan-VL-2B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 17.58,
@@ -257,6 +274,7 @@
   {
     "model": "InternVL2-1B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 18.59,
@@ -272,6 +290,7 @@
   {
     "model": "Qwen2-VL-2B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 19.33,
@@ -287,6 +306,7 @@
   {
     "model": "LLaVA-OneVision-OV-0.5B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 19.60,
@@ -302,6 +322,7 @@
   {
     "model": "XComposer2-1.8B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 19.77,
@@ -317,6 +338,7 @@
   {
     "model": "InternVL2-4B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 20.44,
@@ -332,6 +354,7 @@
   {
     "model": "Qwen2.5-VL-3B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 22.40,
@@ -347,6 +370,7 @@
   {
     "model": "Aquila-VL-2B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 23.94,
@@ -362,6 +386,7 @@
   {
     "model": "Apollo-1.5B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 25.89,
@@ -377,6 +402,7 @@
   {
     "model": "Apollo-3B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 27.27,
@@ -392,6 +418,7 @@
   {
     "model": "InternVL2.5-1B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 27.57,
@@ -407,6 +434,7 @@
   {
     "model": "InternVL2.5-2B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 28.62,
@@ -422,6 +450,7 @@
   {
     "model": "Phi-3-Vision",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 28.69,
@@ -437,6 +466,7 @@
   {
     "model": "SAIL-VL-2B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 28.86,
@@ -452,6 +482,7 @@
   {
     "model": "Phi-3.5-Vision",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 34.39,
@@ -467,6 +498,7 @@
   {
     "model": "Mini-InternVL-Chat-4B-V1.5",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 39.98,
@@ -482,6 +514,7 @@
   {
     "model": "InternVL2.5-4B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 40.74,
@@ -497,6 +530,7 @@
   {
     "model": "Aria",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 42.87,
@@ -512,6 +546,7 @@
   {
     "model": "XComposer",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 10.91,
@@ -527,6 +562,7 @@
   {
     "model": "InstructBLIP-7B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 11.06,
@@ -542,6 +578,7 @@
   {
     "model": "Mantis-8B-Fuyu",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 12.31,
@@ -557,6 +594,7 @@
   {
     "model": "Cambrian-8B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 12.68,
@@ -572,6 +610,7 @@
   {
     "model": "Mantis-8B-siglip-llama3",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 13.74,
@@ -587,6 +626,7 @@
   {
     "model": "Mantis-8B-Idefics2",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 14.19,
@@ -602,6 +642,7 @@
   {
     "model": "LLaVA-1.5-7B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 15.71,
@@ -617,6 +658,7 @@
   {
     "model": "Video-LlaVA-7B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 15.89,
@@ -632,6 +674,7 @@
   {
     "model": "VideoChat2-HD",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 16.74,
@@ -647,6 +690,7 @@
   {
     "model": "Mantis-8B-clip-llama3",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 18.78,
@@ -662,6 +706,7 @@
   {
     "model": "Video-ChatGPT",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 19.37,
@@ -677,6 +722,7 @@
   {
     "model": "LLaVA-NeXT-Vicuna-7B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 21.46,
@@ -692,6 +738,7 @@
   {
     "model": "LLaVA-NeXT-LLaMA3-8B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 23.29,
@@ -707,6 +754,7 @@
   {
     "model": "LLaVA-NeXT-Mistral-7B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 25.83,
@@ -722,6 +770,7 @@
   {
     "model": "Qwen-VL",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 21.98,
@@ -737,6 +786,7 @@
   {
     "model": "mPLUG-Owl3",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 22.59,
@@ -752,6 +802,7 @@
   {
     "model": "MiniCPM-V 2.6",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 39.31,
@@ -767,6 +818,7 @@
   {
     "model": "InternVL2.5-8B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 39.51,
@@ -782,6 +834,7 @@
   {
     "model": "MiniCPM-o 2.6",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 44.89,
@@ -797,6 +850,7 @@
   {
     "model": "LLaVA-NeXT-Vicuna-13B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 8.13,
@@ -812,6 +866,7 @@
   {
     "model": "ShareGPT4V-13B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 11.57,
@@ -827,6 +882,7 @@
   {
     "model": "Cambrian-13B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 14.56,
@@ -842,6 +898,7 @@
   {
     "model": "VILA1.5-13B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 15.71,
@@ -857,6 +914,7 @@
   {
     "model": "InstructBLIP-13B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 15.89,
@@ -872,6 +930,7 @@
   {
     "model": "InternVL-Chat-V1-1",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 21.53,
@@ -887,6 +946,7 @@
   {
     "model": "LLaVA-1.5-Vicuna-13B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 21.58,
@@ -902,6 +962,7 @@
   {
     "model": "OmniChat-v2.0-13B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 21.91,
@@ -917,6 +978,7 @@
   {
     "model": "PLLaVA-13B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 26.25,
@@ -932,6 +994,7 @@
   {
     "model": "InternVL-Chat-V1-5",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 28.76,
@@ -947,6 +1010,7 @@
   {
     "model": "CogVLM2-LLaMA3-Chat-19B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 31.99,
@@ -962,6 +1026,7 @@
   {
     "model": "Cambrian-34B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 12.73,
@@ -977,6 +1042,7 @@
   {
     "model": "InternVL2-26B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 21.33,
@@ -992,6 +1058,7 @@
   {
     "model": "InternVL-Chat-V1-2-Plus",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 24.25,
@@ -1007,6 +1074,7 @@
   {
     "model": "InternVL2-40B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 27.44,
@@ -1022,6 +1090,7 @@
   {
     "model": "InternVL-Chat-V1-2",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 29.00,
@@ -1037,6 +1106,7 @@
   {
     "model": "VILA1.5-40B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 30.72,
@@ -1052,6 +1122,7 @@
   {
     "model": "PLLaVA-34B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 30.91,
@@ -1067,6 +1138,7 @@
   {
     "model": "LLaVA-NeXT-Yi-34B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 34.16,
@@ -1082,6 +1154,7 @@
   {
     "model": "LLaVA-NeXT-Qwen-32B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 40.43,
@@ -1097,6 +1170,7 @@
   {
     "model": "InternVL2.5-26B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 44.39,
@@ -1112,6 +1186,7 @@
   {
     "model": "InternVL2.5-38B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "-",
     "avg_acc": 49.35,
@@ -1127,6 +1202,7 @@
   {
     "model": "Chat-UniVi",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "112",
     "avg_acc": 24.82,
@@ -1142,6 +1218,7 @@
   {
     "model": "Chat-UniVi-7B-v1.5",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "112",
     "avg_acc": 18.66,
@@ -1157,6 +1234,7 @@
   {
     "model": "LLaMA-VID-7B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "2",
     "avg_acc": 19.07,
@@ -1172,6 +1250,7 @@
   {
     "model": "LLaMA-VID-13B",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "2",
     "avg_acc": 21.72,
@@ -1187,6 +1266,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "48",
     "avg_acc": 21.45,
@@ -1202,6 +1282,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "79",
     "avg_acc": 22.19,
@@ -1217,6 +1298,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "110",
     "avg_acc": 26.61,
@@ -1232,6 +1314,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "172",
     "avg_acc": 23.31,
@@ -1247,6 +1330,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "265",
     "avg_acc": 22.90,
@@ -1262,6 +1346,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "327",
     "avg_acc": 27.53,
@@ -1277,6 +1362,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "389",
     "avg_acc": 26.21,
@@ -1292,6 +1378,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "451",
     "avg_acc": 25.86,
@@ -1307,6 +1394,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "544",
     "avg_acc": 21.60,
@@ -1322,6 +1410,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "606",
     "avg_acc": 21.87,
@@ -1337,6 +1426,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "668",
     "avg_acc": 17.10,
@@ -1352,6 +1442,7 @@
   {
     "model": "AuroraCap",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "730",
     "avg_acc": 20.83,
@@ -1367,6 +1458,7 @@
   {
     "model": "VideoChat-Flash-Qwen2.5",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "16",
     "avg_acc": 25.45,
@@ -1382,6 +1474,7 @@
   {
     "model": "VideoChat-Flash-Qwen2",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "16",
     "avg_acc": 27.71,
@@ -1397,6 +1490,7 @@
   {
     "model": "InternVideo2.5",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "16",
     "avg_acc": 32.29,
@@ -1412,6 +1506,7 @@
   {
     "model": "PVC",
     "model_type": "open-source",
+    "model_url": null,
     "frames": "32",
     "tpf": "64",
     "avg_acc": 30.00,

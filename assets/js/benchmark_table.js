@@ -333,20 +333,21 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             var behavior_columns = [
-                // Model column - add formatter for icons
+                // Model column - add formatter for icons and links
                 {
                     title: "Model",
                     field: "model",
                     widthGrow: 1,
-                    minWidth: 150, // May need slight increase for icon
+                    minWidth: 150,
                     frozen: true,
                     formatter: function(cell, formatterParams, onRendered) {
                         const modelName = cell.getValue();
                         const rowData = cell.getRow().getData();
-                        const modelType = rowData.model_type; // Get the type from data
+                        const modelType = rowData.model_type;
+                        const modelUrl = rowData.model_url; // Get the URL from data
 
                         let iconHtml = '';
-                        let iconTitle = ''; // Tooltip text
+                        let iconTitle = '';
 
                         if (modelType === 'proprietary') {
                             iconHtml = '<i class="fas fa-lock model-icon proprietary-icon"></i> ';
@@ -354,14 +355,22 @@ document.addEventListener('DOMContentLoaded', function () {
                         } else if (modelType === 'open-source') {
                             iconHtml = '<i class="fas fa-box-open model-icon open-source-icon"></i> ';
                             iconTitle = 'Open Source Model';
-                        } else if (modelType === 'llm') { // Added condition for LLM
+                        } else if (modelType === 'llm') {
                             iconHtml = '<i class="fas fa-brain model-icon llm-icon"></i> ';
                             iconTitle = 'Base LLM';
                         }
-                        // No icon for unspecified types
 
-                        // Create a container span for better control and add tooltip
-                        return `<span title="${iconTitle}">${iconHtml}${modelName}</span>`;
+                        // Content with icon and name
+                        const content = `${iconHtml}${modelName}`;
+
+                        // If a URL exists, wrap the content in a link
+                        if (modelUrl) {
+                            // Use target="_blank" to open in new tab, rel="noopener noreferrer" for security
+                            return `<a href="${modelUrl}" target="_blank" rel="noopener noreferrer" title="${iconTitle}: ${modelName}">${content}</a>`;
+                        } else {
+                            // Otherwise, just return the content in a span with the title
+                            return `<span title="${iconTitle}: ${modelName}">${content}</span>`;
+                        }
                     }
                 },
                 // Center align headers for the rest

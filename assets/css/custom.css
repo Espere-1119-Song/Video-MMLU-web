@@ -198,6 +198,30 @@
 /* ... existing popup styles ... */
 
 /* --- MODEL TYPE ICONS --- */
+/* Adjust overall table font size */
+.table {
+    font-size: 0.6em; /* Reduce font size further */
+    line-height: 1; /* Reduce line height further */
+}
+
+
+/* Reduce padding in table cells */
+.table th,
+.table td {
+    padding-top: 0.2em;    /* Reduce top padding significantly */
+    padding-bottom: 0.2em; /* Reduce bottom padding significantly */
+    padding-left: 0.6em;   /* Optionally reduce horizontal padding slightly */
+    padding-right: 0.6em;
+    vertical-align: middle;
+}
+
+/* Ensure header padding is also reduced */
+.table thead th {
+    padding-top: 0.3em;    /* Reduce header padding */
+    padding-bottom: 0.3em;
+    line-height: 1.2;       /* Match reduced line height */
+}
+
 
 /* Base style for all model type icons */
 .model-icon {
@@ -223,3 +247,95 @@
 .llm-icon {
     color: #4a6e9a; /* Blue color */
 }
+
+/* Style for model links in the table */
+.tabulator-cell[tabulator-field="model"] a {
+    color: inherit; /* Make link color same as surrounding text */
+    text-decoration: none; /* Remove underline */
+}
+
+/* Optional: Add underline on hover */
+.tabulator-cell[tabulator-field="model"] a:hover {
+    text-decoration: underline;
+}
+
+/* --- DATA TABLE STYLING --- */
+
+/* Basic table setup */
+.data-table {
+    width: 100%;                /* Make table take full container width */
+    border-collapse: collapse;  /* Collapse borders into a single line */
+    margin-top: 20px;           /* Add some space above the table */
+    margin-bottom: 10px;        /* Add space below before the caption */
+    font-size: 0.9em;           /* Slightly smaller font for density */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+/* Table header (th) and data cell (td) styling */
+.data-table th,
+.data-table td {
+    padding: 10px 12px;        /* Add padding inside cells (vertical, horizontal) */
+    text-align: left;          /* Align text to the left by default */
+    border-bottom: 1px solid #ddd; /* Light grey bottom border for rows */
+    vertical-align: middle;    /* Align cell content vertically */
+}
+
+/* Header specific styling */
+.data-table thead th {
+    background-color: #f2f2f2; /* Light grey background for header */
+    font-weight: bold;         /* Make header text bold */
+    border-bottom-width: 2px;  /* Make header bottom border slightly thicker */
+    border-top: 1px solid #ddd; /* Add a top border to the header */
+    white-space: nowrap;       /* Prevent header text from wrapping */
+}
+
+/* Center align specific header texts if needed (adjust indices) */
+.data-table thead th:nth-child(3), /* # Video */
+.data-table thead th:nth-child(4), /* # Ave. Duration */
+.data-table thead th:nth-child(5), /* Caption Number */
+.data-table thead th:nth-child(6), /* Caption # Word */
+.data-table thead th:nth-child(7), /* Caption # Vocab. */
+.data-table thead th:nth-child(8), /* Caption Ave. Length */
+.data-table thead th:nth-child(9), /* QA Number */
+.data-table thead th:nth-child(10) { /* QA Type */
+    text-align: center;
+}
+
+
+/* Center align numeric data cells (adjust indices as needed) */
+.data-table tbody td:nth-child(3), /* # Video */
+.data-table tbody td:nth-child(4), /* # Ave. Duration */
+.data-table tbody td:nth-child(5), /* Caption Number */
+.data-table tbody td:nth-child(6), /* Caption # Word */
+.data-table tbody td:nth-child(7), /* Caption # Vocab. */
+.data-table tbody td:nth-child(8), /* Caption Ave. Length */
+.data-table tbody td:nth-child(9) { /* QA Number */
+    text-align: center;
+}
+
+/* Alternating row colors (striping) */
+.data-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Very light grey for even rows */
+}
+
+/* Hover effect for rows */
+.data-table tbody tr:hover {
+    background-color: #f1f1f1; /* Slightly darker grey on hover */
+}
+
+/* Styling for the highlighted row */
+.data-table tr.highlight-row {
+    background-color: #e7f3ff; /* Light blue background */
+    font-weight: bold;         /* Make text bold */
+}
+
+.data-table tr.highlight-row:hover {
+    background-color: #d0e8ff; /* Slightly darker blue on hover */
+}
+
+/* Ensure strong tag inside highlight row doesn't double-bold (if needed) */
+.data-table tr.highlight-row strong {
+    font-weight: bold; /* Explicitly set to bold, usually default anyway */
+}
+
+/* --- END DATA TABLE STYLING --- */

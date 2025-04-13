@@ -42,6 +42,7 @@
         <!-- Tabulator library -->
         <link href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator_bootstrap4.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
 
         <!-- Benchmark Table -->
@@ -906,15 +907,196 @@
             <!-- huggingface dataset -->
             <section id="huggingface" class="py-5 bg-light">
                 <div class="container">
-                    <h2 class="text-center py-5">Dataset Construction</h2>
+                    <h2 class="text-center py-5">Benchmark Construction</h2>
+                    <p>
+                        Video-MMLU aims to rigorously evaluate the capabilities of Large Multimodal Models (LMMs) in perceiving and reasoning over real-world educational video. Unlike existing benchmarks, Video-MMLU focuses on videos filled with complex <strong>formulas, dynamic animations, and requiring multi-step reasoning</strong>.
+                    </p>
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <div class="table-container" style="overflow-x: auto;"> <!-- Added overflow for smaller screens -->
+                            <table class="data-table">
+                                <thead>
+                                    <!-- Main Header Row -->
+                                    <tr>
+                                        <th rowspan="2"><strong>Dataset</strong></th>
+                                        <th rowspan="2"><strong>Theme</strong></th>
+                                        <th rowspan="2"><strong># Video</strong></th>
+                                        <th rowspan="2"><strong># Ave. Duration (s)</strong></th>
+                                        <th colspan="4"><strong>Caption</strong></th>
+                                        <th colspan="2"><strong>Question-answering</strong></th>
+                                    </tr>
+                                    <!-- Sub-Header Row -->
+                                    <tr>
+                                        <th><strong>Number</strong></th>
+                                        <th><strong># Word</strong></th>
+                                        <th><strong># Vocab.</strong></th>
+                                        <th><strong>Ave. Length</strong></th>
+                                        <th><strong>Number</strong></th>
+                                        <th><strong>Type</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>MovieChat-1K</td>
+                                        <td>Movie</td>
+                                        <td>1,000</td>
+                                        <td>564</td>
+                                        <td>1,000</td>
+                                        <td>121,077</td>
+                                        <td>102,988</td>
+                                        <td>121</td>
+                                        <td>13,000</td>
+                                        <td>OE</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MMWorld</td>
+                                        <td>Professional</td>
+                                        <td>1,910</td>
+                                        <td>107</td>
+                                        <td>1,910</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>66</td>
+                                        <td>6,627</td>
+                                        <td>MC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MLVU</td>
+                                        <td>Open</td>
+                                        <td>1,730</td>
+                                        <td>930</td>
+                                        <td>247</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>3,102</td>
+                                        <td>MC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MVBench</td>
+                                        <td>Open</td>
+                                        <td>4,000</td>
+                                        <td>16</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>&times;</td> <!-- Red X -->
+                                        <td>-</td>
+                                        <td>4,000</td>
+                                        <td>MC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>LongVideoBench</td>
+                                        <td>Open</td>
+                                        <td>3,763</td>
+                                        <td>473</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>&times;</td> <!-- Red X -->
+                                        <td>-</td>
+                                        <td>6,678</td>
+                                        <td>MC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TempCompass</td>
+                                        <td>Open</td>
+                                        <td>410</td>
+                                        <td>&lt; 30</td> <!-- Less than symbol -->
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>&times;</td> <!-- Red X -->
+                                        <td>-</td>
+                                        <td>7,540</td>
+                                        <td>MC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Video-MMMU</td>
+                                        <td>Professional</td>
+                                        <td>300</td>
+                                        <td>506</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>&times;</td> <!-- Red X -->
+                                        <td>-</td>
+                                        <td>900</td>
+                                        <td>MC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VATEX</td>
+                                        <td>Open</td>
+                                        <td>41,250</td>
+                                        <td>10</td>
+                                        <td>41,250</td>
+                                        <td>4,994,768</td>
+                                        <td>44,103</td>
+                                        <td>15</td>
+                                        <td>-</td>
+                                        <td>&times;</td> <!-- Red X -->
+                                    </tr>
+                                    <tr>
+                                        <td>VDC</td>
+                                        <td>Open</td>
+                                        <td>1,027</td>
+                                        <td>28</td>
+                                        <td>1,027</td>
+                                        <td>515,441</td>
+                                        <td>20,419</td>
+                                        <td>501</td>
+                                        <td>-</td>
+                                        <td>&times;</td> <!-- Red X -->
+                                    </tr>
+                                    <tr>
+                                        <td>LongCaptioning</td>
+                                        <td>Open</td>
+                                        <td>10,000</td>
+                                        <td>93</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>1,198</td>
+                                        <td>-</td>
+                                        <td>&times;</td> <!-- Red X -->
+                                    </tr>
+                                    <!-- Highlighted Row for "Video-MMLU (ours)" -->
+                                    <tr class="highlight-row">
+                                        <td><strong>Video-MMLU (ours)</strong></td>
+                                        <td><strong>Professional</strong></td>
+                                        <td><strong>1,065</strong></td>
+                                        <td><strong>109</strong></td>
+                                        <td><strong>1,065</strong></td>
+                                        <td><strong>520,679</strong></td>
+                                        <td><strong>27,613</strong></td>
+                                        <td><strong>489</strong></td>
+                                        <td><strong>15,746</strong></td>
+                                        <td><strong>OE</strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <figure style="text-align: center;">
+                        <figcaption style="text-align: left; width: 100%; align-self: stretch;">
+                            <strong>Table 1:</strong> Benchmark comparison for video understanding tasks. Ave. Length indicates the average number of words per caption. OE stands for Open-ended, and MC stands for Multiple-choice.
+                        </figcaption>
+                    </figure>
+                    <p>
+                        Inspired by the scene of a <strong>classroom</strong>, Video-MMLU treats the model as a <i>student</i> tasked with learning from the video lectures, while the dataset acts as the <i>teacher</i>. This paradigm involves two primary evaluation tasks: the model "takes notes" through generating <strong>detailed captioning</strong> for the video content, and it "takes a quiz" by answering challenging questions that require <strong>visual reasoning question answering</strong> based on the lecture material.
+                    </p>
+                    <d-figure id="fig-vision_connector"></d-figure>
+                        <figure>
+                            <img data-zoomable="" draggable="false" src="assets/img/figures/b_2.png" alt="" style="width: 80%;display: block; margin: 0 auto;">
+                        </figure>
+                    </d-figure>
+                    <p>
+                        The construction of Video-MMLU involves collecting <strong>1,065 videos</strong> sourced from <strong>10 distinct educational YouTube channels</strong>. The collection heavily emphasizes <strong>Mathematics</strong>, complemented by <strong>Physics</strong> and <strong>Chemistry</strong>. Video <strong>durations</strong> were constrained to between 10 and 240 seconds, with a maximum cap at 4 minutes. Only videos with available English <strong>subtitles</strong> were included to provide a textual baseline. 
+                    </p>
+                    <div id="transition_table_vh_3" class="collapse-content">
+                        <iframe
+                            src="https://huggingface.co/datasets/Enxin/Video-MMLU/embed/viewer/default/Video_MMLU"
+                            frameborder="0"
+                            width="100%"
+                            height="560px"
+                            ></iframe>
+                    </div>
                 </div>
-                <h2 class="text-center py-5">Dataset Viewer</h2>
-                <iframe
-                src="https://huggingface.co/datasets/wchai/Video-Detailed-Caption/embed/viewer/default/VDC_captions"
-                frameborder="0"
-                width="100%"
-                height="560px"
-                ></iframe>
             </section>
 
             <section id="faq" class="py-5">
@@ -964,8 +1146,26 @@
             </section>
             
         </main>
+        
         <!-- End of Main Content -->
 
+        <!-- BibTeX -->
+        <section id="bibtex" class="py-3 bg-light"> <!-- Reduced padding from py-5 to py-3 -->
+            <div class="container">
+                <!-- Removed the large centered h2 title -->
+                <p><strong>BibTeX</strong></p> <!-- Added a smaller, left-aligned label -->
+                <!-- Removed the card and card-body divs -->
+                <pre style="background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 1rem; border-radius: .25rem;"><code>@misc{song2024videommlu,
+    title={Video-MMLU: A Massive Multi-discipline Lecture Understanding Benchmark}, 
+    author={Enxin Song and Wenhao Chai and Weili Xu and Jianwen Xie and Yuxuan Liu and Gaoang Wang},
+    year={2024},
+    eprint={2407.04171},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
+}</code></pre>
+            </div>
+        </section>
+        <!-- End of BibTeX -->
 
         <!-- Top Button -->
         <a id="back-to-top" href="index.html" class="btn btn-light btn-lg back-to-top" role="button"><i class="fas fa-chevron-up"></i></a>
