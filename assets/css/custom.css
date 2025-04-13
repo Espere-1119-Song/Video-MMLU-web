@@ -1,86 +1,93 @@
-/* NEW: Style for the container holding BOTH detail sections */
-.combined-details-container {
+/* --- REMOVE PREVIOUS INLINE DETAIL STYLES --- */
+/* Remove rules for:
+   .combined-details-container
+   .detail-section
+   .notebook-details .detail-labels, etc.
+   .quiz-details .detail-labels, etc.
+   .detail-labels, .detail-values
+   .detail-item
+*/
+
+/* --- POPUP STYLES --- */
+
+.popup-overlay {
+    display: none; /* Hidden by default */
+    position: fixed; /* Cover entire screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed; /* Position relative to viewport */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Center the popup */
+    width: 90%; /* Responsive width */
+    max-width: 400px; /* Max width */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1001; /* Above overlay */
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.popup-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    line-height: 1;
+    color: #aaa;
+    cursor: pointer;
+}
+.popup-close-btn:hover {
+    color: #333;
+}
+
+.popup-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: #333;
+    text-align: center;
+}
+
+.popup-content {
+    font-size: 0.95em;
+}
+
+.popup-score-item {
     display: flex;
-    /* flex-wrap: nowrap; */ /* Allow wrapping temporarily for debugging */
-    width: 100%;
-    padding: 5px 0 8px 0; /* Vertical padding only */
-    background-color: #f8f9fa;
-    border-top: 1px solid #dee2e6;
-    box-sizing: border-box;
-    /* overflow: hidden; */ /* Keep commented out for debugging */
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+.popup-score-item:last-child {
+    border-bottom: none;
 }
 
-/* NEW: Style for each section (notebook or quiz) within the container */
-.detail-section {
-    /* flex: 1 1 0; */ /* REMOVE flex sizing */
-    /* min-width: 0; */ /* REMOVE min-width */
-    font-size: 0.8em;
-    color: #495057;
-    box-sizing: border-box;
-    /* Remove margins */
-    /* margin: 0 5px; */
-    width: 100%; /* Let section take full width initially */
-    position: relative; /* Needed if we were to overlap, maybe helps? */
-}
-/* Remove margin overrides */
-/* .detail-section:first-child { margin-left: 0; } */
-/* .detail-section:last-child { margin-right: 0; } */
-
-/* Style for the container holding the detailed scores */
-.row-detail-scores {
-    padding: 5px 15px 8px 15px; /* Adjust vertical padding */
-    background-color: #f8f9fa; /* Light background */
-    border-top: 1px solid #dee2e6; /* Separator line */
-    font-size: 0.9em; /* Slightly smaller font */
-    color: #495057; /* Text color */
-    box-sizing: border-box;
-    /* Ensure it takes full width relative to the row */
-    width: 100%;
-    overflow: hidden; /* Prevent content overflow issues */
-    text-align: left; /* Default text alignment */
+.popup-label {
+    color: #555;
+    font-weight: 500;
 }
 
-/* Alignment for Notebook details */
-.notebook-details .detail-labels,
-.notebook-details .detail-values {
-    padding-left: 40%; /* Adjust! Pushes Math/Physics/Chem over */
+.popup-value {
+    color: #000;
 }
 
-/* Alignment for Quiz details */
-.quiz-details .detail-labels,
-.quiz-details .detail-values {
-    padding-left: 55%; /* Adjust! Pushes Math/Physics/Chem over further */
+/* Ensure clickable cells still look clickable */
+.notebook-avg-cell, .quiz-avg-cell {
+    cursor: pointer;
 }
-
-/* NEW CSS for two-line details */
-.detail-labels,
-.detail-values {
-    display: flex; /* Keep flex for items inside */
-    justify-content: flex-start;
-    /* width: 100%; */ /* Let width be determined by padding + items */
+.clickable-avg.expanded { /* Keep this if you still visually highlight clicked cells */
+   font-weight: bold;
+   /* Or remove if not needed */
 }
-.detail-labels { margin-bottom: 1px; font-weight: 500; color: #6c757d; }
-
-/* Item - Make very small temporarily to test layout */
-.detail-item {
-    width: 45px;
-    text-align: left;
-    margin-right: 3px;
-    box-sizing: border-box;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-shrink: 0; /* Prevent items shrinking */
-}
-
-/* Optional: Style for the clickable average cells */
-.clickable-avg {
-    position: relative;
-    cursor: pointer; /* Ensure cursor indicates clickability */
-}
-
-/* Example: Add a small triangle when clickable (optional) */
-/* .clickable-avg::after { ... } */
-
-/* Style for the clickable average cells when expanded */
-.clickable-avg.expanded { font-weight: bold; }

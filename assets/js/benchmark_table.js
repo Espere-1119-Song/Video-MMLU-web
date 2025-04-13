@@ -309,37 +309,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Helper function to generate HTML string for a detail type
-            function createDetailHTML(rowData, type) {
-                const math = rowData[`${type}_math`];
-                const physics = rowData[`${type}_physics`];
-                const chemistry = rowData[`${type}_chemistry`];
-
-                // Format values
-                const mathVal = math !== undefined && math !== null ? math.toFixed(1) : '-';
-                const physicsVal = physics !== undefined && physics !== null ? physics.toFixed(1) : '-';
-                const chemistryVal = chemistry !== undefined && chemistry !== null ? chemistry.toFixed(1) : '-';
-
-                // Add the specific class back to the main section div
-                return `
-                    <div class="detail-section ${type}-details">
-                        <div class="detail-labels">
-                            <span class="detail-item">Math</span>
-                            <span class="detail-item">Physics</span>
-                            <span class="detail-item">Chemistry</span>
-                        </div>
-                        <div class="detail-values">
-                            <span class="detail-item">${mathVal}</span>
-                            <span class="detail-item">${physicsVal}</span>
-                            <span class="detail-item">${chemistryVal}</span>
-                        </div>
-                    </div>
-                `;
-            }
-
             var behavior_table = new Tabulator("#behavior-benchmark-main-table", {
                 data: behavior_total_benchmark_data,
-                layout: "fitColumns",
+                layout: "fitDataFill",
                 responsiveLayout: "collapse",
                 responsiveLayoutCollapseStartOpen: false,
                 movableColumns: false,
@@ -355,88 +327,100 @@ document.addEventListener('DOMContentLoaded', function () {
                 virtualDom: true,
 
                 rowFormatter: function(row) {
-                    var element = row.getElement(); // Get the row DOM element
-                    var data = row.getData(); // Get the data for the row
+                    var element = row.getElement();
+                    var data = row.getData();
 
-                    // Find the clickable average cells
+                    // Find clickable cells
                     var notebookAvgCell = element.querySelector('.notebook-avg-cell');
                     var quizAvgCell = element.querySelector('.quiz-avg-cell');
 
-                    // Function to render/update the combined details container
-                    const renderCombinedDetails = () => {
-                        // Check expansion state (using data attributes on the row element)
-                        const notebookExpanded = element.dataset.notebookExpanded === 'true';
-                        const quizExpanded = element.dataset.quizExpanded === 'true';
-
-                        // Find existing details container or create if needed
-                        let detailContainer = element.querySelector('.combined-details-container');
-
-                        // Remove container if nothing is expanded
-                        if (!notebookExpanded && !quizExpanded) {
-                            if (detailContainer) {
-                                detailContainer.remove();
-                            }
-                            return; // Exit
-                        }
-
-                        // Create container if it doesn't exist
-                        if (!detailContainer) {
-                            detailContainer = document.createElement('div');
-                            detailContainer.classList.add('combined-details-container');
-                            element.appendChild(detailContainer); // Append once
-                        }
-
-                        // Generate HTML based on state
-                        let combinedHTML = '';
-                        if (notebookExpanded) {
-                            combinedHTML += createDetailHTML(data, 'notebook');
-                        }
-                        if (quizExpanded) {
-                            combinedHTML += createDetailHTML(data, 'quiz');
-                        }
-
-                        // *** Add console log for debugging ***
-                        if (notebookExpanded && quizExpanded) {
-                            console.log("Attempting to render BOTH Notebook and Quiz sections in row for model:", data.model);
-                        }
-                        // *** End console log ***
-
-                        // Update the container's content
-                        detailContainer.innerHTML = combinedHTML;
-                    };
-
-                    // Add click listener for Notebook Avg
+                    // Add click listener for Notebook Avg -> Show Popup
                     if (notebookAvgCell) {
                         notebookAvgCell.style.cursor = 'pointer';
                         notebookAvgCell.title = 'Click to see subject scores';
+                        // Remove previous listener if any (good practice)
+                        notebookAvgCell.replaceWith(notebookAvgCell.cloneNode(true));
+                        notebookAvgCell = element.querySelector('.notebook-avg-cell'); // Re-select after clone
+
                         notebookAvgCell.addEventListener('click', () => {
-                            // Toggle state
-                            const isExpanded = element.dataset.notebookExpanded === 'true';
-                            element.dataset.notebookExpanded = isExpanded ? 'false' : 'true';
-                            notebookAvgCell.classList.toggle('expanded', !isExpanded);
-                            // Re-render details
-                            renderCombinedDetails();
+                            const scores = {
+                                math: data.notebook_math,
+                                physics: data.notebook_physics,
+                                chemistry: data.notebook_chemistry
+                            };
+                            showDetailsPopup(`${data.model} - Notebook Scores`, scores);
                         });
                     }
 
-                    // Add click listener for Quiz Avg
+                    // Add click listener for Quiz Avg -> Show Popup
                     if (quizAvgCell) {
                         quizAvgCell.style.cursor = 'pointer';
                         quizAvgCell.title = 'Click to see subject scores';
+                        // Remove previous listener if any
+                        quizAvgCell.replaceWith(quizAvgCell.cloneNode(true));
+                        quizAvgCell = element.querySelector('.quiz-avg-cell'); // Re-select
+
                         quizAvgCell.addEventListener('click', () => {
-                            // Toggle state
-                            const isExpanded = element.dataset.quizExpanded === 'true';
-                            element.dataset.quizExpanded = isExpanded ? 'false' : 'true';
-                            quizAvgCell.classList.toggle('expanded', !isExpanded);
-                            // Re-render details
-                            renderCombinedDetails();
+                            const scores = {
+                                math: data.quiz_math,
+                                physics: data.quiz_physics,
+                                chemistry: data.quiz_chemistry
+                            };
+                            showDetailsPopup(`${data.model} - Quiz Scores`, scores);
                         });
                     }
-
-                    // Initial render in case state is somehow preserved (optional)
-                    // renderCombinedDetails();
-                }
+                },
             });
+
+            // --- NEW: Function to show the details popup ---
+            function showDetailsPopup(title, scores) {
+                // Find popup elements
+                const popup = document.getElementById('details-popup');
+                const popupTitle = document.getElementById('popup-title');
+                const popupContent = document.getElementById('popup-content');
+                const closeButton = document.getElementById('popup-close');
+                const overlay = document.getElementById('popup-overlay');
+
+                if (!popup || !popupTitle || !popupContent || !closeButton || !overlay) {
+                    console.error("Popup elements not found!");
+                    return;
+                }
+
+                // Populate content
+                popupTitle.textContent = title;
+                popupContent.innerHTML = `
+                    <div class="popup-score-item">
+                        <span class="popup-label">Math:</span>
+                        <span class="popup-value">${scores.math !== undefined && scores.math !== null ? scores.math.toFixed(1) : '-'}</span>
+                    </div>
+                    <div class="popup-score-item">
+                        <span class="popup-label">Physics:</span>
+                        <span class="popup-value">${scores.physics !== undefined && scores.physics !== null ? scores.physics.toFixed(1) : '-'}</span>
+                    </div>
+                    <div class="popup-score-item">
+                        <span class="popup-label">Chemistry:</span>
+                        <span class="popup-value">${scores.chemistry !== undefined && scores.chemistry !== null ? scores.chemistry.toFixed(1) : '-'}</span>
+                    </div>
+                `;
+
+                // Show popup and overlay
+                popup.style.display = 'block';
+                overlay.style.display = 'block';
+
+                // Add listeners to close popup (only add once or manage carefully)
+                const closePopup = () => {
+                    popup.style.display = 'none';
+                    overlay.style.display = 'none';
+                    // Remove listeners to prevent duplicates if popup is reused
+                    closeButton.removeEventListener('click', closePopup);
+                    overlay.removeEventListener('click', closePopup);
+                };
+
+                // Use { once: true } or manage listeners if popup is reused frequently
+                closeButton.addEventListener('click', closePopup);
+                overlay.addEventListener('click', closePopup);
+            }
+            // --- END NEW FUNCTION ---
         });
 });
 
