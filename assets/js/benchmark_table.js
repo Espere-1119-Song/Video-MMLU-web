@@ -308,6 +308,35 @@ function ringFormatter(cell, formatterParams, onRendered) {
 }
 // --- END UPDATED FORMATTER ---
 
+// --- BEGIN NEW SORTER ---
+// Custom sorter for model sizes (e.g., "7B", "500M", "-")
+const modelSizeSorter = function(a, b, aRow, bRow, column, dir, sorterParams) {
+    const parseSize = (sizeStr) => {
+        if (typeof sizeStr !== 'string' || sizeStr === '-') {
+            return -1; // Treat '-' or non-strings as smallest
+        }
+        const size = parseFloat(sizeStr);
+        if (isNaN(size)) {
+            return -1;
+        }
+        // Convert B to M for consistent comparison
+        if (sizeStr.toUpperCase().includes('B')) {
+            return size * 1000; // e.g., 7B -> 7000
+        }
+        if (sizeStr.toUpperCase().includes('M')) {
+            return size; // e.g., 500M -> 500
+        }
+        return -1; // Fallback for unknown formats (treat as smallest)
+    };
+
+    const sizeA = parseSize(a);
+    const sizeB = parseSize(b);
+
+    // Standard numeric comparison
+    return sizeA - sizeB;
+};
+// --- END NEW SORTER ---
+
 document.addEventListener('DOMContentLoaded', function () {
     Promise.all([
         fetch('assets/data/behavior_total_benchmark.json').then(response => response.json()),
@@ -373,10 +402,25 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                 },
-                // Center align headers for the rest
-                { title: "#F", field: "frames", widthGrow: 0.5, minWidth: 5},
+                // Model Size column
                 {
-                    title: "#T", field: "tpf", widthGrow: 0.5, minWidth: 5, sorter: "number",
+                    title: "Size",
+                    field: "model_size",
+                    widthGrow: 0.6,
+                    minWidth: 40,
+                    hozAlign: "center",
+                    headerHozAlign: "center",
+                    sorter: modelSizeSorter,
+                    formatter: function(cell, formatterParams){
+                        const value = cell.getValue();
+                        return value !== null && value !== undefined ? value : "-";
+                    }
+                },
+                // #F column
+                {
+                    title: "#F", field: "frames", widthGrow: 0.5, minWidth: 5, sorter: "number",
+                    hozAlign: "center",
+                    headerHozAlign: "center",
                     formatter: function(cell, formatterParams){
                         const value = cell.getValue();
                         if (value === Infinity || value === null || value === undefined) {
@@ -385,42 +429,57 @@ document.addEventListener('DOMContentLoaded', function () {
                         return value;
                     }
                 },
-                // Overall column using ringFormatter
+                // #T column
                 {
-                    title: "Overall", field: "avg_acc", widthGrow: 1, minWidth: 100, // Adjusted width slightly
-                    hozAlign: "center", // Center the ring+text combo
+                    title: "#T", field: "tpf", widthGrow: 0.5, minWidth: 5, sorter: "number",
+                    hozAlign: "center",
+                    headerHozAlign: "center",
+                    formatter: function(cell, formatterParams){
+                        const value = cell.getValue();
+                        if (value === Infinity || value === null || value === undefined) {
+                            return "-";
+                        }
+                        return value;
+                    }
+                },
+                // Overall column
+                {
+                    title: "Overall", field: "avg_acc", widthGrow: 1, minWidth: 100,
+                    hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: function(a, b, aRow, bRow, column, dir, sorterParams) {
-                        // Handle non-numeric values for sorting
                         const valA = parseFloat(a);
                         const valB = parseFloat(b);
                         const numA = isNaN(valA) ? -Infinity : valA;
                         const numB = isNaN(valB) ? -Infinity : valB;
                         return numA - numB;
                     },
-                    formatter: ringFormatter // Use the ring formatter
-                    // No formatterParams needed here anymore
+                    formatter: ringFormatter
                 },
-                // Notebook column using chartFormatter
+                // Notebook column
                 {
-                    title: "Notebook", field: "notebook_avg", widthGrow: 1, minWidth: 250,
-                    hozAlign: "center", // << Center the content (text) in the cell
+                    title: "Notebook", field: "notebook_avg", widthGrow: 1, minWidth: 220, // Adjusted width
+                    hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: "number",
-                    formatter: chartFormatter, // Use the updated chartFormatter
-                    formatterParams: { min: 0, max: 100 }, // Pass min/max if needed
-                    cssClass: "notebook-avg-cell" // Keep class for potential specific cell styling
+                    formatter: chartFormatter,
+                    formatterParams: { min: 0, max: 100 },
+                    cssClass: "notebook-avg-cell"
                 },
-                // Quiz column using chartFormatter
+                // --- BEGIN RE-ADDED QUIZ COLUMN ---
                 {
-                    title: "Quiz", field: "quiz_avg", widthGrow: 1, minWidth: 250,
-                    hozAlign: "center", // << Center the content (text) in the cell
+                    title: "Quiz",
+                    field: "quiz_avg",
+                    widthGrow: 1,
+                    minWidth: 220,
+                    hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: "number",
-                    formatter: chartFormatter, // Use the updated chartFormatter
-                    formatterParams: { min: 0, max: 100 }, // Pass min/max if needed
-                    cssClass: "quiz-avg-cell" // Keep class for potential specific cell styling
+                    formatter: simpleColorFormatter,
+                    formatterParams: getColumnMinMax(behavior_total_benchmark_data, 'quiz_avg'),
+                    cssClass: "quiz-avg-cell"
                 },
+                // --- END RE-ADDED QUIZ COLUMN ---
                 // Hidden Notebook subject columns
                 { title: "Notebook Math", field: "notebook_math", visible: false, formatter: colorFormatterActionSeq, headerHozAlign: "center" },
                 { title: "Notebook Physics", field: "notebook_physics", visible: false, formatter: colorFormatterActionSeq, headerHozAlign: "center" },
@@ -435,18 +494,26 @@ document.addEventListener('DOMContentLoaded', function () {
             behavior_columns.forEach(column => {
                 const fieldsNeedingParams = [
                     "notebook_avg", "notebook_math", "notebook_physics", "notebook_chemistry",
-                    "quiz_avg", "quiz_math", "quiz_physics", "quiz_chemistry"
+                    "quiz_avg", "quiz_math", "quiz_physics", "quiz_chemistry" // Ensure quiz_avg is here
                 ];
 
                 if (fieldsNeedingParams.includes(column.field)) {
+                    // Check if the column definition actually has a formatter before assigning params
                     if (column.formatter) {
                         let { min, max } = getColumnMinMax(behavior_total_benchmark_data, column.field);
-                        column.formatterParams = { min, max };
+                        // Ensure min/max are valid numbers before assigning
+                        if (min !== undefined && max !== undefined && !isNaN(min) && !isNaN(max)) {
+                             column.formatterParams = { min, max };
+                        } else {
+                             // Provide default or handle error if min/max calculation fails
+                             console.warn(`Could not determine min/max for ${column.field}. Using defaults.`);
+                             column.formatterParams = { min: 0, max: 1 };
+                        }
                     }
                 }
             });
 
-            // Process the data to ensure numeric values for sorting
+            // Pre-process data (ensure numeric types where needed)
             behavior_total_benchmark_data.forEach(item => {
                 // Convert string values to numbers for proper sorting
                 if (typeof item.avg_acc === 'string') {
@@ -485,6 +552,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else if (typeof item.tpf !== 'number') {
                      item.tpf = Infinity; // Handle other non-numeric types
                 }
+                // No specific processing needed for model_size here as it's handled by the sorter/formatter
             });
 
             var behavior_table = new Tabulator("#behavior-benchmark-main-table", {
