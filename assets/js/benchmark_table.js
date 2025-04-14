@@ -18,24 +18,25 @@ var chartFormatter = function (cell, formatterParams, onRendered) {
     }
 
     const numValue = parseFloat(value);
-    const { min = 0, max = 100 } = formatterParams || {};
+    const { min = 0, max = 100, startColor, endColor, barColor = '#90EE90' } = formatterParams || {};
     const percentage = Math.max(0, Math.min(100, ((numValue - min) / (max - min)) * 100));
 
     // --- Create the Bar ---
     const bar = document.createElement("div");
     bar.classList.add("score-bar");
     bar.style.width = percentage + "%";
-    bar.style.position = "absolute"; // Position behind text
+    bar.style.position = "absolute";
     bar.style.left = "0";
     bar.style.top = "0";
     bar.style.height = "100%";
-    bar.style.zIndex = "1"; // Bar is behind
+    bar.style.borderRadius = "4px";
+    bar.style.zIndex = "1";
 
-    // Add specific class for color gradient
-    if (field.includes("notebook")) {
-        bar.classList.add("notebook-bar");
-    } else if (field.includes("quiz")) {
-        bar.classList.add("quiz-bar");
+    // <<< Apply gradient if start/end colors provided, else solid color >>>
+    if (startColor && endColor) {
+        bar.style.background = `linear-gradient(to right, ${startColor}, ${endColor})`;
+    } else {
+        bar.style.backgroundColor = barColor; // Use barColor or default
     }
 
     // --- Create the Text ---
@@ -145,48 +146,58 @@ const debugColorFormatter = function(cell, formatterParams) {
 
 const simpleColorFormatter = function(cell, formatterParams) {
     const value = cell.getValue();
-    const numValue = typeof value === 'number' ? value : parseFloat(value);
-    const formattedValue = isNaN(numValue) ? value : numValue.toFixed(1);
-    
-    if (!formatterParams || formatterParams.min === undefined || formatterParams.max === undefined || isNaN(numValue)) {
-        return `<div style="
-            background-color: #9494C0;
-            padding: 4px;
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            color: black;
-        ">${formattedValue}</div>`;
+    const container = document.createElement("div");
+    container.classList.add("score-cell-container"); // Use container class
+
+    // Handle non-numeric or missing values
+    if (value === undefined || value === null || isNaN(value) || value === "-") {
+        container.textContent = "-";
+        container.style.textAlign = "center";
+        container.style.width = "100%";
+        container.style.height = "100%";
+        container.style.display = "flex";
+        container.style.alignItems = "center";
+        container.style.justifyContent = "center";
+        return container;
     }
-    
-    const min = formatterParams.min;
-    const max = formatterParams.max;
-    
-    if (min === max) {
-        return `<div style="
-            background-color: #9494C0;
-            padding: 4px;
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            color: black;
-        ">${formattedValue}</div>`;
-    }
-    
-    const intensity = Math.max(0, Math.min(1, (numValue - min) / (max - min)));
-    
-    const r = Math.floor(255 - (255 - 148) * intensity);
-    const g = Math.floor(255 - (255 - 148) * intensity);
-    const b = Math.floor(255 - (255 - 192) * intensity);
-    
-    return `<div style="
-        background-color: rgb(${r}, ${g}, ${b});
-        padding: 4px;
-        text-align: center;
-        width: 100%;
-        height: 100%;
-        color: black;
-    ">${formattedValue}</div>`;
+
+    const numValue = parseFloat(value);
+    const { min = 0, max = 100 } = formatterParams || {}; // Default min/max if not provided
+    const percentage = Math.max(0, Math.min(100, ((numValue - min) / (max - min)) * 100));
+
+    // --- Create the Bar ---
+    const bar = document.createElement("div");
+    bar.classList.add("score-bar"); // Use bar class
+    bar.style.width = percentage + "%";
+    bar.style.position = "absolute"; // Position behind text
+    bar.style.left = "0";
+    bar.style.top = "0";
+    bar.style.height = "100%";
+    bar.style.backgroundColor = '#D8BFD8'; // Light purple color for Quiz
+    bar.style.borderRadius = "4px"; // <<< Added rounded corners for the bar
+    bar.style.zIndex = "1"; // Bar behind text
+
+    // --- Create the Text ---
+    const text = document.createElement("span");
+    text.classList.add("score-text"); // Use text class
+    text.textContent = numValue.toFixed(1); // Display value with one decimal place
+    text.style.position = "relative"; // Position text above bar
+    text.style.zIndex = "2"; // Text above bar
+    text.style.color = "#333"; // Darker text color for readability
+    text.style.fontWeight = "500"; // Slightly bolder text
+
+    // --- Assemble the Cell ---
+    container.style.position = "relative"; // Needed for absolute positioning of bar
+    container.style.overflow = "hidden"; // Hide bar overflow
+    container.style.borderRadius = "4px"; // <<< Added rounded corners for the container
+    container.style.padding = "4px 8px"; // Add some padding
+    container.style.backgroundColor = "#f0f0f0"; // Light grey background for the cell container
+    container.style.textAlign = "center"; // Center the text horizontally
+
+    container.appendChild(bar);
+    container.appendChild(text);
+
+    return container;
 };
 
 // --- NEW: Helper function to interpolate between two hex colors ---
@@ -456,30 +467,32 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     formatter: ringFormatter
                 },
-                // Notebook column
+                // Notebook column - uses chartFormatter with GREEN gradient
                 {
-                    title: "Notebook", field: "notebook_avg", widthGrow: 1, minWidth: 220, // Adjusted width
+                    title: "Notebook", field: "notebook_avg", widthGrow: 1, minWidth: 220,
                     hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: "number",
                     formatter: chartFormatter,
-                    formatterParams: { min: 0, max: 100 },
+                    formatterParams: {
+                        startColor: '#F0FFF0', // Honeydew (very light green)
+                        endColor: '#90EE90'    // LightGreen (medium green)
+                    },
                     cssClass: "notebook-avg-cell"
                 },
-                // --- BEGIN RE-ADDED QUIZ COLUMN ---
+                // Quiz column - uses chartFormatter with purple gradient
                 {
-                    title: "Quiz",
-                    field: "quiz_avg",
-                    widthGrow: 1,
-                    minWidth: 220,
+                    title: "Quiz", field: "quiz_avg", widthGrow: 1, minWidth: 220,
                     hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: "number",
-                    formatter: simpleColorFormatter,
-                    formatterParams: getColumnMinMax(behavior_total_benchmark_data, 'quiz_avg'),
+                    formatter: chartFormatter,
+                    formatterParams: {
+                        startColor: '#E6E6FA', // Lavender
+                        endColor: '#B19CD9'    // Light Purple
+                    },
                     cssClass: "quiz-avg-cell"
                 },
-                // --- END RE-ADDED QUIZ COLUMN ---
                 // Hidden Notebook subject columns
                 { title: "Notebook Math", field: "notebook_math", visible: false, formatter: colorFormatterActionSeq, headerHozAlign: "center" },
                 { title: "Notebook Physics", field: "notebook_physics", visible: false, formatter: colorFormatterActionSeq, headerHozAlign: "center" },
@@ -490,25 +503,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 { title: "Quiz Chemistry", field: "quiz_chemistry", visible: false, formatter: simpleColorFormatter, headerHozAlign: "center" }
             ];
 
-            // --- Update formatterParams assignment logic ---
+            // --- formatterParams assignment logic (should still work) ---
             behavior_columns.forEach(column => {
                 const fieldsNeedingParams = [
                     "notebook_avg", "notebook_math", "notebook_physics", "notebook_chemistry",
-                    "quiz_avg", "quiz_math", "quiz_physics", "quiz_chemistry" // Ensure quiz_avg is here
+                    "quiz_avg", "quiz_math", "quiz_physics", "quiz_chemistry"
                 ];
 
                 if (fieldsNeedingParams.includes(column.field)) {
-                    // Check if the column definition actually has a formatter before assigning params
                     if (column.formatter) {
                         let { min, max } = getColumnMinMax(behavior_total_benchmark_data, column.field);
-                        // Ensure min/max are valid numbers before assigning
+                        let defaultParams = { min: 0, max: 1 };
+
                         if (min !== undefined && max !== undefined && !isNaN(min) && !isNaN(max)) {
-                             column.formatterParams = { min, max };
+                           defaultParams = { min, max };
                         } else {
-                             // Provide default or handle error if min/max calculation fails
-                             console.warn(`Could not determine min/max for ${column.field}. Using defaults.`);
-                             column.formatterParams = { min: 0, max: 1 };
+                           console.warn(`Could not determine min/max for ${column.field}. Using defaults.`);
                         }
+
+                        // Merge calculated min/max with existing formatterParams (like start/endColor)
+                        column.formatterParams = {
+                            ...(column.formatterParams || {}),
+                            ...defaultParams
+                        };
                     }
                 }
             });
