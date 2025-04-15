@@ -2,6 +2,7 @@
 var chartFormatter = function (cell, formatterParams, onRendered) {
     const value = cell.getValue();
     const field = cell.getField();
+    const rowData = cell.getRow().getData(); // <<< Get row data to access subject scores AND model name
     const container = document.createElement("div");
     container.classList.add("score-cell-container"); // Use container class
 
@@ -51,6 +52,73 @@ var chartFormatter = function (cell, formatterParams, onRendered) {
     // --- Assemble Container (Bar and Text) ---
     container.appendChild(bar);
     container.appendChild(textSpan);
+
+    // --- Add Tooltip ---
+    let tooltipTitle = '';
+    let tooltipDetails = '';
+    const modelName = rowData.model || ''; // Get model name from row data
+    // Helper to format scores, handling null/undefined
+    const formatScore = (score) => (score !== undefined && score !== null && !isNaN(parseFloat(score))) ? parseFloat(score).toFixed(1) : '-';
+
+    // Construct tooltip title and details separately, including the model name in the title
+    if (field === 'notebook_avg') {
+        tooltipTitle = `Notebook Scores of ${modelName}`; // <<< Remove colon from title
+        tooltipDetails = `Math: ${formatScore(rowData.notebook_math)}\nPhysics: ${formatScore(rowData.notebook_physics)}\nChemistry: ${formatScore(rowData.notebook_chemistry)}`;
+    } else if (field === 'quiz_avg') {
+        tooltipTitle = `Quiz Scores of ${modelName}`; // <<< Remove colon from title
+        tooltipDetails = `Math: ${formatScore(rowData.quiz_math)}\nPhysics: ${formatScore(rowData.quiz_physics)}\nChemistry: ${formatScore(rowData.quiz_chemistry)}`;
+    }
+
+    // <<< ADD event listeners for custom tooltip >>>
+    if (tooltipTitle && tooltipDetails) { // Check if both title and details exist
+        const tooltipElement = document.getElementById('custom-tooltip'); // Get the tooltip element
+        if (tooltipElement) {
+            container.addEventListener('mouseover', (event) => {
+                // <<< UPDATE innerHTML structure for styling AND ICONS >>>
+                // Define icons for subjects
+                const icons = {
+                    Math: '<i class="fas fa-calculator fa-fw" style="margin-right: 5px; color: #6c757d;"></i>', // Added fa-fw for fixed width
+                    Physics: '<i class="fas fa-atom fa-fw" style="margin-right: 5px; color: #6c757d;"></i>',
+                    Chemistry: '<i class="fas fa-flask fa-fw" style="margin-right: 5px; color: #6c757d;"></i>'
+                };
+
+                // Process details to add icons
+                const detailLines = tooltipDetails.split('\n').map(line => {
+                    const parts = line.split(':'); // Split "Subject: Score"
+                    if (parts.length === 2) {
+                        const subject = parts[0].trim();
+                        const score = parts[1].trim();
+                        const icon = icons[subject] || ''; // Get icon or empty string
+                        return `${icon}${subject}: ${score}`; // Add icon before subject
+                    }
+                    return line; // Return original line if format doesn't match
+                }).join('<br>'); // Join lines with <br>
+
+                tooltipElement.innerHTML = `
+                    <div style="text-align: center; font-weight: 600; margin-bottom: 8px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">${tooltipTitle}</div>
+                    <div style="line-height: 1.6;">${detailLines}</div>
+                `;
+                // <<< END UPDATE innerHTML >>>
+
+                tooltipElement.style.left = `${event.pageX + 10}px`; // Position near cursor
+                tooltipElement.style.top = `${event.pageY + 10}px`;
+                tooltipElement.style.display = 'block'; // Show tooltip
+            });
+
+            container.addEventListener('mousemove', (event) => {
+                // Update position as mouse moves within the cell
+                tooltipElement.style.left = `${event.pageX + 10}px`;
+                tooltipElement.style.top = `${event.pageY + 10}px`;
+            });
+
+            container.addEventListener('mouseout', () => {
+                tooltipElement.style.display = 'none'; // Hide tooltip
+            });
+        } else {
+            console.error("Custom tooltip element not found!");
+        }
+    }
+    // --- End Tooltip ---
 
     return container;
 };
@@ -349,6 +417,26 @@ const modelSizeSorter = function(a, b, aRow, bRow, column, dir, sorterParams) {
 // --- END NEW SORTER ---
 
 document.addEventListener('DOMContentLoaded', function () {
+    // <<< ADD: Create and append the custom tooltip element once >>>
+    const tooltipDiv = document.createElement('div');
+    tooltipDiv.id = 'custom-tooltip';
+    tooltipDiv.style.position = 'absolute';
+    tooltipDiv.style.display = 'none';
+    tooltipDiv.style.backgroundColor = '#f8f9fa'; // Light grey background (Bootstrap default light)
+    tooltipDiv.style.color = '#212529';           // Dark text color (Bootstrap default dark)
+    tooltipDiv.style.border = '1px solid #dee2e6'; // Add a light border
+    tooltipDiv.style.padding = '10px 15px';
+    tooltipDiv.style.borderRadius = '6px';
+    tooltipDiv.style.zIndex = '1000';
+    tooltipDiv.style.fontSize = '15px';
+    tooltipDiv.style.fontFamily = 'inherit';
+    tooltipDiv.style.lineHeight = '1.5'; // Base line height
+    tooltipDiv.style.whiteSpace = 'pre-line';
+    tooltipDiv.style.pointerEvents = 'none';
+    tooltipDiv.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)'; // Slightly softer shadow
+    document.body.appendChild(tooltipDiv);
+    // <<< END ADD >>>
+
     Promise.all([
         fetch('assets/data/behavior_total_benchmark.json').then(response => response.json()),
     ])
@@ -465,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const numB = isNaN(valB) ? -Infinity : valB;
                         return numA - numB;
                     },
-                    formatter: ringFormatter
+                    // formatter: ringFormatter // <<< Commented out the ring formatter
                 },
                 // Notebook column - uses chartFormatter with GREEN gradient
                 {
@@ -589,53 +677,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 height: "800px",
                 virtualDom: true,
 
+                // --- Remove Row Formatter Logic for Click Popups ---
                 rowFormatter: function(row) {
-                    var element = row.getElement();
-                    var data = row.getData();
+                    // The specific click listeners for notebook/quiz cells are no longer needed
+                    // as the tooltip is handled by the chartFormatter now.
+                    // You can keep this function if it's used for other row-level formatting.
+                    // var element = row.getElement();
+                    // var data = row.getData();
 
-                    // Find clickable cells
+                    /* --- REMOVED ---
                     var notebookAvgCell = element.querySelector('.notebook-avg-cell');
                     var quizAvgCell = element.querySelector('.quiz-avg-cell');
 
-                    // Add click listener for Notebook Avg -> Show Popup
                     if (notebookAvgCell) {
-                        notebookAvgCell.style.cursor = 'pointer';
-                        notebookAvgCell.title = 'Click to see subject scores';
-                        // Remove previous listener if any (good practice)
-                        notebookAvgCell.replaceWith(notebookAvgCell.cloneNode(true));
-                        notebookAvgCell = element.querySelector('.notebook-avg-cell'); // Re-select after clone
-
-                        notebookAvgCell.addEventListener('click', () => {
-                            const scores = {
-                                math: data.notebook_math,
-                                physics: data.notebook_physics,
-                                chemistry: data.notebook_chemistry
-                            };
-                            showDetailsPopup(`${data.model} - Notebook Scores`, scores);
-                        });
+                        // ... listener code removed ...
                     }
 
-                    // Add click listener for Quiz Avg -> Show Popup
                     if (quizAvgCell) {
-                        quizAvgCell.style.cursor = 'pointer';
-                        quizAvgCell.title = 'Click to see subject scores';
-                        // Remove previous listener if any
-                        quizAvgCell.replaceWith(quizAvgCell.cloneNode(true));
-                        quizAvgCell = element.querySelector('.quiz-avg-cell'); // Re-select
-
-                        quizAvgCell.addEventListener('click', () => {
-                            const scores = {
-                                math: data.quiz_math,
-                                physics: data.quiz_physics,
-                                chemistry: data.quiz_chemistry
-                            };
-                            showDetailsPopup(`${data.model} - Quiz Scores`, scores);
-                        });
+                        // ... listener code removed ...
                     }
+                    */
                 },
+                // --- End Row Formatter Update ---
             });
 
-            // --- NEW: Function to show the details popup ---
+            // --- The showDetailsPopup function is no longer called by the rowFormatter ---
+            // --- but can remain if used elsewhere or for future reference ---
             function showDetailsPopup(title, scores) {
                 // Find popup elements
                 const popup = document.getElementById('details-popup');
@@ -686,4 +753,3 @@ document.addEventListener('DOMContentLoaded', function () {
             // --- END NEW FUNCTION ---
         });
 });
-

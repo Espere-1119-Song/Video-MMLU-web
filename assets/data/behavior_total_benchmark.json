@@ -102,7 +102,7 @@
     "quiz_chemistry": 43.31
   },
   {
-    "model": "Gemini-1.5-Flash",
+    "model": "Gemini-1.5-Flash-002",
     "model_type": "proprietary",
     "model_url": "https://deepmind.google/technologies/gemini/flash/",
     "model_size": "-",
@@ -119,7 +119,7 @@
     "quiz_chemistry": 31.43
   },
   {
-    "model": "GPT-4o",
+    "model": "GPT-4o-2024-05-13",
     "model_type": "proprietary",
     "model_size": "-",
     "model_url": null,
@@ -136,7 +136,7 @@
     "quiz_chemistry": 25.79
   },
   {
-    "model": "Claude-3.5-sonnet",
+    "model": "Claude-3.5-sonnet-20241022",
     "model_type": "proprietary",
     "model_size": "-",
     "model_url": null,

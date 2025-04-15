@@ -339,3 +339,33 @@
 }
 
 /* --- END DATA TABLE STYLING --- */
+
+/* Custom Tooltip Styling */
+.custom-tooltip {
+  position: absolute; /* Needed for positioning near the cursor/cell */
+  display: none; /* Hidden by default */
+  background-color: rgba(50, 50, 50, 0.9); /* Dark semi-transparent background */
+  color: white;
+  padding: 8px 12px; /* Increased padding */
+  border-radius: 6px; /* Rounded corners */
+  font-family: 'Roboto', sans-serif; /* Use a nice font */
+  font-size: 14px; /* Larger font size */
+  line-height: 1.6; /* Better line spacing */
+  z-index: 1000; /* Ensure it's on top */
+  pointer-events: none; /* Prevent tooltip from interfering with mouse events */
+  white-space: pre-line; /* Respect line breaks (\n) in the text */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle shadow */
+  max-width: 250px; /* Prevent it from becoming too wide */
+}
+
+/* Optional: Style for labels within the tooltip */
+.tooltip-label {
+  font-weight: 500; /* Slightly bolder labels */
+  color: #a0a0a0; /* Lighter color for labels */
+  margin-right: 5px;
+}
+
+/* Optional: Style for values within the tooltip */
+.tooltip-value {
+  font-weight: bold; /* Bold values */
+}
