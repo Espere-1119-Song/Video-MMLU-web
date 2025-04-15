@@ -557,7 +557,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 // Notebook column - uses chartFormatter with GREEN gradient
                 {
-                    title: "Notebook", field: "notebook_avg", widthGrow: 1, minWidth: 220,
+                    title: "Notebook", field: "notebook_avg", widthGrow: 1, minWidth: 230,
                     hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: "number",
@@ -570,7 +570,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 // Quiz column - uses chartFormatter with purple gradient
                 {
-                    title: "Quiz", field: "quiz_avg", widthGrow: 1, minWidth: 220,
+                    title: "Quiz", field: "quiz_avg", widthGrow: 1, minWidth: 230,
                     hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: "number",
