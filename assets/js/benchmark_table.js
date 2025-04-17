@@ -101,8 +101,8 @@ var chartFormatter = function (cell, formatterParams, onRendered) {
                 tooltipElement.innerHTML = `
                     <div style="text-align: center; font-weight: 600; margin-bottom: 8px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">${tooltipTitle}</div>
                     <div style="line-height: 2.1;">${detailLines}</div>
-                    <hr style="border: none; border-top: 1px solid #eee; margin: 8px 0;">
-                    <div style="font-weight: 500; text-align: right;">${avgLabel}: ${avgScoreFormatted}</div>
+                    <hr style="border: none; border-top: 1px solid #eee; margin: 4px 0;">
+                    <div style="font-weight: 500; text-align: left;">${avgLabel}: ${avgScoreFormatted}</div>
                 `;
                 // <<< END UPDATE innerHTML >>>
 
