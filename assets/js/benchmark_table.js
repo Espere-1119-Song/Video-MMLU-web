@@ -62,10 +62,10 @@ var chartFormatter = function (cell, formatterParams, onRendered) {
 
     // Construct tooltip title and details separately, including the model name in the title
     if (field === 'notebook_avg') {
-        tooltipTitle = `Notebook Scores of ${modelName}`; // <<< Remove colon from title
+        tooltipTitle = `Notebook Scores of ${modelName}`;
         tooltipDetails = `Math: ${formatScore(rowData.notebook_math)}\nPhysics: ${formatScore(rowData.notebook_physics)}\nChemistry: ${formatScore(rowData.notebook_chemistry)}`;
     } else if (field === 'quiz_avg') {
-        tooltipTitle = `Quiz Scores of ${modelName}`; // <<< Remove colon from title
+        tooltipTitle = `Quiz Scores of ${modelName}`;
         tooltipDetails = `Math: ${formatScore(rowData.quiz_math)}\nPhysics: ${formatScore(rowData.quiz_physics)}\nChemistry: ${formatScore(rowData.quiz_chemistry)}`;
     }
 
@@ -96,7 +96,7 @@ var chartFormatter = function (cell, formatterParams, onRendered) {
 
                 tooltipElement.innerHTML = `
                     <div style="text-align: center; font-weight: 600; margin-bottom: 8px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">${tooltipTitle}</div>
-                    <div style="line-height: 1.6;">${detailLines}</div>
+                    <div style="line-height: 1.8;">${detailLines}</div>
                 `;
                 // <<< END UPDATE innerHTML >>>
 
