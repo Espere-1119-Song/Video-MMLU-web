@@ -74,35 +74,41 @@ var chartFormatter = function (cell, formatterParams, onRendered) {
         const tooltipElement = document.getElementById('custom-tooltip'); // Get the tooltip element
         if (tooltipElement) {
             container.addEventListener('mouseover', (event) => {
-                // <<< UPDATE innerHTML structure for styling AND ICONS >>>
+                // <<< UPDATE innerHTML structure for styling, ICONS, AND AVERAGE >>>
                 // Define icons for subjects
                 const icons = {
-                    Math: '<i class="fas fa-calculator fa-fw" style="margin-right: 5px; color: #6c757d;"></i>', // Added fa-fw for fixed width
+                    Math: '<i class="fas fa-calculator fa-fw" style="margin-right: 5px; color: #6c757d;"></i>',
                     Physics: '<i class="fas fa-atom fa-fw" style="margin-right: 5px; color: #6c757d;"></i>',
                     Chemistry: '<i class="fas fa-flask fa-fw" style="margin-right: 5px; color: #6c757d;"></i>'
                 };
 
                 // Process details to add icons
                 const detailLines = tooltipDetails.split('\n').map(line => {
-                    const parts = line.split(':'); // Split "Subject: Score"
+                    const parts = line.split(':');
                     if (parts.length === 2) {
                         const subject = parts[0].trim();
                         const score = parts[1].trim();
-                        const icon = icons[subject] || ''; // Get icon or empty string
-                        return `${icon}${subject}: ${score}`; // Add icon before subject
+                        const icon = icons[subject] || '';
+                        return `${icon}${subject}: ${score}`;
                     }
-                    return line; // Return original line if format doesn't match
-                }).join('<br>'); // Join lines with <br>
+                    return line;
+                }).join('<br>');
+
+                // Format the average score from the cell's value
+                const avgScoreFormatted = numValue.toFixed(1);
+                const avgLabel = field === 'notebook_avg' ? 'Notebook Avg' : 'Quiz Avg';
 
                 tooltipElement.innerHTML = `
                     <div style="text-align: center; font-weight: 600; margin-bottom: 8px; border-bottom: 1px solid #ccc; padding-bottom: 5px;">${tooltipTitle}</div>
-                    <div style="line-height: 1.8;">${detailLines}</div>
+                    <div style="line-height: 2.1;">${detailLines}</div>
+                    <hr style="border: none; border-top: 1px solid #eee; margin: 8px 0;">
+                    <div style="font-weight: 500; text-align: right;">${avgLabel}: ${avgScoreFormatted}</div>
                 `;
                 // <<< END UPDATE innerHTML >>>
 
-                tooltipElement.style.left = `${event.pageX + 10}px`; // Position near cursor
+                tooltipElement.style.left = `${event.pageX + 10}px`;
                 tooltipElement.style.top = `${event.pageY + 10}px`;
-                tooltipElement.style.display = 'block'; // Show tooltip
+                tooltipElement.style.display = 'block';
             });
 
             container.addEventListener('mousemove', (event) => {
