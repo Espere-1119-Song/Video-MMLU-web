@@ -759,3 +759,13 @@ document.addEventListener('DOMContentLoaded', function () {
             // --- END NEW FUNCTION ---
         });
 });
+
+/* Force down arrow for descending sort in Tabulator */
+.tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort="descending"] .tabulator-arrow {
+    border-top: none; /* Remove default arrow if it exists */
+    border-bottom: 6px solid #666 !important; /* Force a down arrow */
+    /* OR if using Font Awesome content property: */
+    /* content: "\f0dd" !important; */ /* Font Awesome down arrow */
+    /* font-family: "Font Awesome 5 Free" !important; */ /* Adjust font family if needed */
+    /* font-weight: 900 !important; */ /* Adjust weight if needed */
+}
