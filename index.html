@@ -274,7 +274,7 @@
                             <div class="col-md-12 mb-4 mb-md-0"> <!-- Second card takes half width, add margin for small screens -->
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <h5 class="card-title">Large scale LMMs do not show clear advantages over smaller ones.</h5>
+                                        <h5 class="card-title">Finding 1. Large scale LMMs do not show clear advantages over smaller ones.</h5>
                                         <p class="card-text">
                                             Although LMM scaling laws suggest significant performance improvements with increased model size, this trend is less pronounced in Video-MMLU.
                                             Model size shows a stronger correlation with performance in video QA compared to video captioning, implying reasoning benefits more from scaling.
@@ -289,7 +289,7 @@
                             <div class="col-md-12 mb-4 mb-md-0"> <!-- Second card takes half width, add margin for small screens -->
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <h5 class="card-title"> LLM Architecture shapes LMMs' balance between perception and reasoning.</h5>
+                                        <h5 class="card-title">Finding 2. LLM Architecture shapes LMMs' balance between perception and reasoning.</h5>
                                         <p class="card-text">
                                             Most models excel in captioning over QA, highlighting the greater reasoning challenge lecture QA in Video-MMLU. 
                                             LMMs built on Qwen2.5 and InternLM2.5 achieve strong and balanced performance, while MoE-based LLMs also perform well. 
@@ -305,7 +305,7 @@
                             <div class="col-md-12 mb-4 mb-md-0"> <!-- Second card takes half width, add margin for small screens -->
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <h5 class="card-title"> Can LMMs with visual token compression sustain strong performance in complex, context-rich lecture understanding tasks like Video-MMLU? </h5>
+                                        <h5 class="card-title">Finding 3. Can LMMs with visual token compression sustain strong performance in complex, context-rich lecture understanding tasks like Video-MMLU? </h5>
                                         <p class="card-text">
                                             <ol class="card-text">
                                                 <li>Token compression boosts efficiency but still lags significantly behind SOTA models.</li>
@@ -326,7 +326,7 @@
                             <div class="col-md-6"> <!-- First card takes full width -->
                                 <div class="card h-100"> <!-- Use h-100 for potentially equal height cards in a row -->
                                     <div class="card-body">
-                                        <h5 class="card-title">Lecture understanding in models relies more on textual content in frames than on animations.</h5>
+                                        <h5 class="card-title">Finding 4. Lecture understanding in models relies more on textual content in frames than on animations.</h5>
                                         <p class="card-text">
                                             Models significantly excel in physics and chemistry lectures, which contain more textual explanations, while mathematics lectures emphasizes formulas and dynamic visual proofs.
                                         </p>
@@ -337,7 +337,7 @@
                             <div class="col-md-6"> 
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <h5 class="card-title">Larger LLMs enhance lecture understanding but with diminishing returns.</h5>
+                                        <h5 class="card-title">Finding 5. Larger LLMs enhance lecture understanding but with diminishing returns.</h5>
                                         <p class="card-text">
                                             As model size increases, Qwen2.5 exhibits continuous performance gains, while InternVL2.5 (Qwen2.5 as LLM) gains gradually diminish with increasing model size.
                                         </p>
@@ -1232,16 +1232,17 @@
         <section id="bibtex" class="py-3 bg-light"> <!-- Reduced padding from py-5 to py-3 -->
             <div class="container">
                 <!-- Removed the large centered h2 title -->
-                <p><strong>BibTeX</strong></p> <!-- Added a smaller, left-aligned label -->
+                <!-- Changed <p> to a centered <h4> for consistency -->
+                <h4 class="text-center py-3">BibTeX</h4>
                 <!-- Removed the card and card-body divs -->
                 <pre style="background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 1rem; border-radius: .25rem;"><code>@misc{song2024videommlu,
-                    title={Video-MMLU: A Massive Multi-discipline Lecture Understanding Benchmark}, 
-                    author={Enxin Song and Wenhao Chai and Weili Xu and Jianwen Xie and Yuxuan Liu and Gaoang Wang},
-                    year={2024},
-                    eprint={2407.04171},
-                    archivePrefix={arXiv},
-                    primaryClass={cs.CV}
-                }</code></pre>
+    title={Video-MMLU: A Massive Multi-discipline Lecture Understanding Benchmark},
+    author={Enxin Song and Wenhao Chai and Weili Xu and Jianwen Xie and Yuxuan Liu and Gaoang Wang},
+    year={2024},
+    eprint={2407.04171},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
+}</code></pre>
             </div>
         </section>
         <!-- End of BibTeX -->
