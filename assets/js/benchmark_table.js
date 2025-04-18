@@ -559,6 +559,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const numB = isNaN(valB) ? -Infinity : valB;
                         return numA - numB;
                     },
+                    headerSortStartingDir: "desc",
                     // formatter: ringFormatter // <<< Commented out the ring formatter
                 },
                 // Notebook column - uses chartFormatter with GREEN gradient
@@ -567,6 +568,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: "number",
+                    headerSortStartingDir: "desc",
                     formatter: chartFormatter,
                     formatterParams: {
                         startColor: '#F0FFF0', // Honeydew (very light green)
@@ -580,6 +582,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: "number",
+                    headerSortStartingDir: "desc",
                     formatter: chartFormatter,
                     formatterParams: {
                         startColor: '#E6E6FA', // Lavender
