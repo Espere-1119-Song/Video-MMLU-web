@@ -479,29 +479,30 @@ document.addEventListener('DOMContentLoaded', function () {
                         const modelType = rowData.model_type;
                         const modelUrl = rowData.model_url; // Get the URL from data
 
-                        let iconHtml = '';
+                        // Determine icon title based on model type (used for tooltip)
                         let iconTitle = '';
-
                         if (modelType === 'proprietary') {
-                            iconHtml = '<i class="fas fa-lock model-icon proprietary-icon"></i> ';
                             iconTitle = 'Proprietary Model';
                         } else if (modelType === 'open-source') {
-                            iconHtml = '<i class="fas fa-box-open model-icon open-source-icon"></i> ';
                             iconTitle = 'Open Source Model';
                         } else if (modelType === 'llm') {
-                            iconHtml = '<i class="fas fa-brain model-icon llm-icon"></i> ';
                             iconTitle = 'Base LLM';
                         }
+                        // NOTE: iconHtml is no longer constructed or used for display
 
-                        // Content with icon and name
-                        const content = `${iconHtml}${modelName}`;
+                        // Content now only contains the model name
+                        const content = modelName;
 
                         // If a URL exists, wrap the content in a link
                         if (modelUrl) {
                             // Use target="_blank" to open in new tab, rel="noopener noreferrer" for security
+                            // Keep iconTitle in the title attribute for hover info
+                            // The displayed text inside <a> is just 'content' (modelName)
                             return `<a href="${modelUrl}" target="_blank" rel="noopener noreferrer" title="${iconTitle}: ${modelName}">${content}</a>`;
                         } else {
                             // Otherwise, just return the content in a span with the title
+                            // Keep iconTitle in the title attribute for hover info
+                            // The displayed text inside <span> is just 'content' (modelName)
                             return `<span title="${iconTitle}: ${modelName}">${content}</span>`;
                         }
                     }
