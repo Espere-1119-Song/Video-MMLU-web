@@ -559,8 +559,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         const numB = isNaN(valB) ? -Infinity : valB;
                         return numA - numB;
                     },
-                    headerSortStartingDir: "desc",
-                    // formatter: ringFormatter // <<< Commented out the ring formatter
+                    headerSortStartingDir: "desc"
                 },
                 // Notebook column - uses chartFormatter with GREEN gradient
                 {
