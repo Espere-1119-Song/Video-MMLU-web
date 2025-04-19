@@ -443,10 +443,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // <<< END ADD >>>
 
     Promise.all([
-        fetch('assets/data/behavior_total_benchmark.json').then(response => response.json()),
+        fetch('assets/data/behavior_total_benchmark.json').then(response => {
+            // <<< Add check for successful response >>>
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status} while fetching behavior_total_benchmark.json`);
+            }
+            return response.json();
+        }),
+        // ... potentially other fetch calls if added later ...
     ])
         .then(([
             behavior_total_benchmark_data,
+            // ... potentially other data variables ...
         ]) => {
             var getColumnMinMax = (data, field) => {
                 let values = data.map(item => item[field])
@@ -666,98 +674,61 @@ document.addEventListener('DOMContentLoaded', function () {
                 // No specific processing needed for model_size here as it's handled by the sorter/formatter
             });
 
-            var behavior_table = new Tabulator("#behavior-benchmark-main-table", {
-                data: behavior_total_benchmark_data,
-                layout: "fitDataFill",
-                responsiveLayout: "collapse",
-                responsiveLayoutCollapseStartOpen: false,
-                movableColumns: false,
-                initialSort: [
-                    { column: "avg_acc", dir: "desc" },
-                ],
-                columnDefaults: {
-                    tooltip: true,
-                    headerWordWrap: true,
-                },
-                columns: behavior_columns,
-                height: "800px",
-                virtualDom: true,
+            // --- Initialize Tabulator ---
+            try { // <<< Add try block around initialization >>>
+                var behavior_table = new Tabulator("#behavior-benchmark-main-table", {
+                    data: behavior_total_benchmark_data,
+                    layout: "fitDataFill",
+                    responsiveLayout: "collapse",
+                    responsiveLayoutCollapseStartOpen: false,
+                    movableColumns: false,
+                    initialSort: [
+                        { column: "avg_acc", dir: "desc" },
+                    ],
+                    columnDefaults: {
+                        tooltip: true,
+                        headerWordWrap: true,
+                    },
+                    columns: behavior_columns,
+                    height: "800px",
+                    virtualDom: true,
+                    placeholder: "Loading...", // <<< Add a placeholder message >>>
 
-                // --- Remove Row Formatter Logic for Click Popups ---
-                rowFormatter: function(row) {
-                    // The specific click listeners for notebook/quiz cells are no longer needed
-                    // as the tooltip is handled by the chartFormatter now.
-                    // You can keep this function if it's used for other row-level formatting.
-                    // var element = row.getElement();
-                    // var data = row.getData();
-
-                    /* --- REMOVED ---
-                    var notebookAvgCell = element.querySelector('.notebook-avg-cell');
-                    var quizAvgCell = element.querySelector('.quiz-avg-cell');
-
-                    if (notebookAvgCell) {
-                        // ... listener code removed ...
-                    }
-
-                    if (quizAvgCell) {
-                        // ... listener code removed ...
-                    }
-                    */
-                },
-                // --- End Row Formatter Update ---
-            });
-
-            // --- The showDetailsPopup function is no longer called by the rowFormatter ---
-            // --- but can remain if used elsewhere or for future reference ---
-            function showDetailsPopup(title, scores) {
-                // Find popup elements
-                const popup = document.getElementById('details-popup');
-                const popupTitle = document.getElementById('popup-title');
-                const popupContent = document.getElementById('popup-content');
-                const closeButton = document.getElementById('popup-close');
-                const overlay = document.getElementById('popup-overlay');
-
-                if (!popup || !popupTitle || !popupContent || !closeButton || !overlay) {
-                    console.error("Popup elements not found!");
-                    return;
+                    // --- Row Formatter (Keep or remove based on reverted version's needs) ---
+                    rowFormatter: function(row) {
+                        // ... existing or reverted rowFormatter logic ...
+                    },
+                    // --- End Row Formatter ---
+                });
+            } catch (e) { // <<< Catch potential errors during Tabulator init >>>
+                console.error("Tabulator initialization failed:", e);
+                // Optionally display an error message to the user in the placeholder div
+                const tableDiv = document.getElementById("behavior-benchmark-main-table");
+                if (tableDiv) {
+                    tableDiv.innerHTML = "Error loading leaderboard. Please check data and configuration.";
+                    tableDiv.style.color = "red";
+                    tableDiv.style.padding = "20px";
                 }
-
-                // Populate content
-                popupTitle.textContent = title;
-                popupContent.innerHTML = `
-                    <div class="popup-score-item">
-                        <span class="popup-label">Math:</span>
-                        <span class="popup-value">${scores.math !== undefined && scores.math !== null ? scores.math.toFixed(1) : '-'}</span>
-                    </div>
-                    <div class="popup-score-item">
-                        <span class="popup-label">Physics:</span>
-                        <span class="popup-value">${scores.physics !== undefined && scores.physics !== null ? scores.physics.toFixed(1) : '-'}</span>
-                    </div>
-                    <div class="popup-score-item">
-                        <span class="popup-label">Chemistry:</span>
-                        <span class="popup-value">${scores.chemistry !== undefined && scores.chemistry !== null ? scores.chemistry.toFixed(1) : '-'}</span>
-                    </div>
-                `;
-
-                // Show popup and overlay
-                popup.style.display = 'block';
-                overlay.style.display = 'block';
-
-                // Add listeners to close popup (only add once or manage carefully)
-                const closePopup = () => {
-                    popup.style.display = 'none';
-                    overlay.style.display = 'none';
-                    // Remove listeners to prevent duplicates if popup is reused
-                    closeButton.removeEventListener('click', closePopup);
-                    overlay.removeEventListener('click', closePopup);
-                };
-
-                // Use { once: true } or manage listeners if popup is reused frequently
-                closeButton.addEventListener('click', closePopup);
-                overlay.addEventListener('click', closePopup);
             }
-            // --- END NEW FUNCTION ---
-        });
+            // --- End Tabulator Initialization ---
+
+
+            // --- showDetailsPopup function (Keep or remove based on reverted version's needs) ---
+            function showDetailsPopup(title, scores) {
+                // ... existing or reverted function ...
+            }
+            // --- END FUNCTION ---
+        })
+        .catch(error => { // <<< ADDED .catch block for fetch/processing errors >>>
+            console.error('Error loading or processing benchmark data:', error);
+            // Display an error message in the table container
+            const tableDiv = document.getElementById("behavior-benchmark-main-table");
+            if (tableDiv) {
+                tableDiv.innerHTML = `Failed to load leaderboard data. Error: ${error.message}`;
+                tableDiv.style.color = "red";
+                tableDiv.style.padding = "20px";
+            }
+        }); // <<< END Promise chain >>>
 });
 
 
