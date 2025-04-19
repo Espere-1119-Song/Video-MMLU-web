@@ -559,7 +559,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         const numB = isNaN(valB) ? -Infinity : valB;
                         return numA - numB;
                     },
-                    headerSortStartingDir: "desc",
                     // formatter: ringFormatter // <<< Commented out the ring formatter
                 },
                 // Notebook column - uses chartFormatter with GREEN gradient
@@ -568,7 +567,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: "number",
-                    headerSortStartingDir: "desc",
                     formatter: chartFormatter,
                     formatterParams: {
                         startColor: '#F0FFF0', // Honeydew (very light green)
@@ -582,7 +580,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     hozAlign: "center",
                     headerHozAlign: "center",
                     sorter: "number",
-                    headerSortStartingDir: "desc",
                     formatter: chartFormatter,
                     formatterParams: {
                         startColor: '#E6E6FA', // Lavender
@@ -763,12 +760,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
 
-/* Force down arrow for descending sort in Tabulator */
-.tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort="descending"] .tabulator-arrow {
-    border-top: none; /* Remove default arrow if it exists */
-    border-bottom: 6px solid #666 !important; /* Force a down arrow */
-    /* OR if using Font Awesome content property: */
-    /* content: "\f0dd" !important; */ /* Font Awesome down arrow */
-    /* font-family: "Font Awesome 5 Free" !important; */ /* Adjust font family if needed */
-    /* font-weight: 900 !important; */ /* Adjust weight if needed */
-}
+
