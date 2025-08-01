@@ -1,4 +1,21 @@
 [
+    {
+    "model": "TW-GRPO",
+    "model_type": "open-source",
+    "model_url": null,
+    "model_size": "7B",
+    "frames": "-",
+    "tpf": "-",
+    "avg_acc": 48.9,
+    "notebook_avg": 42.1,
+    "notebook_math": 36.7,
+    "notebook_physics": 42.4,
+    "notebook_chemistry": 47.2,
+    "quiz_avg": 55.7,
+    "quiz_math": 50.4,
+    "quiz_physics": 60.8,
+    "quiz_chemistry": 55.9
+  },
   {
     "model": "SilVR",
     "model_type": "open-source",
