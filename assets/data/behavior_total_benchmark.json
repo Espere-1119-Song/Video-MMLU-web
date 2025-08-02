@@ -4,7 +4,7 @@
     "model_type": "open-source",
     "model_url": null,
     "model_size": "7B",
-    "frames": "-",
+    "frames": "32",
     "tpf": "-",
     "avg_acc": 48.9,
     "notebook_avg": 42.1,
